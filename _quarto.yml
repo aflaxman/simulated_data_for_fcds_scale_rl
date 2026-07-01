@@ -1,0 +1,22 @@
+project:
+  type: default
+  render: [paper.qmd]
+
+execute:
+  freeze: auto        # store computed output; re-execute only when the code changes
+  echo: false         # hide code by default; opt in per-chunk with #| echo: true
+  warning: false
+
+bibliography: references.bib
+csl: ijpds.csl
+
+format:
+  docx:                         # the IJPDS submission artifact
+    reference-doc: reference-doc.docx
+    number-sections: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+  html:                         # self-contained copy to share / preprint
+    toc: true
+    embed-resources: true
+    code-fold: true

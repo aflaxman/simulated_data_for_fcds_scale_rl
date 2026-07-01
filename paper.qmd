@@ -1,0 +1,40 @@
+---
+title: "Simulated data for research and development of Florida-scale record linkage software for cancer data systems"
+author:
+  - name: Your Name
+    orcid: 0000-0000-0000-0000
+    affiliations: [Institute for Health Metrics and Evaluation]
+abstract: |
+  **Introduction** … **Objectives** … **Methods** … **Results** … **Conclusions** …
+keywords: [record linkage, synthetic data, cancer registry, entity resolution]
+---
+
+## Highlights
+- …
+
+# Introduction
+…
+
+# Methods
+
+## Generating simulated records with pseudopeople
+
+```{python}
+#| echo: true
+#| label: sample-demo
+import pseudopeople as psp
+census = psp.generate_decennial_census()   # bundled ~10k-simulant sample
+census.head()
+```
+
+# Results
+
+```{python}
+#| label: load-results
+import json, pandas as pd
+sizes = pd.read_csv("results/file_sizes.csv")
+err   = json.load(open("results/error_rates.json"))
+```
+
+The Florida-scale extract contains `{python} f"{int(sizes['rows'].sum()):,}"` records across
+`{python} len(sizes)` files, with a first-name error rate of `{python} err['first_name_pct']`%.

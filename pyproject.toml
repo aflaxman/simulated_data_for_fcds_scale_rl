@@ -1,0 +1,7 @@
+[project]
+name = "simulated-data-for-fcds-scale-rl"
+requires-python = ">=3.10,<3.12"   # pseudopeople supports 3.10–3.11
+dependencies = ["pseudopeople", "duckdb", "splink>=4", "pandas", "pyarrow", "pyyaml"]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]

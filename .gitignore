@@ -1,0 +1,8 @@
+.quarto/
+__pycache__/
+.venv/
+# big data never gets committed — it lives on scratch
+data/
+*.parquet
+*.zip
+# NOTE: _freeze/ and results/ are committed on purpose
