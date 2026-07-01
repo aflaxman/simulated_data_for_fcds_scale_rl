@@ -1,0 +1,7 @@
+{
+  // Point VS Code (Python + Jupyter + Quarto extensions) at the uv-managed
+  // project venv (Python 3.11.15), NOT the OS python (/usr/bin/python3 = 3.8)
+  // or the miniforge base (3.12). "Run Cell" in paper.qmd uses this interpreter.
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true
+}

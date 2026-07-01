@@ -11,8 +11,8 @@ Quarto project, analysis in Python.
 - Quarto must be on PATH (cluster module or local install).
 
 ## Commands
-- `quarto preview paper.qmd` — live HTML preview while writing.
-- `quarto render paper.qmd --to docx` — build the IJPDS submission file.
+- `uv run quarto preview paper.qmd` — live HTML preview while writing.
+- `uv run quarto render paper.qmd --to docx` — build the IJPDS submission file.
 - `uv run pytest` — tests (see tests/).
 
 ## Architecture — two tiers, keep them separate

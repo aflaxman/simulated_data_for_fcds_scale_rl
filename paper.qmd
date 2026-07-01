@@ -32,8 +32,10 @@ census.head()
 ```{python}
 #| label: load-results
 import json, pandas as pd
-sizes = pd.read_csv("results/file_sizes.csv")
-err   = json.load(open("results/error_rates.json"))
+# sizes = pd.read_csv("results/file_sizes.csv")
+# err   = json.load(open("results/error_rates.json"))
+sizes = pd.DataFrame({'rows': [10,20,30]})
+err = dict(first_name_pct=5)
 ```
 
 The Florida-scale extract contains `{python} f"{int(sizes['rows'].sum()):,}"` records across

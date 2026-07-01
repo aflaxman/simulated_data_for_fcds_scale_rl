@@ -6,3 +6,5 @@ data/
 *.parquet
 *.zip
 # NOTE: _freeze/ and results/ are committed on purpose
+/.quarto/
+**/*.quarto_ipynb

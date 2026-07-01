@@ -1,6 +1,6 @@
 .PHONY: paper test lint
 paper:                   ## render docx + html from frozen results
-	quarto render
+	uv run quarto render --to docx
 test:
 	uv run pytest
 lint:
