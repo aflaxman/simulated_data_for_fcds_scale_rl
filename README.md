@@ -40,11 +40,33 @@ uv sync
    uv run quarto preview paper.qmd
    ```
 
+   Open the **"Browse at http://localhost:PORT/paper.html"** link that quarto
+   prints — the "Listening on http://127.0.0.1:PORT/" line is just the server's
+   bind address (its root URL serves nothing for a single-document preview).
+   When working over VS Code Remote-SSH, VS Code forwards the port
+   automatically, so the "Browse at" link opens straight from the terminal.
+
 3. **Compile** the submission file:
 
    ```sh
    make paper                # renders docx (and html) from frozen results
    ```
+
+### Working in VS Code (Remote-SSH)
+
+`Ctrl+Shift+K` (Quarto: Preview) works once all of the following hold:
+
+- You're **connected to a cluster worker node**, not the submit node.
+- You've **opened this folder as the workspace root** (not a parent directory) —
+  otherwise the settings in `.vscode/settings.json` don't apply.
+- The **Quarto extension is installed on the SSH remote**, not just locally: in
+  the Extensions view, find Quarto and click *"Install in SSH: \<host\>"*. (If
+  it's only installed locally it runs on your laptop, can't see the cluster's
+  quarto, and offers to install Quarto on Windows — decline that.)
+- `.vscode/settings.json` points the extension at the venv's quarto binary via
+  `quarto.path`, and the Python interpreter is the project venv
+  (`.venv/bin/python`, via *Python: Select Interpreter*). Both are already set
+  in this repo's `.vscode/settings.json`.
 
 ## Other commands
 

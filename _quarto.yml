@@ -11,12 +11,16 @@ bibliography: references.bib
 csl: ijpds.csl
 
 format:
+  # html is listed first because Quarto treats the FIRST format as the default —
+  # so `quarto preview` (and Ctrl+Shift+K in VS Code) serve HTML without
+  # needing --to html. The docx submission artifact is built explicitly via
+  # `make paper` / `quarto render --to docx`.
+  html:                         # self-contained copy to share / preprint
+    toc: true
+    embed-resources: true
+    code-fold: true
   docx:                         # the IJPDS submission artifact
     reference-doc: reference-doc.docx
     number-sections: true
     fig-cap-location: bottom
     tbl-cap-location: top
-  html:                         # self-contained copy to share / preprint
-    toc: true
-    embed-resources: true
-    code-fold: true
