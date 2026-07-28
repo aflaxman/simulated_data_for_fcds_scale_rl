@@ -21,6 +21,14 @@ one command sets up everything:
 uv sync
 ```
 
+> **Note:** If your shell has another project's environment activated (its name
+> appears in your prompt, e.g. `(some_other_project)`), `uv sync` may warn that
+> `VIRTUAL_ENV` does not match the project environment. This is safe to ignore —
+> uv uses this project's `.venv` anyway. To silence it, run `deactivate` (for a
+> venv) or `conda deactivate` (for a conda environment) first. Either way,
+> prefer `uv run ...` or the `make` targets over bare `python`/`quarto`, which
+> would resolve to whatever environment is activated.
+
 ## Editing, compiling, and viewing the paper
 
 1. **Edit** the prose and analysis code in `paper.qmd`. Computed numbers in the
