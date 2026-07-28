@@ -1,0 +1,60 @@
+# GBD prevalence of all neoplasms, Florida, used to weight the simulated cancer
+# registry cohort by age and sex.
+#
+# Source: vivarium_inputs.get_measure(entity=gbd_mapping.causes.neoplasms,
+#         measure='prevalence', location='Florida', data_type='draws'),
+#         year_start = 2021, mean over the 1,000 draws, expressed as a percentage.
+# Extracted in /ihme/homes/abie/notebook/2026/2026_02_05a_psp_prep_get_cancer_prevalence.ipynb
+# and consumed by 2026_02_11b_duckdb_psp_reproducible_randomness.ipynb.
+#
+# GBD's sub-year infant age groups are collapsed into a single 0-1 bin by flooring
+# age_start and ceiling age_end. age_end is EXCLUSIVE.
+#
+# Record the GBD round/release alongside this file before publication — the
+# extraction ran against the vivarium_inputs cache and the round is not captured
+# in the notebook output.
+age_start,age_end,sex,prevalence_pct
+0,1,Male,0.592505
+1,2,Male,0.901531
+2,5,Male,1.095433
+5,10,Male,0.781292
+10,15,Male,0.646349
+15,20,Male,0.749407
+20,25,Male,0.972845
+25,30,Male,1.326132
+30,35,Male,1.697664
+35,40,Male,2.194696
+40,45,Male,2.943806
+45,50,Male,4.121518
+50,55,Male,6.482578
+55,60,Male,10.266023
+60,65,Male,15.563234
+65,70,Male,20.944225
+70,75,Male,25.022162
+75,80,Male,27.368397
+80,85,Male,29.293099
+85,90,Male,31.142438
+90,95,Male,31.174155
+95,125,Male,32.361739
+0,1,Female,0.620853
+1,2,Female,1.198858
+2,5,Female,1.388232
+5,10,Female,0.984379
+10,15,Female,0.868245
+15,20,Female,1.238615
+20,25,Female,1.887296
+25,30,Female,2.976430
+30,35,Female,4.290650
+35,40,Female,5.922532
+40,45,Female,7.699050
+45,50,Female,9.565526
+50,55,Female,11.593801
+55,60,Female,13.965508
+60,65,Female,16.202010
+65,70,Female,18.197830
+70,75,Female,19.724099
+75,80,Female,20.487546
+80,85,Female,20.532737
+85,90,Female,21.836378
+90,95,Female,20.399291
+95,125,Female,21.514415

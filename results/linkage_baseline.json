@@ -1,0 +1,417 @@
+{
+  "dataset_version": "0.2",
+  "duckdb_version": "1.5.4",
+  "finder_files": {
+    "finder_100k.csv": {
+      "rows": 100000,
+      "simulants": 100000,
+      "ssn_missing": 0.2,
+      "true_pairs": 25797,
+      "rules": [
+        {
+          "rule": "name_dob",
+          "label": "First + last name and full date of birth",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob"
+            ]
+          ],
+          "predicted_pairs": 20496,
+          "true_positives": 20471,
+          "false_positives": 25,
+          "false_negatives": 5326,
+          "precision": 0.9987802498048399,
+          "recall": 0.793541884715277,
+          "f1": 0.8844101700041044,
+          "finder_rows_matched": 20489,
+          "finder_rows_matched_correctly": 20471
+        },
+        {
+          "rule": "name_dob_sex",
+          "label": "First + last name, full date of birth and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 19732,
+          "true_positives": 19708,
+          "false_positives": 24,
+          "false_negatives": 6089,
+          "precision": 0.9987837016014596,
+          "recall": 0.7639648021087724,
+          "f1": 0.8657339278262207,
+          "finder_rows_matched": 19726,
+          "finder_rows_matched_correctly": 19708
+        },
+        {
+          "rule": "ssn_only",
+          "label": "Social Security Number alone",
+          "keysets": [
+            [
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 20230,
+          "true_positives": 20226,
+          "false_positives": 4,
+          "false_negatives": 5571,
+          "precision": 0.9998022738507167,
+          "recall": 0.7840446563553901,
+          "f1": 0.8788754426749517,
+          "finder_rows_matched": 20230,
+          "finder_rows_matched_correctly": 20226
+        },
+        {
+          "rule": "fcds_min_ssn",
+          "label": "FCDS minimum rule: first + last name, SSN and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "ssn",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 16841,
+          "true_positives": 16841,
+          "false_positives": 0,
+          "false_negatives": 8956,
+          "precision": 1.0,
+          "recall": 0.652827848199403,
+          "f1": 0.7899526244195318,
+          "finder_rows_matched": 16841,
+          "finder_rows_matched_correctly": 16841
+        },
+        {
+          "rule": "fcds_min_monthyear",
+          "label": "FCDS minimum rule: first + last name, month and year of birth, and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "mob",
+              "yob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 20924,
+          "true_positives": 19826,
+          "false_positives": 1098,
+          "false_negatives": 5971,
+          "precision": 0.9475243739246798,
+          "recall": 0.768538977400473,
+          "f1": 0.8486975878084801,
+          "finder_rows_matched": 20422,
+          "finder_rows_matched_correctly": 19826
+        },
+        {
+          "rule": "fcds_min_either",
+          "label": "Either FCDS minimum rule",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "ssn",
+              "sex"
+            ],
+            [
+              "fn",
+              "ln",
+              "mob",
+              "yob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 22239,
+          "true_positives": 21141,
+          "false_positives": 1098,
+          "false_negatives": 4656,
+          "precision": 0.9506272764063133,
+          "recall": 0.8195138969647634,
+          "f1": 0.8802148388708468,
+          "finder_rows_matched": 21717,
+          "finder_rows_matched_correctly": 21141
+        },
+        {
+          "rule": "fcds_current_dob_ssn",
+          "label": "Current FCDS layout rule: name, sex, date of birth and SSN",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 15434,
+          "true_positives": 15434,
+          "false_positives": 0,
+          "false_negatives": 10363,
+          "precision": 1.0,
+          "recall": 0.5982866224754817,
+          "f1": 0.7486599888433461,
+          "finder_rows_matched": 15434,
+          "finder_rows_matched_correctly": 15434
+        },
+        {
+          "rule": "name_dob_or_ssn",
+          "label": "First + last name and date of birth, or SSN",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob"
+            ],
+            [
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 24690,
+          "true_positives": 24661,
+          "false_positives": 29,
+          "false_negatives": 1136,
+          "precision": 0.998825435398947,
+          "recall": 0.955963871768035,
+          "f1": 0.9769247529066888,
+          "finder_rows_matched": 24679,
+          "finder_rows_matched_correctly": 24661
+        },
+        {
+          "rule": "lastname_dob",
+          "label": "Last name and date of birth only",
+          "keysets": [
+            [
+              "ln",
+              "dob"
+            ]
+          ],
+          "predicted_pairs": 32013,
+          "true_positives": 22243,
+          "false_positives": 9770,
+          "false_negatives": 3554,
+          "precision": 0.6948114828350982,
+          "recall": 0.8622320424855603,
+          "f1": 0.7695208441446115,
+          "finder_rows_matched": 26717,
+          "finder_rows_matched_correctly": 22243
+        }
+      ],
+      "seconds": 5.6
+    },
+    "finder_500k.csv": {
+      "rows": 500000,
+      "simulants": 500000,
+      "ssn_missing": 0.2,
+      "true_pairs": 129357,
+      "rules": [
+        {
+          "rule": "name_dob",
+          "label": "First + last name and full date of birth",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob"
+            ]
+          ],
+          "predicted_pairs": 102853,
+          "true_positives": 102659,
+          "false_positives": 194,
+          "false_negatives": 26698,
+          "precision": 0.9981138129174647,
+          "recall": 0.7936099322031278,
+          "f1": 0.8841910339778648,
+          "finder_rows_matched": 102773,
+          "finder_rows_matched_correctly": 102658
+        },
+        {
+          "rule": "name_dob_sex",
+          "label": "First + last name, full date of birth and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 98814,
+          "true_positives": 98623,
+          "false_positives": 191,
+          "false_negatives": 30734,
+          "precision": 0.9980670755156152,
+          "recall": 0.7624094560016079,
+          "f1": 0.8644656858233517,
+          "finder_rows_matched": 98736,
+          "finder_rows_matched_correctly": 98622
+        },
+        {
+          "rule": "ssn_only",
+          "label": "Social Security Number alone",
+          "keysets": [
+            [
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 101612,
+          "true_positives": 101591,
+          "false_positives": 21,
+          "false_negatives": 27766,
+          "precision": 0.9997933314962799,
+          "recall": 0.7853537110477207,
+          "f1": 0.8796938117236511,
+          "finder_rows_matched": 101611,
+          "finder_rows_matched_correctly": 101590
+        },
+        {
+          "rule": "fcds_min_ssn",
+          "label": "FCDS minimum rule: first + last name, SSN and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "ssn",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 84615,
+          "true_positives": 84615,
+          "false_positives": 0,
+          "false_negatives": 44742,
+          "precision": 1.0,
+          "recall": 0.6541199935063429,
+          "f1": 0.7908978744882508,
+          "finder_rows_matched": 84614,
+          "finder_rows_matched_correctly": 84614
+        },
+        {
+          "rule": "fcds_min_monthyear",
+          "label": "FCDS minimum rule: first + last name, month and year of birth, and sex",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "mob",
+              "yob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 105167,
+          "true_positives": 99193,
+          "false_positives": 5974,
+          "false_negatives": 30164,
+          "precision": 0.9431951087318265,
+          "recall": 0.7668158661688196,
+          "f1": 0.8459091606829152,
+          "finder_rows_matched": 102336,
+          "finder_rows_matched_correctly": 99192
+        },
+        {
+          "rule": "fcds_min_either",
+          "label": "Either FCDS minimum rule",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "ssn",
+              "sex"
+            ],
+            [
+              "fn",
+              "ln",
+              "mob",
+              "yob",
+              "sex"
+            ]
+          ],
+          "predicted_pairs": 111919,
+          "true_positives": 105945,
+          "false_positives": 5974,
+          "false_negatives": 23412,
+          "precision": 0.9466221106335833,
+          "recall": 0.8190125002898954,
+          "f1": 0.8782058721132644,
+          "finder_rows_matched": 109004,
+          "finder_rows_matched_correctly": 105944
+        },
+        {
+          "rule": "fcds_current_dob_ssn",
+          "label": "Current FCDS layout rule: name, sex, date of birth and SSN",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 77414,
+          "true_positives": 77414,
+          "false_positives": 0,
+          "false_negatives": 51943,
+          "precision": 1.0,
+          "recall": 0.5984523450605688,
+          "f1": 0.7487897238974517,
+          "finder_rows_matched": 77413,
+          "finder_rows_matched_correctly": 77413
+        },
+        {
+          "rule": "name_dob_or_ssn",
+          "label": "First + last name and date of birth, or SSN",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "dob"
+            ],
+            [
+              "ssn"
+            ]
+          ],
+          "predicted_pairs": 123875,
+          "true_positives": 123660,
+          "false_positives": 215,
+          "false_negatives": 5697,
+          "precision": 0.9982643794147326,
+          "recall": 0.9559590899603423,
+          "f1": 0.9766538194225058,
+          "finder_rows_matched": 123785,
+          "finder_rows_matched_correctly": 123659
+        },
+        {
+          "rule": "lastname_dob",
+          "label": "Last name and date of birth only",
+          "keysets": [
+            [
+              "ln",
+              "dob"
+            ]
+          ],
+          "predicted_pairs": 158958,
+          "true_positives": 111280,
+          "false_positives": 47678,
+          "false_negatives": 18077,
+          "precision": 0.7000591351174524,
+          "recall": 0.8602549533461661,
+          "f1": 0.771933475538907,
+          "finder_rows_matched": 133078,
+          "finder_rows_matched_correctly": 111279
+        }
+      ],
+      "seconds": 8.7
+    }
+  },
+  "registry": {
+    "rows": 5000019,
+    "simulants": 5000000,
+    "ssn_missing": 0.057723380651153525
+  }
+}

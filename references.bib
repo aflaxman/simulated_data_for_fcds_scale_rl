@@ -1,3 +1,416 @@
 % Vancouver-style references for the IJPDS Data Note, formatted via ijpds.csl.
 % Add entries here and cite them in paper.qmd with [@citekey]; every computed
 % number stays an inline {python} expr (see CLAUDE.md), only citations live here.
+
+% ---------------------------------------------------------------------------
+% Entries below were assembled 2026-07-28 from the literature research behind
+% OUTLINE.md. Each was confirmed against a primary source at that time; DOIs
+% and page numbers should still be spot-checked at submission. References the
+% research could NOT verify are deliberately absent -- see the
+% "NEEDS VERIFICATION" list in OUTLINE.md before citing them.
+% ---------------------------------------------------------------------------
+
+% --- Core: cited by the current outline -----------------------------------
+
+@misc{fcds_welcome,
+  author       = {{Florida Cancer Data System}},
+  title        = {The Florida Cancer Data System Home Page},
+  howpublished = {\url{https://fcds.med.miami.edu/inc/welcome.shtml}},
+  organization = {University of Miami Miller School of Medicine},
+  note         = {Accessed 2026-07-28},
+  year         = {2026}
+}
+
+@techreport{fdoh_fcds_procedure_guide_2007,
+  author      = {{Bureau of Epidemiology, Florida Department of Health}},
+  title       = {Procedure Guide for Studies that Utilize Patient Identifiable Data from the {Florida Cancer Data System}},
+  institution = {Florida Department of Health},
+  address     = {Tallahassee, FL},
+  year        = {2007},
+  month       = oct,
+  note        = {Revised October 2007. Accessed 2026-07-28},
+  url         = {https://www.floridahealth.gov/wp-content/uploads/2025/07/request-guide.pdf}
+}
+
+@misc{fcds_linkage_layout,
+  author       = {{Florida Cancer Data System}},
+  title        = {Data Linkage Record Layout},
+  howpublished = {\url{https://fcds.med.miami.edu/downloads/datarequest/Data\%20Linkage\%20Record\%20Layout.pdf}},
+  organization = {University of Miami Miller School of Medicine},
+  note         = {Fixed-length 360-character ASCII record specification for linkage submissions. Accessed 2026-07-28}
+}
+
+@misc{fcds_data_release_procedures,
+  author       = {{Florida Cancer Data System}},
+  title        = {Procedures for Data Release},
+  howpublished = {\url{https://fcds.med.miami.edu/downloads/datarequest/procedure\%20for\%20data\%20release\%20auto\%20data\%20request\%205_2017\%20draft\%202.pdf}},
+  organization = {University of Miami Miller School of Medicine},
+  year         = {2017},
+  note         = {Ad hoc approval 8 weeks to 18 months; linkage filled within 8 weeks of approval; onsite-only linkage. Accessed 2026-07-28}
+}
+
+@misc{fcds_fees_2020,
+  author       = {{Florida Cancer Data System}},
+  title        = {Data Request Fees: Fees and Billing Procedure},
+  howpublished = {\url{https://fcds.med.miami.edu/downloads/datarequest/Data\%20Request\%20Fees\%202_2020\%20Rev.pdf}},
+  organization = {University of Miami Miller School of Medicine},
+  year         = {2020},
+  month        = feb,
+  note         = {Sliding-scale data-linkage fee schedule. Accessed 2026-07-28}
+}
+
+@techreport{naaccr2023secondarysharing,
+  author      = {{North American Association of Central Cancer Registries}},
+  title       = {Cancer Registries: Secondary Data Sharing Fact Sheet},
+  institution = {North American Association of Central Cancer Registries},
+  year        = {2023},
+  month       = feb,
+  url         = {https://www.naaccr.org/wp-content/uploads/2023/02/Cancer-Registry-Secondary-Data-Sharing-Fact-Sheet_Final_2.9.23.pdf}
+}
+
+@misc{naaccr2026certification,
+  author       = {{North American Association of Central Cancer Registries}},
+  title        = {Certification Criteria},
+  howpublished = {\url{https://www.naaccr.org/certification-criteria/}},
+  note         = {Accessed 28 July 2026}
+}
+
+@article{harron2017challenges,
+  author  = {Harron, Katie and Dibben, Chris and Boyd, James and Hjern, Anders and Azimaee, Mahmoud and Barreto, Mauricio L. and Goldstein, Harvey},
+  title   = {Challenges in administrative data linkage for research},
+  journal = {Big Data \& Society},
+  volume  = {4},
+  number  = {2},
+  pages   = {2053951717745678},
+  year    = {2017},
+  doi     = {10.1177/2053951717745678}
+}
+
+@article{buchanich2009methodological,
+  author  = {Buchanich, Jeanine M. and Youk, Ada O. and Marsh, Gary M. and Bornemann, Zb and Lacey, Steven E. and Kennedy, Kathleen J. and Hancock, Roger P. and Esmen, Nurtan A. and Lieberman, Frank S.},
+  title   = {Methodological issues in a retrospective cancer incidence study},
+  journal = {American Journal of Epidemiology},
+  volume  = {170},
+  number  = {1},
+  pages   = {112--119},
+  year    = {2009},
+  doi     = {10.1093/aje/kwp091}
+}
+
+@techreport{alexandersson2023splinkfcds,
+  author      = {Alexandersson, Anders},
+  title       = {A Feasibility Study of the {Python} Package splink for Probabilistic Record Linkage (2023 Monograph Supplement)},
+  institution = {Florida Cancer Data System},
+  year        = {2023},
+  month       = jun,
+  url         = {https://fcds.med.miami.edu/downloads/RecordLinkageMonograph/2023/splink_monograph_2023_supplement.pdf}
+}
+
+@article{alexandersson2024comparing,
+  author  = {Alexandersson, Anders},
+  title   = {Comparing the linkage performance of {fastLink}, {Match*Pro} and {Splink} at the {Florida Cancer Registry} using simulated pseudopeople data},
+  journal = {International Journal of Population Data Science},
+  volume  = {9},
+  number  = {5},
+  year    = {2024},
+  doi     = {10.23889/ijpds.v9i5.2786},
+  note    = {IPDLN 2024 Conference Proceedings issue}
+}
+
+@article{haddock2024simulated,
+  author  = {Haddock, Beatrix and Pletcher, Alix and Blair-Stahn, Nathaniel and Keyes, Os and Kappel, Matt and Bachmeier, Steve and Lutze, Syl and Albright, James and Bowman, Alison and Kinuthia, Caroline and Burke-Conte, Zeb and Mudambi, Rajan and Flaxman, Abraham},
+  title   = {Simulated data for census-scale entity resolution research without privacy restrictions: a large-scale dataset generated by individual-based modeling},
+  journal = {Gates Open Research},
+  volume  = {8},
+  pages   = {36},
+  year    = {2024},
+  doi     = {10.12688/gatesopenres.15418.2},
+  note    = {version 2; peer reviewed}
+}
+
+@misc{pseudopeople_software,
+  author       = {{Simulation Science Team, Institute for Health Metrics and Evaluation}},
+  title        = {pseudopeople: realistic simulated data about a fictional United States population},
+  year         = {2026},
+  howpublished = {\url{https://github.com/ihmeuw/pseudopeople}},
+  note         = {BSD 3-Clause license; documentation at \url{https://pseudopeople.readthedocs.io/}. Pin the version used at generation time.}
+}
+
+@article{keyes2026governance,
+  author  = {Keyes, Os and Flaxman, Abraham D.},
+  title   = {New Ways of Thinking About Data Governance},
+  journal = {Interactions},
+  volume  = {33},
+  number  = {1},
+  pages   = {24--27},
+  year    = {2026},
+  doi     = {10.1145/3774948}
+}
+
+@article{lam2024synthetic,
+  author  = {Lam, Joseph and Boyd, Andy and Linacre, Robin and Blackburn, Ruth and Harron, Katie},
+  title   = {Generating synthetic identifiers to support development and evaluation of data linkage methods},
+  journal = {International Journal of Population Data Science},
+  volume  = {9},
+  number  = {1},
+  pages   = {2389},
+  year    = {2024},
+  doi     = {10.23889/ijpds.v9i1.2389}
+}
+
+@article{harron2017guide,
+  author  = {Harron, Katie L. and Doidge, James C. and Knight, Hannah E. and Gilbert, Ruth E. and Goldstein, Harvey and Cromwell, David A. and van der Meulen, Jan H.},
+  title   = {A guide to evaluating linkage quality for the analysis of linked data},
+  journal = {International Journal of Epidemiology},
+  volume  = {46},
+  number  = {5},
+  pages   = {1699--1710},
+  year    = {2017},
+  doi     = {10.1093/ije/dyx177}
+}
+
+@article{hand2018fmeasure,
+  author  = {Hand, David and Christen, Peter},
+  title   = {A note on using the {F}-measure for evaluating record linkage algorithms},
+  journal = {Statistics and Computing},
+  volume  = {28},
+  number  = {3},
+  pages   = {539--547},
+  year    = {2018},
+  doi     = {10.1007/s11222-017-9746-6}
+}
+
+@incollection{christen2007quality,
+  author    = {Christen, Peter and Goiser, Karl},
+  title     = {Quality and Complexity Measures for Data Linkage and Deduplication},
+  booktitle = {Quality Measures in Data Mining},
+  series    = {Studies in Computational Intelligence},
+  volume    = {43},
+  publisher = {Springer},
+  address   = {Berlin, Heidelberg},
+  pages     = {127--151},
+  year      = {2007},
+  doi       = {10.1007/978-3-540-44918-8_6}
+}
+
+@article{doidge2018demystifying,
+  author  = {Doidge, James C. and Harron, Katie},
+  title   = {Demystifying probabilistic linkage: Common myths and misconceptions},
+  journal = {International Journal of Population Data Science},
+  volume  = {3},
+  number  = {1},
+  pages   = {410},
+  year    = {2018},
+  doi     = {10.23889/ijpds.v3i1.410}
+}
+
+@article{enewold2020seermedicare,
+  author  = {Enewold, Lindsey and Parsons, Helen and Zhao, Lirong and Bott, David and Rivera, Donna R. and Barrett, Michael J. and Virnig, Beth A. and Warren, Joan L.},
+  title   = {Updated Overview of the {SEER}-Medicare Data: Enhanced Content and Applications},
+  journal = {JNCI Monographs},
+  volume  = {2020},
+  number  = {55},
+  pages   = {3--13},
+  year    = {2020},
+  doi     = {10.1093/jncimonographs/lgz029}
+}
+
+@article{linacre2022splink,
+  author  = {Linacre, Robin and Lindsay, Sam and Manassis, Theodore and Slade, Zoe and Hepworth, Tom},
+  title   = {Splink: Free software for probabilistic record linkage at scale},
+  journal = {International Journal of Population Data Science},
+  volume  = {7},
+  number  = {3},
+  pages   = {1794},
+  year    = {2022},
+  doi     = {10.23889/ijpds.v7i3.1794}
+}
+
+@article{hildebrandt2020dapo,
+  author  = {Hildebrandt, Kai and Panse, Fabian and Wilcke, Niklas and Ritter, Norbert},
+  title   = {Large-Scale Data Pollution with {Apache Spark}},
+  journal = {IEEE Transactions on Big Data},
+  volume  = {6},
+  number  = {2},
+  pages   = {396--411},
+  year    = {2020},
+  doi     = {10.1109/TBDATA.2016.2637378}
+}
+
+@article{binette2022almost,
+  author  = {Binette, Olivier and Steorts, Rebecca C.},
+  title   = {(Almost) all of entity resolution},
+  journal = {Science Advances},
+  volume  = {8},
+  number  = {12},
+  pages   = {eabi8021},
+  year    = {2022},
+  doi     = {10.1126/sciadv.abi8021}
+}
+
+@article{saeedi2018famer,
+  author  = {Saeedi, Alieh and Nentwig, Markus and Peukert, Eric and Rahm, Erhard},
+  title   = {Scalable Matching and Clustering of Entities with {FAMER}},
+  journal = {Complex Systems Informatics and Modeling Quarterly},
+  number  = {16},
+  pages   = {61--83},
+  year    = {2018},
+  doi     = {10.7250/csimq.2018-16.04}
+}
+
+@article{schnell2023microsim,
+  author  = {Schnell, Rainer and Weiand, Severin V.},
+  title   = {Microsimulation of an educational attainment register to predict future record linkage quality},
+  journal = {International Journal of Population Data Science},
+  volume  = {8},
+  number  = {1},
+  year    = {2023},
+  doi     = {10.23889/ijpds.v8i1.2122}
+}
+
+@misc{zenodo_policies,
+  author       = {{CERN / Zenodo}},
+  title        = {Zenodo General Policies},
+  howpublished = {\url{https://about.zenodo.org/policies/}},
+  note         = {Accessed 28 July 2026; withdrawal/tombstone and DOI-persistence policy}
+}
+
+% --- Trim tier: cited in the outline but each survivable if over length ---
+
+@article{schmidtmann2011krebsregister,
+  author    = {Schmidtmann, Irene and Hammer, Gael and Sariyar, Murat and Gerhold-Ay, Aslihan},
+  title     = {Record Linkage Comparison Patterns},
+  year      = {2011},
+  publisher = {UCI Machine Learning Repository},
+  doi       = {10.24432/C51K6B}
+}
+
+@article{walonoski2018synthea,
+  author  = {Walonoski, Jason and Kramer, Mark and Nichols, Joseph and Quina, Andre and Moesel, Chris and Hall, Dylan and Duffett, Carlton and Dube, Kudakwashe and Gallagher, Thomas and McLachlan, Scott},
+  title   = {Synthea: An approach, method, and software mechanism for generating synthetic patients and the synthetic electronic health care record},
+  journal = {Journal of the American Medical Informatics Association},
+  volume  = {25},
+  number  = {3},
+  pages   = {230--238},
+  year    = {2018},
+  doi     = {10.1093/jamia/ocx079}
+}
+
+@inproceedings{christen2008febrl,
+  author    = {Christen, Peter},
+  title     = {Febrl: a freely available record linkage system with a graphical user interface},
+  booktitle = {Proceedings of the 14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  pages     = {1065--1068},
+  year      = {2008},
+  doi       = {10.1145/1401890.1402020}
+}
+
+@inproceedings{tran2013geco,
+  author    = {Tran, Khoi-Nguyen and Vatsalan, Dinusha and Christen, Peter},
+  title     = {{GeCo}: an online personal data generator and corruptor},
+  booktitle = {Proceedings of the 22nd ACM International Conference on Information \& Knowledge Management (CIKM '13)},
+  pages     = {2473--2476},
+  year      = {2013},
+  address   = {San Francisco, CA, USA},
+  doi       = {10.1145/2505515.2508207}
+}
+
+@inproceedings{talburt2009sog,
+  author    = {Talburt, John R. and Zhou, Yinle and Shivaiah, Savitha Y.},
+  title     = {{SOG}: A Synthetic Occupancy Generator to Support Entity Resolution Instruction and Research},
+  booktitle = {Proceedings of the 14th International Conference on Information Quality (ICIQ 2009)},
+  pages     = {91--105},
+  address   = {Potsdam, Germany},
+  year      = {2009},
+  note      = {No DOI. Page range and author list confirmed only from the proceedings listing --- verify against the paper before submission.}
+}
+
+@article{qiao2023lexisnexis,
+  author  = {Qiao, Baozhen and Austin, April A. and Musco, Jennifer and Insaf, Tabassum and Schymura, Maria J.},
+  title   = {Using {LexisNexis} to Improve Social Security Number Information in the {New York State Cancer Registry}},
+  journal = {Journal of Registry Management},
+  volume  = {50},
+  number  = {4},
+  pages   = {138--143},
+  year    = {2023},
+  note    = {PMCID: PMC10945922; no DOI assigned}
+}
+
+@article{li2006deterministic,
+  author  = {Li, Bing and Quan, Hude and Fong, Andrew and Lu, Mingshan},
+  title   = {Assessing record linkage between health care and {Vital Statistics} databases using deterministic methods},
+  journal = {BMC Health Services Research},
+  volume  = {6},
+  pages   = {48},
+  year    = {2006},
+  doi     = {10.1186/1472-6963-6-48}
+}
+
+@misc{suchow2023coincidental,
+  author        = {Suchow, Jordan W. and G{\"u}rkan, Necdet},
+  title         = {Coincidental Generation},
+  year          = {2023},
+  eprint        = {2304.01108},
+  archivePrefix = {arXiv},
+  doi           = {10.48550/arXiv.2304.01108}
+}
+
+@inproceedings{stadler2022groundhog,
+  author    = {Stadler, Theresa and Oprisanu, Bristena and Troncoso, Carmela},
+  title     = {Synthetic Data -- Anonymisation Groundhog Day},
+  booktitle = {31st USENIX Security Symposium (USENIX Security 22)},
+  address   = {Boston, MA, USA},
+  publisher = {USENIX Association},
+  pages     = {1451--1468},
+  year      = {2022},
+  doi       = {10.48550/arXiv.2011.07018}
+}
+
+@misc{ico2023pets,
+  author       = {{Information Commissioner's Office}},
+  title        = {Privacy-enhancing technologies ({PETs}) guidance: Synthetic data},
+  year         = {2023},
+  howpublished = {\url{https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/privacy-enhancing-technologies/what-pets-are-there/synthetic-data/}},
+  note         = {Accessed 28 July 2026}
+}
+
+@article{ruggles2025shortcomings,
+  author  = {Ruggles, Steven},
+  title   = {The shortcomings of synthetic census microdata},
+  journal = {Proceedings of the National Academy of Sciences},
+  volume  = {122},
+  number  = {11},
+  pages   = {e2424655122},
+  year    = {2025},
+  doi     = {10.1073/pnas.2424655122}
+}
+
+@article{mcgrathlone2021ethnicbias,
+  author  = {{Mc Grath-Lone}, Louise and Libuy, Nicol{\'a}s and Etoori, David and Blackburn, Ruth and Gilbert, Ruth and Harron, Katie},
+  title   = {Ethnic bias in data linkage},
+  journal = {The Lancet Digital Health},
+  volume  = {3},
+  number  = {6},
+  pages   = {e339},
+  year    = {2021},
+  doi     = {10.1016/S2589-7500(21)00081-9}
+}
+
+@article{trentin2018brazil,
+  author  = {Trentin, Vitor and Bastos, Val{\'e}ria and Costa, Myrian and Camargo, Kenneth and Sobrino, Rejane and Guill{\'e}n, Lu{\'i}s Carlos and Coeli, Cl{\'a}udia},
+  title   = {Synthetic data generator for testing record linkage routines in {Brazil}},
+  journal = {International Journal of Population Data Science},
+  volume  = {3},
+  number  = {4},
+  pages   = {722},
+  year    = {2018},
+  doi     = {10.23889/ijpds.v3i4.722}
+}
+
+@misc{person_linkage_case_study,
+  author       = {Burke-Conte, Zeb and Blair-Stahn, Nathaniel},
+  title        = {person\_linkage\_case\_study: emulating {US Census Bureau} person linkage with {Splink} and pseudopeople},
+  year         = {2024},
+  howpublished = {\url{https://github.com/ihmeuw/person_linkage_case_study}},
+  note         = {BSD 3-Clause. AUTHOR ATTRIBUTION IS AN INFERENCE from repository contributors --- confirm with Zeb Burke-Conte before citing by name.}
+}

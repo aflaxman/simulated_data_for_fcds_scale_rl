@@ -1,0 +1,57 @@
+# Florida Cancer Data System age- and sex-specific cancer incidence.
+#
+# PROVENANCE — NEEDS CONFIRMATION BEFORE PUBLICATION.
+# Transcribed from /ihme/homes/abie/notebook/2026/2026_02_02a_psp_fl_cancer_data.ipynb
+# (cell 6), where it is entered by hand and labelled "FCDS" in the comparison plot
+# against GBD in 2026_02_05a_psp_prep_get_cancer_prevalence.ipynb. A companion note
+# in the same notebook attributes the linkage-error rates used by the pipeline to
+# the "FCDS 2024 monograph", which is the presumed source of this table too.
+# Before this is cited in the paper, confirm: (a) the exact monograph/report title,
+# year and URL; (b) the diagnosis-year span the counts cover; (c) the denominator
+# and period the rates are expressed over. The counts total 3,241,109 across the 18
+# age groups, which is far more than one year of Florida incidence, so these are
+# cumulative counts paired with average annual rates per 100,000 — state the span
+# explicitly once confirmed.
+#
+# A "Total" summary row present in the source was dropped. Records with unknown sex
+# (n = 1,605) are excluded from this table.
+#
+# age_end is EXCLUSIVE; the open-ended top group is recorded as age_end = 999.
+# rate is per 100,000.
+age_group,age_start,age_end,sex,count,rate
+0-4,0,5,male,3856,24.54836046
+0-4,0,5,female,3256,21.64637718
+5-9,5,10,male,2256,13.91484816
+5-9,5,10,female,1875,12.09042165
+10-14,10,15,male,2480,14.92362713
+10-14,10,15,female,2131,13.42118129
+15-19,15,20,male,3962,23.47981530
+15-19,15,20,female,3558,22.13752831
+20-24,20,25,male,5749,33.69454700
+20-24,20,25,female,6114,37.54431445
+25-29,25,30,male,8543,49.54309931
+25-29,25,30,female,11211,67.37070485
+30-34,30,35,male,12246,70.41078073
+30-34,30,35,female,20462,119.60071060
+35-39,35,40,male,17905,100.86385770
+35-39,35,40,female,33762,190.41771710
+40-44,40,45,male,29355,163.93662350
+40-44,40,45,female,55034,302.71605620
+45-49,45,50,male,53364,299.03388920
+45-49,45,50,female,81303,441.72340310
+50-54,50,55,male,95127,550.42587750
+50-54,50,55,female,110376,606.12267590
+55-59,55,60,male,149160,927.10289850
+55-59,55,60,female,139238,794.25948190
+60-64,60,65,male,205464,1417.23198000
+60-64,60,65,female,170189,1037.39527500
+65-69,65,70,male,277222,2100.58869400
+65-69,65,70,female,207513,1361.08710100
+70-74,70,75,male,283836,2475.97958900
+70-74,70,75,female,213600,1582.14932600
+75-79,75,80,male,245669,2753.68327800
+75-79,75,80,female,195579,1783.47200500
+80-84,80,85,male,168745,2753.02833900
+80-84,80,85,female,150461,1838.96422200
+85 and Up,85,999,male,128959,2675.74995700
+85 and Up,85,999,female,141549,1732.20285100

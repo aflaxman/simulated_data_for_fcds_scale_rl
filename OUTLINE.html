@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>outline</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="OUTLINE_files/libs/clipboard/clipboard.min.js"></script>
+<script src="OUTLINE_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="OUTLINE_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="OUTLINE_files/libs/quarto-html/popper.min.js"></script>
+<script src="OUTLINE_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="OUTLINE_files/libs/quarto-html/anchor.min.js"></script>
+<link href="OUTLINE_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="OUTLINE_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="OUTLINE_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="OUTLINE_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="OUTLINE_files/libs/bootstrap/bootstrap-0f9ba635b047ec6ff6eedb9a293f8e3f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="outline-data-note-a-florida-scale-simulated-dataset-for-developing-and-benchmarking-record-linkage-software-for-cancer-data-systems" class="level1">
+<h1>Outline: Data Note: A Florida-scale simulated dataset for developing and benchmarking record-linkage software for cancer data systems</h1>
+<blockquote class="blockquote">
+<p><strong>Status, 2026-07-28.</strong> This is a planning document, not a draft. It was assembled from the working notebooks in <code>/ihme/homes/abie/notebook/2026/</code> (chiefly <code>2026_02_11b_duckdb_psp_reproducible_randomness.ipynb</code>), from literature research, and from measurements taken directly against the shipped v0.2 files. Claims marked <strong>verified</strong> were measured or checked on this date; everything else is marked <em>TO WRITE</em>, <em>to confirm</em>, or <em>unverified</em> and should be treated as a claim the paper cannot yet make. The deterministic-linkage baselines are real and reproducible today via <code>uv run python pipeline/linkage_baseline.py</code>; nothing else in <code>results/</code> exists yet.</p>
+</blockquote>
+<p><strong>Editor’s note.</strong> The single claim this paper makes is: <em>a simulated, openly downloadable, ground-truthed linkage benchmark at the scale and cancer demography of a real US state registry is now possible, and here is the one that exists, together with what broke while building it.</em> It is for two audiences at once — cancer-registry staff and vendors who need somewhere to test matching software that is not their own confidential file, and the linkage-methods community that has metrics but no large shared corpus. The paper is an IJPDS <strong>Data Note</strong>, so the genre reward is not the dataset description but the <em>problems encountered in the pipeline</em>: reproducible randomness under a parallel SQL engine, the oversample-then-downsample pattern and the overlap overshoot it caused, and the simulator affordance gaps that had to be filled by hand. Before this can be submitted, five things must happen, in this order: (1) <strong>commit <code>config.yaml</code>, <code>pipeline/</code>, <code>results/</code> and <code>reference/</code> — all four are currently untracked in git</strong>, so every headline number in the paper rests on files that could vanish and that a reviewer of the repo cannot see; (2) port the build from the working notebook into <code>pipeline/</code> scripts and confirm they reproduce the four published md5 checksums — until that re-run happens the paper’s central reproducibility claim is untested, not merely unwritten; (3) write the six small <code>results/</code> summaries the text needs (only <code>linkage_baseline.json</code> exists today); (4) resolve the two provenance holes that currently have no citable source — the FCDS incidence table used for QA, and the “FCDS 2024 monograph” credited in <code>config.yaml</code> with the choice of noise rates; (5) mint the Zenodo DOI, because IJPDS requires a dataset DOI plus a private reviewer URL at submission and the Data Availability Statement cannot be finished without them. On length: IJPDS Data Notes are 2,000–3,000 words <em>including title page and references</em>, which four of the five section drafts blow through several times over. Note that overage is cheap (£50 covers up to 5,000 words over), so the binding constraint is editorial patience and genre fit rather than cost — which makes “Data Note vs Data Resource Profile (3,000–8,000 words)” a real choice rather than a forced one. This outline is built to the Data Note limit; where it hurts, it says so.</p>
+<hr>
+<section id="title-authors-keywords" class="level2">
+<h2 class="anchored" data-anchor-id="title-authors-keywords">Title, authors, keywords</h2>
+<p><strong>Recommended:</strong> <em>Data Note: A Florida-scale simulated dataset for developing and benchmarking record-linkage software for cancer data systems</em></p>
+<p>IJPDS author guidelines require the title to begin <code>Data Note:</code>. This version keeps the working title’s content while fixing a modifier-attachment bug in it: “research and development of Florida-scale record linkage software” reads as though the <em>software</em> is Florida-scale. It is the data that is. “Developing and benchmarking” also names both uses, which matters because the benchmark half is what the deterministic baseline and the ground-truth key are for.</p>
+<p>Runners-up:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Why it might win</th>
+<th>Why it does not</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Data Note: Building a state-scale simulated linkage benchmark with pseudopeople and DuckDB</em></td>
+<td>Foregrounds the pipeline lessons, which is precisely the register IJPDS Data Notes reward</td>
+<td>Buries cancer and the registry audience; reads as a methods paper, and the cancer-demography weighting is the paper’s most distinctive design choice</td>
+</tr>
+<tr class="even">
+<td><em>Data Note: Simulated finder files and a simulated cancer registry at Florida scale, with ground truth, for open linkage benchmarking</em></td>
+<td>Most concrete about what actually ships; “finder file” is the term FCDS submitters use</td>
+<td>Longest of the four; “ground truth” is jargon to registry staff, and “cancer data systems” (the generalisable phrase) disappears</td>
+</tr>
+<tr class="odd">
+<td><em>Data Note: Simulated data for research and development of Florida-scale record linkage software for cancer data systems</em></td>
+<td>The author’s working title, minimally adapted — safest for continuity with repo and deposit naming</td>
+<td>Carries the modifier bug above</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Author.</strong> Abraham D. Flaxman, Institute for Health Metrics and Evaluation, University of Washington, Seattle, WA, USA. ORCID must be filled in — <code>paper.qmd</code> currently reads <code>Your Name</code> / <code>0000-0000-0000-0000</code>.</p>
+<p><strong>Keywords (7):</strong> record linkage; entity resolution; simulated data; cancer registry; benchmark dataset; reproducibility; pseudopeople.</p>
+<hr>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<p>IJPDS calls this section <strong>Key Features</strong>, not “Highlights” (<code>paper.qmd</code> currently says “Highlights”), and allows a maximum of six bullets.</p>
+<ul>
+<li>We release a simulated cancer-registry linkage benchmark at the scale of a real state registry: a registry stand-in of <code>{python} registry_rows</code> records and two researcher finder files of <code>{python} finder_500k_rows</code> and <code>{python} finder_100k_rows</code> records, drawn from <code>{python} fl_simulants</code> simulated Florida residents. To our knowledge it is the largest openly downloadable <em>fully simulated</em> multi-file person corpus with cross-file ground-truth identity; larger open person benchmarks exist but are built from real voter records with few attributes <span class="citation" data-cites="saeedi2018famer">[@saeedi2018famer]</span>.</li>
+<li>The registry’s age and sex structure follows Global Burden of Disease neoplasm prevalence for Florida, so linkage methods meet the demography that cancer linkage actually presents — mass at the oldest ages — rather than general-population demography.</li>
+<li>Every record carries <code>simulant_id</code>, a ground-truth identity key, so missed-match and false-match rates of any method can be computed exactly rather than estimated <span class="citation" data-cites="harron2017guide lam2024synthetic">[@harron2017guide; @lam2024synthetic]</span>.</li>
+<li>Weighted sampling replaces the SQL engine’s thread-dependent random number generator with keyed cryptographic hashes, making each released file a pure function of one recorded seed; published checksums let any user verify the file they hold is the file the paper describes.</li>
+<li>We report deterministic exact-match baselines as a floor for probabilistic tools to beat <span class="citation" data-cites="linacre2022splink">[@linacre2022splink]</span>, and we report honestly where the build missed its own targets — realised overlaps overshot by roughly a third.</li>
+</ul>
+<hr>
+</section>
+<section id="structured-abstract-draft-287-words" class="level2">
+<h2 class="anchored" data-anchor-id="structured-abstract-draft-287-words">Structured abstract (draft, 287 words)</h2>
+<p>IJPDS Data Note abstracts use <strong>four</strong> headings — Introduction / Methods / Results / Conclusion — not the five-heading Introduction/Objectives/Methods/Results/Conclusions form used for Research Articles and currently stubbed in <code>paper.qmd</code>. The Data Note “Results” heading is defined by the journal as <em>the specific data issues, problems and challenges encountered</em>, which this draft leans into deliberately. Each <code>{python}</code> placeholder is counted as one word.</p>
+<blockquote class="blockquote">
+<p><strong>Introduction</strong> Software that links records to cancer registries must be built and tested on names, dates of birth, addresses and Social Security numbers (SSNs) — the fields that confidentiality rules prevent registries such as the Florida Cancer Data System (FCDS) from releasing. Openly available linkage test corpora are orders of magnitude smaller than a state registry and do not carry the age and sex structure of cancer.</p>
+<p><strong>Methods</strong> From the pseudopeople simulated United States population we extracted the <code>{python} fl_simulants</code> simulated Florida residents in the 2020 decennial census. We sampled a registry stand-in of <code>{python} registry_rows</code> records, weighted by Global Burden of Disease neoplasm prevalence for Florida by age and sex, plus two finder files of <code>{python} finder_500k_rows</code> and <code>{python} finder_100k_rows</code> records. Sampling used keyed hashes rather than the engine’s random number generator, so each released file is reproducible from one recorded seed.</p>
+<p><strong>Results</strong> Overlaps overshot their targets by about a third (<code>{python} overlap_500k_simulants</code> simulants against <code>{python} overlap_500k_target</code>) because downsampling retained all surviving overlap pairs. Registry SSN missingness reached <code>{python} registry_ssn_missing</code>, above target, because some simulants never held an SSN. Against the published ground-truth key, name plus date of birth linked <code>{python} r500_name_dob_recall</code> of true pairs at <code>{python} r500_name_dob_precision</code> precision; exact agreement on FCDS’s current minimum field set linked <code>{python} r500_fcds_current_recall</code> with no false matches; name-and-birthdate-or-SSN linked <code>{python} r500_best_recall</code>.</p>
+<p><strong>Conclusion</strong> A seed fixes a random stream but not its pairing to rows: row order had to be pinned before noise generation. Simulator affordance gaps are best filled by owning the pipeline around the simulator.</p>
+</blockquote>
+<hr>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<p><em>Combined target ≈ 430 words. IJPDS Data Notes require a separate <strong>Background</strong> heading between Introduction and Methods. §1.1 and §1.4 stay under “Introduction”; §1.2 and §1.3 become “Background” at draft time. They are numbered here so the collisions between the five drafts can be resolved in one place.</em></p>
+<section id="linkage-is-the-registrys-core-competency-and-its-software-cannot-be-developed-in-the-open-2-170-words" class="level3">
+<h3 class="anchored" data-anchor-id="linkage-is-the-registrys-core-competency-and-its-software-cannot-be-developed-in-the-open-2-170-words">1.1 Linkage is the registry’s core competency, and its software cannot be developed in the open — ¶2 (~170 words)</h3>
+<ul>
+<li>Open on the concrete ratio rather than an abstraction: Florida’s reporting facilities send FCDS more than 310,000 case reports a year, which must resolve to roughly 145,000 newly diagnosed cases; the registry also links incidence to the state Bureau of Vital Statistics mortality file for passive follow-up <span class="citation" data-cites="fcds_welcome">[@fcds_welcome]</span>. Cite with access date — the page carries no as-of date. Recognising that two differently spelled records describe one person <em>is</em> the product, so any improvement in linkage software is an improvement in the state’s cancer statistics.</li>
+<li>The bind: the identifiers linkage software runs on are exactly what registry policy prevents from leaving the registry, and NAACCR states plainly that restrictive and varying state policies limit onward sharing of registry-derived data <span class="citation" data-cites="naaccr2023secondarysharing">[@naaccr2023secondarysharing]</span>. Separating linkage from analysis makes linkage a black box whose reliability researchers struggle to judge <span class="citation" data-cites="harron2017challenges">[@harron2017challenges]</span>. Access is also slow and costly: one 224,000-member occupational cohort spent about 700 hours and $22,440 over five years obtaining approvals and matches from state registries <span class="citation" data-cites="buchanich2009methodological">[@buchanich2009methodological]</span>.</li>
+<li>The sharper problem, and the one this dataset answers: even a researcher who clears every hurdle gets no answer key. Real registry data carries no ground truth for which candidate pairs are the same person, so accuracy can only be estimated <span class="citation" data-cites="harron2017guide">[@harron2017guide]</span>.</li>
+</ul>
+</section>
+<section id="background-the-transaction-the-dataset-imitates-2-140-words" class="level3">
+<h3 class="anchored" data-anchor-id="background-the-transaction-the-dataset-imitates-2-140-words">1.2 → Background: the transaction the dataset imitates — ¶2 (~140 words)</h3>
+<ul>
+<li>Define “finder file” once, here, and never again: a researcher submits a cohort’s identifiers, FCDS links them against the statewide incidence file, and returns matched records. <strong>This is the only place the FCDS minimum-fields rule is stated</strong> — Methods refers back to it. State both vintages, because they differ and no document establishes which supersedes: the 2007/2016 Procedure Guide requires first + last name AND SSN AND sex, <em>or</em> first + last name AND month and year of birth AND sex <span class="citation" data-cites="fdoh_fcds_procedure_guide_2007">[@fdoh_fcds_procedure_guide_2007]</span>; the current Data Linkage Record Layout requires name + sex + DOB + SSN, <em>or</em> name + sex + DOB + ZIP + street address, in a fixed-width ASCII record <span class="citation" data-cites="fcds_linkage_layout">[@fcds_linkage_layout]</span>. The released files satisfy either.</li>
+<li>One sentence of friction, not a table (see the display-item budget): identifiable FCDS data requires serial DOH IRB and Cancer Registry Review Committee approval with notarized confidentiality pledges and destruction on completion <span class="citation" data-cites="fdoh_fcds_procedure_guide_2007">[@fdoh_fcds_procedure_guide_2007]</span>; linkage runs onsite only and carries a sliding fee schedule <span class="citation" data-cites="fcds_data_release_procedures fcds_fees_2020">[@fcds_data_release_procedures; @fcds_fees_2020]</span>. <strong>Attribute turnaround figures to their vintage</strong> (“per FCDS’s 2017 release procedures”) — the digest marks current times as unverified.</li>
+<li>Close with the motivating fact, which is the strongest thing the paper has: FCDS’s own 2023 Splink feasibility study ran on a 1,000,000 × 1,000,000 synthetic test file supplied privately by the present author, stated that “the datasets are not yet publicly available”, and formally recommended making the test data public <span class="citation" data-cites="alexandersson2023splinkfcds">[@alexandersson2023splinkfcds]</span>. The published follow-up comparison of fastLink, Match*Pro and Splink for the Florida registry then ran at Rhode Island scale, roughly one twentieth of the population FCDS serves <span class="citation" data-cites="alexandersson2024comparing">[@alexandersson2024comparing]</span>. Say this Note <em>responds directly to</em> that recommendation — <strong>not</strong> “is literally the fulfillment of”, which the reviewer correctly flagged as overstated since this is a different, larger corpus.</li>
+</ul>
+</section>
+<section id="background-why-existing-corpora-do-not-fit-1-90-words" class="level3">
+<h3 class="anchored" data-anchor-id="background-why-existing-corpora-do-not-fit-1-90-words">1.3 → Background: why existing corpora do not fit — ¶1 (~90 words)</h3>
+<p><em>Compressed from a full page in the Introduction draft plus a duplicate subsection and table in the Discussion draft. The comparator landscape is stated <strong>once, here</strong>, in prose. <code>tbl-prior-benchmarks</code> and <code>tbl-benchmark-comparison</code> are both cut.</em></p>
+<ul>
+<li>Linkage-specific generators model the right errors at the wrong scale: in the only controlled head-to-head benchmark, only three of five tools exceeded one million records, GeCo needed about 13 hours to corrupt one million and produced nothing at ten million <span class="citation" data-cites="hildebrandt2020dapo">[@hildebrandt2020dapo]</span>; the shipped FEBRL corpora and the field’s other standard tools are counted in thousands <span class="citation" data-cites="christen2008febrl tran2013geco talburt2009sog">[@christen2008febrl; @tran2013geco; @talburt2009sog]</span>, and the public benchmark inventory confirms the pattern <span class="citation" data-cites="binette2022almost">[@binette2022almost]</span>.</li>
+<li>Be scrupulous about the counter-examples, because a reviewer will be: the largest openly downloadable person benchmarks are real North Carolina voters — 10M records with as few as four attributes, excluding children, so age-structured opposite to a cancer registry <span class="citation" data-cites="saeedi2018famer">[@saeedi2018famer]</span>. The one prior ~20M-person microsimulation built to study linkage quality does not appear to have been released <span class="citation" data-cites="schnell2023microsim">[@schnell2023microsim]</span>. The only cancer-registry benchmark ships precomputed comparison vectors with no names or dates, so it cannot exercise blocking or string comparison <span class="citation" data-cites="schmidtmann2011krebsregister">[@schmidtmann2011krebsregister]</span>. Synthea publishes a million rich synthetic patients but no identifier-error model and no cross-file ground truth <span class="citation" data-cites="walonoski2018synthea">[@walonoski2018synthea]</span>.</li>
+<li><strong>Do not mention “GeCo3”</strong> — it is an unrelated DNA compressor. Do not name commercial vendors; the digest marks that as an unverified negative.</li>
+</ul>
+</section>
+<section id="contribution-1-90-words" class="level3">
+<h3 class="anchored" data-anchor-id="contribution-1-90-words">1.4 Contribution — ¶1 (~90 words)</h3>
+<ul>
+<li>Numbered, and deliberately <em>not</em> re-quoting the counts that Results owns (the exact overlaps and file sizes move out of the Introduction entirely): (1) a prevalence-weighted registry stand-in and two finder files with exactly known overlap via a ground-truth key; (2) targeted error injection on top of pseudopeople’s default noise at rates <strong>plausible for this transaction</strong> — not “chosen to reflect registry practice”, which nothing verified supports; (3) a seeded, checksummed pipeline; (4) deterministic linkage baselines as a published floor.</li>
+<li><strong>Add the clause the Introduction draft was missing:</strong> promise the pipeline lessons — reproducible randomness, the affordance gaps, the overlap overshoot — because that is the Data Note payload and otherwise the Discussion arrives unannounced.</li>
+<li>The generalisation sentence (illicit-drug epidemiology, social work, economics) moves to §6; it duplicated the planned Conclusion.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">2. Methods</h2>
+<p><em>Target ≈ 430 words. Cut from ten subsections to four, per the Methods reviewer. Load order: <code>paper.qmd</code> must open with a setup chunk reading <code>config.yaml</code> into <code>cfg</code> and the <code>results/</code> summaries into <code>lb</code>, <code>pop</code>, <code>err</code>, <code>rel</code> before any inline expression resolves.</em></p>
+<section id="source-population-and-the-florida-extract-2-130-words" class="level3">
+<h3 class="anchored" data-anchor-id="source-population-and-the-florida-extract-2-130-words">2.1 Source population and the Florida extract — ¶2 (~130 words)</h3>
+<ul>
+<li>Source: the pseudopeople simulated US population, artifact <code>pseudopeople_simulated_population_usa_2_0_0</code>, generated by the Vivarium microsimulation <code>vivarium_census_prl_synth_pop</code>, with <code>simulant_id</code> as ground-truth identity across all observers <span class="citation" data-cites="haddock2024simulated pseudopeople_software">[@haddock2024simulated; @pseudopeople_software]</span>. Record the artifact name (not the internal <code>release_02_yellow</code> tag, which is undocumented publicly), the pseudopeople package version, and DuckDB <code>{python} duckdb_version</code>.</li>
+<li>Extraction: DuckDB reads the census-observer Parquet directly, filters <code>state = 'FL'</code> and <code>year = 2020</code> from <code>config.yaml</code>, deduplicates with <code>QUALIFY row_number() OVER (PARTITION BY simulant_id) = 1</code>, yielding <code>{python} fl_simulants</code> simulants. SSNs come from the Social Security observer joined on <code>simulant_id</code>.</li>
+<li><strong>State the honest affordance gap, narrowly.</strong> Verified in this project’s venv (pseudopeople 1.2.8): <code>generate_decennial_census</code> <em>does</em> take <code>state=</code> and <code>year=</code> and <em>does</em> have a Dask engine. The Discussion draft’s claim that pseudopeople “exposes no state filter, no predicate pushdown, and no lazy evaluation” is <strong>false and must be deleted</strong> — the author is a pseudopeople co-author and a reviewer will catch it. What is true and verified: <code>generate_social_security</code> has <strong>no</strong> <code>state</code> parameter, so the SSN join must be done by hand; and there is no API for prevalence-weighted or overlap-controlled sampling, which is the whole cohort design. Either report what <code>state='FL'</code> plus <code>engine='dask'</code> actually cost when tried, or say plainly it was not tried.</li>
+<li>Two-tier note: this is pipeline-tier code run manually; nothing in the rendered paper executes it. Soften any pandas claim to a memory-footprint argument — “cannot load even one state” is unmeasured.</li>
+</ul>
+</section>
+<section id="cohort-design-and-reproducible-sampling-3-180-words" class="level3">
+<h3 class="anchored" data-anchor-id="cohort-design-and-reproducible-sampling-3-180-words">2.2 Cohort design and reproducible sampling — ¶3 (~180 words)</h3>
+<ul>
+<li>Design in one paragraph, targets from <code>config.yaml</code>: a registry stand-in targeting <code>{python} cfg_registry_target</code> records sampled with probability proportional to age- and sex-specific cancer prevalence, and two finder files targeting <code>{python} cfg_finder_500k_target</code> and <code>{python} cfg_finder_100k_target</code> records with <code>{python} overlap_500k_target</code> and <code>{python} overlap_100k_target</code> overlapping simulants. Weights are GBD all-neoplasm prevalence for Florida, 2021, mean over 1,000 draws, 22 age bins by sex, committed as <code>reference/gbd_neoplasm_prevalence_florida.csv</code>; range <code>{python} gbd_prev_min</code>% (males under 1) to <code>{python} gbd_prev_max</code>% (males 95+). <strong>The file stores percentages</strong> — format with <code>:.1f</code> and a literal <code>%</code>, never <code>:.0%</code>.</li>
+<li>Why prevalence and not incidence, in two sentences only (condensed from four bullets): a registry accumulated over decades holds everyone living with or having had a diagnosis, so its composition follows prevalence; incidence is the right comparator for the <em>shape</em> check in §2.4. Drop the unverified conjectures about “name eras” and “address stability” — the sufficient rationale is matching the registry’s age/sex structure to Florida cancer demography.</li>
+<li><strong>Add the load-bearing fact all five drafts omitted:</strong> overlap members are drawn from the registry cohort and the remainder from outside it via separate hash streams, and the two files are then noised <em>independently</em> (<code>psp_registry</code> seed <code>{python} cfg_seed_registry</code>, <code>psp_finder</code> seed <code>{python} cfg_seed_finder</code>). That independence is what makes this a linkage problem rather than a join.</li>
+<li>Reproducible randomness, <strong>stated once here and not restated in the Discussion</strong>: DuckDB’s <code>random()</code> is not reproducible across threads, so every draw is made a pure function of the record key — the Efraimidis–Spirakis exponential-race key with the uniform replaced by a keyed hash. Quote the expression exactly, including the constant <code>18446744073709551617.0</code> (= 2⁶⁴+1); the Discussion draft’s “2^64” is a paraphrase, and a section whose claim is bit-identical checksums cannot paraphrase the formula that produces them. Five salts give independent streams from seed <code>{python} cfg_seed_sample</code>.</li>
+<li><strong>Add the most reusable pattern in the pipeline, which no draft stated:</strong> row-level omission noise deletes rows, so exact targets are unreachable in one pass; cohorts are drawn at <code>{python} cfg_oversample</code>× target and downsampled afterwards with <code>numpy.default_rng({python} cfg_seed_postprocess)</code> over sorted ID lists. Downsampling <em>after</em> noising is the direct cause of the overlap overshoot in §3.2 — the causal story the Data Note exists to tell. Note the reason for oversampling is that the number dropped is <em>not known in advance</em>, not that noise is nondeterministic (it is seeded and deterministic; that determinism is the point of §2.2’s row-order fixes).</li>
+<li>The two silent order-dependence bugs, one sentence each: the staged Parquet must be written <code>ORDER BY simulant_id</code> because pseudopeople walks rows in file order, and the SSA join must be sorted before numpy selection. The run-twice assertion moves to <code>tests/</code>, mentioned in half a sentence; <code>lst-weighted-sample</code> is cut.</li>
+</ul>
+</section>
+<section id="noise-schema-and-packaging-2-80-words" class="level3">
+<h3 class="anchored" data-anchor-id="noise-schema-and-packaging-2-80-words">2.3 Noise, schema and packaging — ¶2 (~80 words)</h3>
+<ul>
+<li>Base layer: pseudopeople’s full default suite (omission, non-response, duplication; typos, OCR, phonetic, nicknames, fake names, month/day swaps, wrong digits, blanks). Targeted overrides from <code>config.yaml</code>, values never typed: finder files <code>{python} cfg_finder_ssn_missing</code> missing SSN, <code>{python} cfg_finder_ssn_transposed</code> SSN transposition, <code>{python} cfg_finder_address_missing</code> on each address field; registry <code>{python} cfg_registry_ssn_missing</code> / <code>{python} cfg_registry_ssn_transposed</code> / <code>{python} cfg_registry_address_missing</code>. Rationale in one clause: a researcher’s finder file is dirtier than a certified registry’s consolidated file. <strong>The provenance of these rates is unresolved</strong> — <code>config.yaml</code> credits an unread “FCDS 2024 monograph”; until confirmed, describe them as author-chosen and plausible, anchored to published registry figures <span class="citation" data-cites="qiao2023lexisnexis">[@qiao2023lexisnexis]</span>.</li>
+<li>Adjacent-digit SSN transposition is not in pseudopeople’s noise taxonomy, so it is a post-hoc numpy step — the concrete affordance gap §4.1 generalises.</li>
+<li>Published columns: <code>simulant_id</code> plus first name, middle initial, last name, date of birth, sex, street number, street name, unit number, city, state, ZIP, SSN. Say the release covers <strong>all fields required by either minimum matching rule</strong> — not “exactly the fields FCDS requires”, since the current submission layout also carries race, maiden name, full middle name, alias and birthplace. <code>tbl-schema-layout</code> is cut as repo documentation.</li>
+<li>Deterministic archive: zip built with <code>-X</code> and fixed member timestamps so archive metadata is deterministic; checksums published for the three CSVs and the bundle. Dataset version <code>{python} dataset_version</code>; <code>config.yaml</code> is the single source of truth.</li>
+</ul>
+</section>
+<section id="quality-assurance-and-the-linkage-baseline-2-90-words" class="level3">
+<h3 class="anchored" data-anchor-id="quality-assurance-and-the-linkage-baseline-2-90-words">2.4 Quality assurance and the linkage baseline — ¶2 (~90 words)</h3>
+<ul>
+<li>QA check 1, external scale: the extract is <code>{python} fl_share_census</code> of Florida’s official 2020 Census count of 21,538,187 residents (a cited literal — <strong>needs a Census Bureau citekey</strong>).</li>
+<li>QA check 2, registry demography: the realised age/sex composition of the registry cohort against the GBD weights, and — <em>if and only if the provenance is confirmed</em> — against published FCDS incidence rates by age group. <code>reference/fcds_incidence_by_age_sex.csv</code> carries “PROVENANCE — NEEDS CONFIRMATION BEFORE PUBLICATION” in its own header; if it cannot be confirmed, that panel is dropped and the QA claim narrows to weights-vs-realised. Say which happened.</li>
+<li>Define passing so it is falsifiable, and <strong>do not use monotonicity</strong>: verified against the committed file, female prevalence peaks at 21.84% in the 85–90 bin and dips at 90–95, and male prevalence dips between ages 2 and 15, so “rises monotonically with age” is falsified by the paper’s own inputs. The criterion is agreement in peak band and in the male/female crossover, not in level — the registry is prevalence-weighted while FCDS publishes incidence.</li>
+<li>Baseline: each rule is agreement on every key of a key-set, evaluated as DuckDB hash joins (disjunctions as UNIONs, avoiding a nested loop over ~5×10¹¹ pairs). Do not enumerate the ladder in prose — that is the Results table. Metrics: precision and recall, reported also as false-match and missed-match rates after Lam et al. <span class="citation" data-cites="lam2024synthetic">[@lam2024synthetic]</span>; F1 is computed but not used to rank, per the F-measure critique <span class="citation" data-cites="hand2018fmeasure">[@hand2018fmeasure]</span>; specificity and accuracy are omitted because true non-matches grow quadratically <span class="citation" data-cites="christen2007quality">[@christen2007quality]</span>. Deterministic linkage is a legitimate floor, not a straw man — the distinction from probabilistic methods is largely one of implementation <span class="citation" data-cites="doidge2018demystifying">[@doidge2018demystifying]</span>, and SEER–Medicare runs a deterministic algorithm in production <span class="citation" data-cites="enewold2020seermedicare">[@enewold2020seermedicare]</span>. <strong>Do not import SEER–Medicare’s ~96% as a linkage-accuracy figure</strong> — it is the share of SEER persons 65+ found in Medicare enrolment.</li>
+<li><strong>Cut from Methods entirely:</strong> the headline-foreshadowing bullet (those numbers appear once, in Results) and the “optional, not yet run” linked-vs-unlinked extension.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">3. Results</h2>
+<p><em>Target ≈ 430 words. Per IJPDS, the Data Note “Results” is where data issues and challenges live, so the two target misses lead rather than hide.</em></p>
+<section id="the-release-1-110-words" class="level3">
+<h3 class="anchored" data-anchor-id="the-release-1-110-words">3.1 The release — ¶1 (~110 words)</h3>
+<ul>
+<li>One paragraph plus <strong>Table 1</strong>. The extract of <code>{python} fl_simulants</code> simulants is <code>{python} fl_share_census</code> of the official 2020 Census count. The registry holds <code>{python} registry_rows</code> rows for <code>{python} registry_simulants</code> distinct simulants; the <code>{python} registry_dupe_rows</code> excess rows are the within-file duplication a real registry carries.</li>
+<li><strong>Mechanism now verified against the shipped file</strong> (2026-07-28, <code>pipeline/linkage_baseline.py</code> machinery): exactly 19 simulants appear twice, none more than twice, and in every case <em>the two rows differ in content</em> — they were noised independently. That is pseudopeople row-duplication noise, and it is the realistic case of a registry holding two differently transcribed reports on one patient. Say this as a verified fact, not an inference from subtraction, and note that it is why a record-pair count can exceed a distinct-simulant count (§3.2).</li>
+<li>Checksums are presented as a result, not housekeeping: they are what lets a user prove the file they hold is the file scored here. State honestly how many independent regenerations were compared and on what hardware; if only one build exists, write “we record checksums so reproducibility can be checked”, not “reproducibility is demonstrated”.</li>
+</ul>
+</section>
+<section id="the-two-target-misses-2-120-words" class="level3">
+<h3 class="anchored" data-anchor-id="the-two-target-misses-2-120-words">3.2 The two target misses — ¶2 (~120 words)</h3>
+<ul>
+<li><strong>Overshoot.</strong> Realised overlaps are <code>{python} overlap_500k_simulants</code> simulants against a target of <code>{python} overlap_500k_target</code>, and <code>{python} overlap_100k_simulants</code> against <code>{python} overlap_100k_target</code> — roughly a third over, because the exact-target downsampling step retained all surviving overlap pairs rather than thinning to target. <strong>Define overlap once and stick to it:</strong> distinct simulants present in both files. Report the pair count separately (<code>{python} overlap_500k_pairs</code>) because it is the denominator of recall in §3.4.</li>
+<li><strong>Reconciliation now verified</strong>: the 500k finder overlaps the registry in 129,356 distinct simulants but 129,357 record pairs, because exactly one of those simulants sits on two registry rows (§3.1); for the 100k finder both counts are 25,797. State it as measured.</li>
+<li>Do <strong>not</strong> write “the overshoot costs the benchmark nothing”: <strong>measured</strong>, it moves match prevalence from a designed 20% of finder rows to <code>{python} match_prevalence_500k</code> (25.87%) and <code>{python} match_prevalence_100k</code> (25.80%), which changes class balance and any model’s priors. Write instead that the realised overlap is exactly known and published, so users must take the shipped counts, not the config targets, as the benchmark definition.</li>
+<li><strong>A third, previously unreported target miss — report it.</strong> The two finder files were designed against the registry independently and their mutual overlap was never specified, but they in fact share <code>{python} overlap_finder_finder</code> (2,508) simulants. A user linking all three files therefore meets an undesigned three-way structure, and the 100k file is <em>not</em> a clean held-out replicate of the 500k file. Either document the figure as a property of v0.2 or fix it in a later version; do not leave it for a user to discover.</li>
+<li><strong>Registry SSN missingness.</strong> Realised <code>{python} registry_ssn_missing</code> against the <code>{python} cfg_registry_ssn_missing</code> target, because a share of Florida simulants never held an SSN in the source population and the pipeline warns rather than blanking further. <strong>Use a second, distinct variable</strong> <code>{python} pop_ssn_never</code> for the population-level rate — it is not the same quantity as the registry-measured rate (the registry is a prevalence-weighted, noised, downsampled draw), and no draft may render “5.77%” as a literal in prose. Arguably more realistic than the target: the New York State Cancer Registry reported 3.4% of 1.4M records lacking SSN <span class="citation" data-cites="qiao2023lexisnexis">[@qiao2023lexisnexis]</span>.</li>
+<li><strong>Resolved — the two files do not contradict each other, and the resolution is worth one sentence.</strong> Measured on the shipped files, finder SSN missingness is <em>exactly</em> 100,000 of 500,000 and 20,000 of 100,000 rows. The pipeline sets missingness by target count, not by an independent Bernoulli draw: it counts what is already missing and blanks only the shortfall. The finder files’ structural never-had-SSN rate sits below their 20% target, so the code tops them up to exactly 20%; the registry’s structural rate already exceeds its 5% target, so the code blanks nothing further and warns. One mechanism, two outcomes. Say this — a reader who notices the asymmetry will otherwise assume a bug.</li>
+<li>Other realised rates in one clause from <code>results/error_rates.json</code>, folded into Table 1’s columns rather than a second table.</li>
+</ul>
+</section>
+<section id="what-the-data-look-like-1-80-words" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-data-look-like-1-80-words">3.3 What the data look like — ¶1 (~80 words)</h3>
+<ul>
+<li><strong>Table 2</strong>: the same simulant as it appears in the registry and in a finder file, <code>simulant_id</code> printed so the reader can verify, with discrepant cells marked and the noise mechanism named per row. This is where a registry reader <em>sees</em> why exact joins must fail. Two or three pairs, chosen to show a nickname or typo, a transposed SSN, and a blanked field.</li>
+<li>Name the fidelity giveaways here, in two sentences, rather than burying them: addresses are uniformly lowercased, <code>city</code> takes values such as “unincorporated”, and a person born in 2019 appears in a 2020 census extract. These are linkage-relevant — an address standardiser benchmarked here never meets real casing and abbreviation variation — and users must be told. Cross-reference §5.</li>
+</ul>
+</section>
+<section id="the-deterministic-floor-2-120-words" class="level3">
+<h3 class="anchored" data-anchor-id="the-deterministic-floor-2-120-words">3.4 The deterministic floor — ¶2 (~120 words)</h3>
+<ul>
+<li><strong>Table 3</strong> and its narration. Framing: the point is that the benchmark discriminates between strategies and publishes a floor. Name+DOB reaches precision <code>{python} r500_name_dob_precision</code> but misses <code>{python} r500_name_dob_missed</code> of true pairs; SSN alone is near-perfect on precision (<code>{python} r500_ssn_only_precision</code>) yet misses <code>{python} r500_ssn_only_missed</code> because a fifth of finder SSNs are blank; the exact-agreement rule on FCDS’s name+SSN+sex field set makes no false matches but finds only <code>{python} r500_fcds_min_ssn_recall</code>, while the month/year variant admits <code>{python} r500_fcds_min_monthyear_fp</code> false matches; taking either raises recall to <code>{python} r500_fcds_either_recall</code>; the best simple rule, name+DOB or SSN, reaches <code>{python} r500_best_recall</code> at <code>{python} r500_best_precision</code>; a deliberately under-specified last-name+DOB rule collapses to precision <code>{python} r500_lastname_dob_precision</code>, showing the benchmark punishes weak keys.</li>
+<li><strong>Relabel the FCDS rules honestly.</strong> These are exact-agreement rules on FCDS’s minimum <em>submission</em> field sets — rules about which identifiers a submitter must supply, not about which fields must agree for a match, and FCDS itself matches probabilistically with clerical review. Presenting a conjunctive join as “FCDS’s rule” is a straw man. State the vintage of each field set.</li>
+<li>Comparator, one clause: name+DOB-style deterministic rules on real data link 88–93% with 97–99% correct <span class="citation" data-cites="li2006deterministic">[@li2006deterministic]</span>, so the simulated difficulty sits in a realistic band.</li>
+<li>Cost of evaluation: the full ladder runs in <code>{python} baseline_seconds_500k</code> seconds on the 500k finder. <strong>Record the node spec</strong> alongside the timing or drop “on a single node” — the number is meaningless without it. Note the 100k finder gives materially the same metrics in one sentence; its panel is cut.</li>
+<li>Say what is <em>not</em> here: no normalised/blocked variant, no probabilistic run. Named as the main remaining work, once.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">4. Discussion</h2>
+<p><em>Target ≈ 330 words, three subsections. The comparator survey and its table are cut and live in §1.3; the reproducibility mechanism is cut and lives in §2.2; the “principal findings” number restatement is cut. Only the 95.6%-vs-59.8% gap survives as a re-quoted figure, because it is the one thing this section reasons about. A Data Note Discussion of this length owns zero figures and zero tables.</em></p>
+<section id="engineering-lessons-worth-stealing-2-140-words" class="level3">
+<h3 class="anchored" data-anchor-id="engineering-lessons-worth-stealing-2-140-words">4.1 Engineering lessons worth stealing — ¶2 (~140 words)</h3>
+<ul>
+<li>The composition pattern, stated so a reader can reuse it: do the heavy relational work (filter, dedupe, SSA join, weighted sampling) in out-of-core SQL, stage the result as a Parquet directory mimicking the source layout, and point the simulator’s <code>source</code> at it. The two tools compose through the filesystem. Treat the simulator as one stage of a pipeline you own, not as the pipeline — which is also why the bespoke SSN-transposition step was cheap to add.</li>
+<li>The reproducibility lesson in two sentences, no mechanism restated: <strong>a seed pins the random stream, not the pairing of stream to rows.</strong> Any pipeline whose row order is not contractually fixed can pass every unit test and still be irreproducible; simulation tools should document their row-order sensitivity. This generalises to any parallel engine because it removes the RNG from the engine entirely.</li>
+<li>The Dask comparison, honestly scoped. Keep it <strong>qualitative</strong>: DuckDB is single-node and SQL-only; Dask and Spark buy horizontal scale-out and arbitrary Python at the cost of orchestration and worker tuning <span class="citation" data-cites="person_linkage_case_study">[@person_linkage_case_study]</span>. <strong>Delete</strong> the assertion that the prior project suffers “non-deterministic partition/row ordering that fights reproducibility” — it is an unsupported negative characterisation of a named colleague’s repository, and even the authorship attribution is an inference the author must confirm. <strong>Delete</strong> the 8.7-second figure from this paragraph: that is the downstream linkage timing, not the build, and says nothing about whether a 21M-simulant construction fits one node. Either report the construction wall time, peak RAM and node spec, or make no scale claim. Note that Splink runs on a DuckDB backend, so the same engine serves construction and the experiments the dataset is for <span class="citation" data-cites="linacre2022splink">[@linacre2022splink]</span>.</li>
+</ul>
+</section>
+<section id="fidelity-where-it-counts-1-90-words" class="level3">
+<h3 class="anchored" data-anchor-id="fidelity-where-it-counts-1-90-words">4.2 Fidelity where it counts — ¶1 (~90 words)</h3>
+<ul>
+<li>The argument that licenses the simplification: for a <em>linkage</em> benchmark, difficulty is set by the joint distribution of the identifying fields — name frequency spectra, DOB collision rates within blocks, household co-residence, field-level error and missingness. Age enters only through those channels. The last-name+DOB rule’s precision of <code>{python} r500_lastname_dob_precision</code> is the mechanism made visible, and it is inherited from the source population’s demographically structured names and households, not from the cancer weighting.</li>
+<li>Where the argument breaks down, stated before a reviewer states it: if linkage error interacts with age- or ancestry-specific name structure, a mis-shaped mix changes measured <em>rankings</em>, not just error levels <span class="citation" data-cites="mcgrathlone2021ethnicbias">[@mcgrathlone2021ethnicbias]</span>; the source draws first and last names independently and floors name frequency at public-list thresholds, so the rare-name tail is thinner than reality <span class="citation" data-cites="haddock2024simulated">[@haddock2024simulated]</span>; and missingness here is largely at random within targeted fields, whereas real registry missingness is differential.</li>
+<li>Anchor the tolerance: synthetic identifiers reproduced real linkage-quality estimates within fractions of a percentage point at small scale <span class="citation" data-cites="lam2024synthetic">[@lam2024synthetic]</span> — evidence that ranking and stressing methods tolerates fidelity gaps that inference would not <span class="citation" data-cites="ruggles2025shortcomings">[@ruggles2025shortcomings]</span>.</li>
+</ul>
+</section>
+<section id="why-open-release-and-what-it-risks-2-100-words" class="level3">
+<h3 class="anchored" data-anchor-id="why-open-release-and-what-it-risks-2-100-words">4.3 Why open release, and what it risks — ¶2 (~100 words)</h3>
+<ul>
+<li><strong>Fix the provenance argument.</strong> Do not call ACS PUMS “public aggregate statistics” and do not claim “no real person’s record contributed”. PUMS is individual-level public-use microdata of real households, sampled to initialise the simulation. The defensible argument runs through PUMS’s own disclosure protections (already released, de-identified, swapped, top-coded) plus the fact that there is no confidential dataset fitted to and therefore no membership to leak — which is what distinguishes this from the generative-model threat model that membership-inference attacks target <span class="citation" data-cites="stadler2022groundhog">[@stadler2022groundhog]</span>. Under the regulator’s test the question becomes coincidental resemblance, not identifiability <span class="citation" data-cites="ico2023pets">[@ico2023pets]</span>.</li>
+<li>Name the residual risk: coincidental generation <span class="citation" data-cites="suchow2023coincidental">[@suchow2023coincidental]</span>. With tens of millions of simulated Floridians some name+DOB+city combinations will match real people by chance. Weigh against it that every name is a recombination of names each shared by many real Americans by construction of the public source lists <span class="citation" data-cites="haddock2024simulated">[@haddock2024simulated]</span>.</li>
+<li><strong>Argue the benefit case against the right counterfactual.</strong> The existing pseudopeople gate is a public, logged GitHub request under a relational-governance process <span class="citation" data-cites="keyes2026governance">[@keyes2026governance]</span> — inverting the risk calculus against <em>real registry data</em> instead is a false dilemma. State who the gate actually excludes: CI systems and containerised reproductions cannot open an issue; classroom and workshop use at scale; and a fixed, checksummed artifact makes <em>this paper’s own results</em> reproducible in a way a re-request cannot.</li>
+<li>Guardrails as a short list: provenance documentation, determinism plus published checksums, a DOI deposit with versioning and a tombstoned withdrawal path <span class="citation" data-cites="zenodo_policies">[@zenodo_policies]</span>, prominent “simulated data” labelling, and a stated objection route. <strong>Present the objection route as an untested proposal, not a novel contribution.</strong> Changing the sampling salt re-draws <em>which</em> simulants are selected; it does not regenerate the names attached to a given simulant, so a complainant’s name can reappear — and it destroys comparability with every published result on v0.2. If a mechanism is promised, it must be targeted suppression plus a tombstoned version bump, and it must actually be implemented on the deposit. Say “we are not aware of a comparable project that states one”, which is what the evidence supports.</li>
+<li><strong>Add one sentence of positionality.</strong> This section assesses the ethics of the author’s own simulator, using his own governance framing, motivated by a monograph recommendation that names him personally. Acknowledging that pre-empts a reviewer raising it less charitably; the COI statement carries the rest.</li>
+<li><strong>Add the exposure no draft mentioned:</strong> the files ship syntactically valid SSNs alongside full name, DOB and address. A released SSN can collide with a real issued number, and the corpus is usable as synthetic-identity seed material. The labelling guardrail should name the risk it mitigates, and contamination of a real registry system by simulated records should be raised.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">5. Limitations</h2>
+<p><em>Target ≈ 200 words. IJPDS’s template has no separate Limitations heading; these render as the closing subsections of the Discussion. Merged from eight bullets down to five, removing three sets of duplication the reviewer identified.</em></p>
+<section id="identity-resolution-only-1-55-words" class="level3">
+<h3 class="anchored" data-anchor-id="identity-resolution-only-1-55-words">5.1 Identity resolution only — ¶1 (~55 words)</h3>
+<ul>
+<li>No tumour site, histology, stage, diagnosis date or treatment; no natural history of cancer. The benchmark exercises finder-file-to-registry <em>identity</em> matching, not tumour consolidation or death clearance.</li>
+<li><strong>Add the gap that matters more to a registry audience:</strong> the registry is essentially one row per person, so within-file duplicate detection — the central registry task, and the one NAACCR certifies against at under 0.1% for Gold <span class="citation" data-cites="naaccr2026certification">[@naaccr2026certification]</span> — is not exercised at all.</li>
+</ul>
+</section>
+<section id="imperfect-fidelity-may-mis-rank-algorithms-1-45-words" class="level3">
+<h3 class="anchored" data-anchor-id="imperfect-fidelity-may-mis-rank-algorithms-1-45-words">5.2 Imperfect fidelity may mis-rank algorithms — ¶1 (~45 words)</h3>
+<ul>
+<li>Merge the Discussion draft’s “imperfect fidelity” and “inherited population fidelity” bullets, which said the same thing twice. If a load-bearing feature of the real problem is absent — differential missingness, name change at marriage, first/last name dependence, the thin rare-name tail, all documented gaps of the source population <span class="citation" data-cites="haddock2024simulated">[@haddock2024simulated]</span> — package comparisons here could rank tools differently than production data would. That is the one error this resource must warn its users against. Recommend treating results as necessary, not sufficient, and validating winners in situ <span class="citation" data-cites="alexandersson2024comparing">[@alexandersson2024comparing]</span>.</li>
+</ul>
+</section>
+<section id="known-construction-imperfections-1-35-words" class="level3">
+<h3 class="anchored" data-anchor-id="known-construction-imperfections-1-35-words">5.3 Known construction imperfections — ¶1 (~35 words)</h3>
+<ul>
+<li>The overlap overshoot, the undesigned finder-to-finder overlap, and the SSN-missingness floor, cross-referenced to §3.2 rather than re-narrated, plus the visible artifacts from §3.3 (lowercased addresses, “unincorporated”, the 2019-born infant in a 2020 extract). The config parameter is a target, and the pipeline can only ever move realised missingness up to it — never down.</li>
+<li>One consumer-facing defect worth a clause because it will bite the first user: the CSVs quote the rare field containing a comma (a <code>street_number</code> of <code>"64,66"</code> appears in <code>finder_100k.csv</code>), but they do so seldom enough that DuckDB’s CSV sniffer infers no quote character and then fails to read the file. Anyone loading the release must name the quote character explicitly. Shipping Parquet alongside CSV in a future version would remove the whole class of problem.</li>
+</ul>
+</section>
+<section id="prevalence-is-not-reportable-incidence-1-30-words" class="level3">
+<h3 class="anchored" data-anchor-id="prevalence-is-not-reportable-incidence-1-30-words">5.4 Prevalence is not reportable incidence — ¶1 (~30 words)</h3>
+<ul>
+<li>GBD all-neoplasm prevalence is not registry-reportable incidence, and the registry’s case mix is validated only at the level of the age/sex shape comparison. <strong>Delete</strong> the unsupported clauses “includes benign neoplasms and long-past cases” — neither the ground truth nor the digest establishes what the GBD neoplasms envelope contains, and GBD cancer prevalence is generally modelled in time-limited post-diagnosis phases.</li>
+</ul>
+</section>
+<section id="locale-and-vintage-1-35-words" class="level3">
+<h3 class="anchored" data-anchor-id="locale-and-vintage-1-35-words">5.5 Locale and vintage — ¶1 (~35 words)</h3>
+<ul>
+<li>Names, addresses and households are USA-circa-2020. Name distributions drift and transfer poorly: GeCo required structural forking for Brazilian composite and multiple family names <span class="citation" data-cites="trentin2018brazil">[@trentin2018brazil]</span>. Conclusions about name-comparator choice do not port to Brazil, Australia or non-Latin-script registries, and any ethnic-bias finding reflects US-2020 name structure only <span class="citation" data-cites="mcgrathlone2021ethnicbias">[@mcgrathlone2021ethnicbias]</span>.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">6. Conclusion</h2>
+<p><em>Target ≈ 90 words, ¶1.</em></p>
+<ul>
+<li>What was done, in one sentence, without re-quoting numbers: a prevalence-weighted, state-scale, three-file simulated linkage benchmark with a published ground-truth key, a reproducible seeded pipeline, and a deterministic floor.</li>
+<li>The transferable lessons in one sentence: pin row order before a simulator consumes rows; oversample and downsample, but understand what downsampling after noising does to your design targets; and fill affordance gaps by owning the pipeline around the tool.</li>
+<li>Generalisation, moved here from the Introduction as the reviewer directed: the transaction this dataset is shaped like — a government-held population-scale file, a researcher cohort, a minimum-identifiers rule, no shareable ground truth — recurs in vital statistics and drug-epidemiology cohort follow-up, and beyond health in social work and economics.</li>
+<li>Close with the invitation that is also the decisive external-validity test: FCDS re-running its own package comparison on this corpus and reporting rank agreement with its internal results.</li>
+</ul>
+<hr>
+</section>
+<section id="figures-tables-and-code-listings" class="level2">
+<h2 class="anchored" data-anchor-id="figures-tables-and-code-listings">Figures, tables and code listings</h2>
+<p>Five essential items plus one optional. Everything else proposed across the five drafts is cut; the cut list is at the end of this section so the decisions are visible rather than silent.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Label</th>
+<th>Kind</th>
+<th>Caption</th>
+<th>What it shows</th>
+<th>Produced by</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tbl-release</code> (Table 1)</td>
+<td>Table</td>
+<td>The released files: contents, overlap with the registry, targeted versus realised error rates, size and checksum.</td>
+<td>Rows: <code>registry.csv</code>, <code>finder_500k.csv</code>, <code>finder_100k.csv</code>, bundle <code>.zip</code>. Columns: rows; distinct simulants; overlap target; realised overlap (simulants, with pairs footnoted); SSN missing target/realised; street-name missing target/realised; size (MB); MD5. Merges three separately proposed tables (<code>tbl-file-summary</code>, <code>tbl-overlap</code>, <code>tbl-file-design</code>) and absorbs <code>tbl-error-rates</code> as four columns.</td>
+<td><code>paper.qmd</code> chunk over <code>results/release_manifest.json</code> + <code>results/error_rates.json</code> + <code>results/linkage_baseline.json</code> + <code>config.yaml</code></td>
+<td><strong>Essential</strong></td>
+</tr>
+<tr class="even">
+<td><code>tbl-example-pair</code> (Table 2)</td>
+<td>Table</td>
+<td>The same simulant as it appears in the registry and in a finder file, with the noise mechanism named for each discrepancy.</td>
+<td>2–3 paired rows over the published columns plus <code>simulant_id</code>; discrepant cells marked; caption also names the fidelity giveaways (lowercased addresses, <code>city = "unincorporated"</code>, a 2019 birth in a 2020 extract). The author’s explicit Results ask, and it does double duty as the evidence behind §5.3.</td>
+<td><code>pipeline/example_pair.py</code> → <code>results/example_pair.csv</code> with pinned <code>simulant_id</code>s so the table is stable across reruns</td>
+<td><strong>Essential</strong></td>
+</tr>
+<tr class="odd">
+<td><code>tbl-linkage-baseline</code> (Table 3)</td>
+<td>Table</td>
+<td>Deterministic exact-match rules scored against the <code>simulant_id</code> ground truth, 500,000-record finder file.</td>
+<td>Five rules only — name+DOB; SSN alone; either FCDS minimum field set; current FCDS field set; name+DOB-or-SSN — plus <code>lastname_dob</code> if space allows, × {predicted pairs, TP, FP, precision, recall, missed-match %, false-match %}. Cut from 9 rules × 2 files × 8 metrics, which is a research-article table. 100k finder noted in one sentence.</td>
+<td><code>pipeline/linkage_baseline.py</code> → <code>results/linkage_baseline.json</code> (<strong>exists and verified</strong>)</td>
+<td><strong>Essential</strong></td>
+</tr>
+<tr class="even">
+<td><code>fig-registry-age-sex</code> (Figure 1)</td>
+<td>Figure</td>
+<td>Realised age and sex composition of the simulated registry against the GBD neoplasm-prevalence weights and the simulated Florida population.</td>
+<td>Two panels or overlaid series by sex across the 22 age bins. Optional second panel comparing GBD incidence to published FCDS rates per 100,000 — <strong>include only if the FCDS incidence provenance is confirmed</strong>. Caption states the pass criterion is agreement in peak band and sex crossover, not in level, because the registry is prevalence-weighted while FCDS publishes incidence. Consolidates three separately proposed figures.</td>
+<td><code>pipeline/qa_age_sex.py</code> → <code>results/registry_age_sex.csv</code> + <code>reference/*.csv</code></td>
+<td><strong>Essential</strong></td>
+</tr>
+<tr class="odd">
+<td><code>lst-noise-demo</code> (Listing 1)</td>
+<td>Code listing</td>
+<td>Generating noised records with pseudopeople and a targeted noise override, on the bundled ~10k-simulant sample population.</td>
+<td>8–12 echoed lines: build the hierarchical <code>noise_config</code> <strong>pulling the rate from <code>cfg['noise']['finder']['address_missing']</code>, not a hard-coded 0.05</strong> (the demo must honour the convention it showcases); call <code>generate_decennial_census</code>; show <code>.head()</code> and a one-line realised-rate check. The paper tier’s only live computation.</td>
+<td><code>paper.qmd</code> chunk (replaces the current <code>sample-demo</code> stub)</td>
+<td><strong>Essential</strong></td>
+</tr>
+<tr class="even">
+<td><code>lst-fcds-fixed-width</code></td>
+<td>Code listing</td>
+<td>Converting finder-file rows to the current FCDS 360-character fixed-width Data Linkage Record Layout.</td>
+<td>~15 lines: uppercase names, DOB → <code>YYYYMMDD</code> with 9-fill, missing SSN → <code>999999999</code>, padding to position; then 2–3 emitted records. Targets the current layout; the 2007 Attachment 9 layout is cited for existence only.</td>
+<td><code>paper.qmd</code> chunk over a function in <code>src/</code> that <strong>does not yet exist</strong></td>
+<td><strong>Optional — cut first</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cut, deliberately:</strong> <code>tbl-access-comparison</code> (every cell is a cited fact, so it is not a Results table; the contrast becomes three sentences split between §1.2 and §4.3 — this resolves the Methods-vs-Results tug-of-war by deciding the material is prose); <code>tbl-benchmark-comparison</code> and <code>tbl-prior-benchmarks</code> (the same comparator survey proposed twice, now prose in §1.3); <code>tbl-schema-layout</code> (repo documentation); <code>tbl-noise-config</code> (four numbers, better as a sentence); <code>tbl-noise-rates</code> (entirely uncomputed — a Results section cannot present a promised table, and it was pre-billed as “the single most useful table” sight unseen); <code>lst-weighted-sample</code> (a second executable listing the budget cannot afford; the SQL becomes a one-line display expression in §2.2 and the run-twice assertion moves to <code>tests/</code>); <code>fig-qa-incidence</code> (merged as a panel of Figure 1).</p>
+<hr>
+</section>
+<section id="computed-values-referenced-in-the-text" class="level2">
+<h2 class="anchored" data-anchor-id="computed-values-referenced-in-the-text">Computed values referenced in the text</h2>
+<p>Canonical variable names, deduplicated across the five drafts. <strong>Only <code>results/linkage_baseline.json</code> exists today</strong> — every row marked <em>TO WRITE</em> is currently a number that lives in a working notebook and nowhere else.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><code>{python}</code> variable</th>
+<th>Known value</th>
+<th><code>results/</code> file</th>
+<th>Sentence</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>fl_simulants</code></td>
+<td>21,123,234</td>
+<td><code>population_summary.json</code> — <strong>TO WRITE</strong></td>
+<td>“…we extracted the <code>{python} fl_simulants</code> simulated Florida residents in the 2020 decennial census.”</td>
+</tr>
+<tr class="even">
+<td><code>fl_share_census</code></td>
+<td>0.9807</td>
+<td><code>population_summary.json</code> — <strong>TO WRITE</strong> (denominator 21,538,187 is a cited literal)</td>
+<td>“The extract is <code>{python} fl_share_census</code> of Florida’s official 2020 Census count of 21,538,187 residents.”</td>
+</tr>
+<tr class="odd">
+<td><code>pop_ssn_never</code></td>
+<td><em>unknown — not yet computed</em></td>
+<td><code>population_summary.json</code> — <strong>TO WRITE</strong></td>
+<td>“…because <code>{python} pop_ssn_never</code> of Florida simulants never held an SSN in the source population.”</td>
+</tr>
+<tr class="even">
+<td><code>registry_rows</code></td>
+<td>5,000,019</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“The registry stand-in holds <code>{python} registry_rows</code> rows…”</td>
+</tr>
+<tr class="odd">
+<td><code>registry_simulants</code></td>
+<td>5,000,000</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“…for <code>{python} registry_simulants</code> distinct simulants.”</td>
+</tr>
+<tr class="even">
+<td><code>registry_dupe_rows</code></td>
+<td>19 — <strong>verified</strong>: 19 simulants × 2 rows, each pair differing in content</td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>“The <code>{python} registry_dupe_rows</code> excess rows are the within-file duplication a real registry carries.”</td>
+</tr>
+<tr class="odd">
+<td><code>registry_ssn_missing</code></td>
+<td>0.057723</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Registry SSN missingness reached <code>{python} registry_ssn_missing</code>, above its target.”</td>
+</tr>
+<tr class="even">
+<td><code>finder_500k_rows</code></td>
+<td>500,000</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“…two finder files of <code>{python} finder_500k_rows</code> and <code>{python} finder_100k_rows</code> records.”</td>
+</tr>
+<tr class="odd">
+<td><code>finder_100k_rows</code></td>
+<td>100,000</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>as above</td>
+</tr>
+<tr class="even">
+<td><code>finder_ssn_missing</code></td>
+<td>0.200</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“SSN is blank in <code>{python} finder_ssn_missing</code> of finder records.”</td>
+</tr>
+<tr class="odd">
+<td><code>overlap_500k_simulants</code></td>
+<td>129,356 — <strong>verified</strong></td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>“Realised overlap is <code>{python} overlap_500k_simulants</code> simulants against a target of <code>{python} overlap_500k_target</code>.”</td>
+</tr>
+<tr class="even">
+<td><code>overlap_100k_simulants</code></td>
+<td>25,797 — <strong>verified</strong></td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>as above, 100k file</td>
+</tr>
+<tr class="odd">
+<td><code>overlap_finder_finder</code></td>
+<td>2,508 — <strong>verified</strong>, undesigned</td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>“The two finder files themselves share <code>{python} overlap_finder_finder</code> simulants, which the design did not specify.”</td>
+</tr>
+<tr class="even">
+<td><code>match_prevalence_500k</code>, <code>match_prevalence_100k</code></td>
+<td>0.258712, 0.257970 — <strong>verified</strong></td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>“The overshoot lifts match prevalence to <code>{python} match_prevalence_500k</code> of finder rows, against a designed 20%.”</td>
+</tr>
+<tr class="odd">
+<td><code>overlap_500k_pairs</code></td>
+<td>129,357</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Recall is computed over <code>{python} overlap_500k_pairs</code> true record pairs.”</td>
+</tr>
+<tr class="even">
+<td><code>overlap_100k_pairs</code></td>
+<td>25,797</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>as above</td>
+</tr>
+<tr class="odd">
+<td><code>overlap_500k_target</code> / <code>overlap_100k_target</code></td>
+<td>100,000 / 20,000</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“…against targets of <code>{python} overlap_500k_target</code> and <code>{python} overlap_100k_target</code>.”</td>
+</tr>
+<tr class="even">
+<td><code>cfg_registry_target</code>, <code>cfg_finder_500k_target</code>, <code>cfg_finder_100k_target</code></td>
+<td>5,000,000 / 500,000 / 100,000</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“The registry cohort targets <code>{python} cfg_registry_target</code> records…”</td>
+</tr>
+<tr class="odd">
+<td><code>cfg_oversample</code></td>
+<td>1.5</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“Cohorts are drawn at <code>{python} cfg_oversample</code>× target…”</td>
+</tr>
+<tr class="even">
+<td><code>cfg_seed_sample</code>, <code>cfg_seed_registry</code>, <code>cfg_seed_finder</code>, <code>cfg_seed_postprocess</code></td>
+<td>42, 42, 1, 999</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“All stochastic steps take their seeds from <code>config.yaml</code>…”</td>
+</tr>
+<tr class="odd">
+<td><code>cfg_finder_ssn_missing</code> / <code>_ssn_transposed</code> / <code>_address_missing</code></td>
+<td>0.20 / 0.01 / 0.05</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“Finder files receive <code>{python} cfg_finder_ssn_missing</code> missing SSN, <code>{python} cfg_finder_ssn_transposed</code> transposition…”</td>
+</tr>
+<tr class="even">
+<td><code>cfg_registry_ssn_missing</code> / <code>_ssn_transposed</code> / <code>_address_missing</code></td>
+<td>0.05 / 0.00 / 0.01</td>
+<td><code>config.yaml</code> (exists)</td>
+<td>“…against the registry’s <code>{python} cfg_registry_ssn_missing</code> target.”</td>
+</tr>
+<tr class="odd">
+<td><code>err_street_500k</code>, <code>err_street_100k</code>, <code>err_street_reg</code></td>
+<td>0.049904, 0.04898, 0.010017</td>
+<td><code>error_rates.json</code> — <strong>TO WRITE</strong></td>
+<td>Table 1 cells; “street name is blank in <code>{python} err_street_500k</code> of the 500k finder file.”</td>
+</tr>
+<tr class="even">
+<td><code>err_ssn_transposed</code></td>
+<td><em>unknown — measurement not yet run</em></td>
+<td><code>error_rates.json</code> — <strong>TO WRITE</strong></td>
+<td>“Adjacent SSN digits were transposed in <code>{python} err_ssn_transposed</code> of finder records.”</td>
+</tr>
+<tr class="odd">
+<td><code>size_registry_mb</code>, <code>size_finder500k_mb</code>, <code>size_finder100k_mb</code>, <code>size_zip_mb</code></td>
+<td>478, 46, 9.3, 422</td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>Table 1 cells; “…zipped to a <code>{python} size_zip_mb</code> MB bundle.”</td>
+</tr>
+<tr class="even">
+<td><code>md5_registry</code>, <code>md5_finder500k</code>, <code>md5_finder100k</code>, <code>md5_zip</code></td>
+<td><code>3db6ba1c…</code>, <code>818c1097…</code>, <code>e27d3a89…</code>, <code>5743ecd6…</code></td>
+<td><code>release_manifest.json</code> — <strong>TO WRITE</strong></td>
+<td>Table 1 cells; “the published MD5 of the bundle is <code>{python} md5_zip</code>.”</td>
+</tr>
+<tr class="odd">
+<td><code>gbd_prev_min</code>, <code>gbd_prev_max</code></td>
+<td>0.59, 32.36 (<strong>percent units</strong>)</td>
+<td><code>reference/gbd_neoplasm_prevalence_florida.csv</code> (exists)</td>
+<td>“…from <code>{python} gbd_prev_min</code>% (males under 1) to <code>{python} gbd_prev_max</code>% (males 95+).”</td>
+</tr>
+<tr class="even">
+<td><code>gbd_prev_female_max</code></td>
+<td>21.84 at ages 85–90 (<strong>verified against the file</strong>)</td>
+<td><code>reference/gbd_neoplasm_prevalence_florida.csv</code> (exists)</td>
+<td>Figure 1 caption; “female prevalence peaks at <code>{python} gbd_prev_female_max</code>%.”</td>
+</tr>
+<tr class="odd">
+<td><code>r500_name_dob_precision</code> / <code>_recall</code> / <code>_missed</code></td>
+<td>0.99811 / 0.79361 / 0.20639</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Name plus date of birth linked <code>{python} r500_name_dob_recall</code> at <code>{python} r500_name_dob_precision</code> precision.”</td>
+</tr>
+<tr class="even">
+<td><code>r500_ssn_only_precision</code> / <code>_missed</code></td>
+<td>0.99979 / 0.21465</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“SSN alone reaches precision <code>{python} r500_ssn_only_precision</code> yet misses <code>{python} r500_ssn_only_missed</code>.”</td>
+</tr>
+<tr class="odd">
+<td><code>r500_fcds_min_ssn_recall</code></td>
+<td>0.65412 (FP = 0)</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“…makes no false matches but finds only <code>{python} r500_fcds_min_ssn_recall</code> of true pairs.”</td>
+</tr>
+<tr class="even">
+<td><code>r500_fcds_min_monthyear_fp</code> / <code>_precision</code></td>
+<td>5,974 / 0.94320</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“The month/year variant admits <code>{python} r500_fcds_min_monthyear_fp</code> false matches.”</td>
+</tr>
+<tr class="odd">
+<td><code>r500_fcds_either_recall</code> / <code>_precision</code></td>
+<td>0.81901 / 0.94662</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Taking either field set raises recall to <code>{python} r500_fcds_either_recall</code>.”</td>
+</tr>
+<tr class="even">
+<td><code>r500_fcds_current_recall</code></td>
+<td>0.59845 (FP = 0)</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Exact agreement on the current minimum field set links <code>{python} r500_fcds_current_recall</code> with no false matches.”</td>
+</tr>
+<tr class="odd">
+<td><code>r500_best_recall</code> / <code>r500_best_precision</code></td>
+<td>0.95596 / 0.99826</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Name-and-birthdate-or-SSN links <code>{python} r500_best_recall</code> at <code>{python} r500_best_precision</code>.”</td>
+</tr>
+<tr class="even">
+<td><code>r500_lastname_dob_precision</code></td>
+<td>0.70006</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“…collapses to precision <code>{python} r500_lastname_dob_precision</code>, showing the benchmark punishes weak keys.”</td>
+</tr>
+<tr class="odd">
+<td><code>baseline_seconds_500k</code></td>
+<td>8.7</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“The full ladder runs in <code>{python} baseline_seconds_500k</code> seconds.”</td>
+</tr>
+<tr class="even">
+<td><code>duckdb_version</code></td>
+<td>1.5.4</td>
+<td><code>linkage_baseline.json</code> (exists)</td>
+<td>“Extraction, sampling and scoring run in DuckDB <code>{python} duckdb_version</code>.”</td>
+</tr>
+<tr class="odd">
+<td><code>psp_version</code></td>
+<td>1.2.8 in the current venv — <strong>the version used at generation time is unrecorded</strong></td>
+<td><code>environment.json</code> — <strong>TO WRITE</strong></td>
+<td>“…generated with pseudopeople <code>{python} psp_version</code>.”</td>
+</tr>
+<tr class="even">
+<td><code>dataset_version</code></td>
+<td>0.2</td>
+<td><code>config.yaml</code> / <code>linkage_baseline.json</code> (exists)</td>
+<td>“This Note describes dataset version <code>{python} dataset_version</code>.”</td>
+</tr>
+<tr class="odd">
+<td><code>build_wall_hours</code>, <code>build_node_spec</code></td>
+<td><em>unknown — not recorded</em></td>
+<td><code>environment.json</code> — <strong>TO WRITE</strong></td>
+<td>“The full build completes in <code>{python} build_wall_hours</code> hours on <code>{python} build_node_spec</code>.”</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="references-to-add-to-references.bib" class="level2">
+<h2 class="anchored" data-anchor-id="references-to-add-to-references.bib">References to add to <code>references.bib</code></h2>
+<p><code>references.bib</code> currently contains <strong>only a comment block</strong> — every entry below must be created. Duplicate keys across the research digests are collapsed to one key per work: <code>haddock2024simulated</code> (not <code>haddock2024pseudopeople</code>), <code>lam2024synthetic</code> (not <code>lam2024synthid</code>), <code>harron2017guide</code> (not <code>harron2017linkagequality</code>), <code>fdoh_fcds_procedure_guide_2007</code> (not <code>fcds2007procedureguide</code>), <code>fcds_welcome</code> (not <code>fcds2026welcome</code>).</p>
+<section id="core-26-entries-cite-these" class="level3">
+<h3 class="anchored" data-anchor-id="core-26-entries-cite-these">Core (26 entries — cite these)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">fcds_welcome</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Florida Cancer Data System}},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {The Florida Cancer Data System Home Page},</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://fcds.med.miami.edu/inc/welcome.shtml}},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">organization</span> = {University of Miami Miller School of Medicine},</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Accessed 2026-07-28},</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2026}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="va">@techreport</span>{<span class="ot">fdoh_fcds_procedure_guide_2007</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>      = {{Bureau of Epidemiology, Florida Department of Health}},</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>       = {Procedure Guide for Studies that Utilize Patient Identifiable Data from the {Florida Cancer Data System}},</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">institution</span> = {Florida Department of Health},</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>     = {Tallahassee, FL},</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>        = {2007},</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">month</span>       = <span class="st">oct</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>        = {Revised October 2007. Accessed 2026-07-28},</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>         = {https://www.floridahealth.gov/wp-content/uploads/2025/07/request-guide.pdf}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">fcds_linkage_layout</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Florida Cancer Data System}},</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Data Linkage Record Layout},</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://fcds.med.miami.edu/downloads/datarequest/Data<span class="ch">\%</span>20Linkage<span class="ch">\%</span>20Record<span class="ch">\%</span>20Layout.pdf}},</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">organization</span> = {University of Miami Miller School of Medicine},</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Fixed-length 360-character ASCII record specification for linkage submissions. Accessed 2026-07-28}</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">fcds_data_release_procedures</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Florida Cancer Data System}},</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Procedures for Data Release},</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://fcds.med.miami.edu/downloads/datarequest/procedure<span class="ch">\%</span>20for<span class="ch">\%</span>20data<span class="ch">\%</span>20release<span class="ch">\%</span>20auto<span class="ch">\%</span>20data<span class="ch">\%</span>20request<span class="ch">\%</span>205_2017<span class="ch">\%</span>20draft<span class="ch">\%</span>202.pdf}},</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">organization</span> = {University of Miami Miller School of Medicine},</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2017},</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Ad hoc approval 8 weeks to 18 months; linkage filled within 8 weeks of approval; onsite-only linkage. Accessed 2026-07-28}</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">fcds_fees_2020</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Florida Cancer Data System}},</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Data Request Fees: Fees and Billing Procedure},</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://fcds.med.miami.edu/downloads/datarequest/Data<span class="ch">\%</span>20Request<span class="ch">\%</span>20Fees<span class="ch">\%</span>202_2020<span class="ch">\%</span>20Rev.pdf}},</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="dt">organization</span> = {University of Miami Miller School of Medicine},</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2020},</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="dt">month</span>        = <span class="st">feb</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Sliding-scale data-linkage fee schedule. Accessed 2026-07-28}</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="va">@techreport</span>{<span class="ot">naaccr2023secondarysharing</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>      = {{North American Association of Central Cancer Registries}},</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>       = {Cancer Registries: Secondary Data Sharing Fact Sheet},</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  <span class="dt">institution</span> = {North American Association of Central Cancer Registries},</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>        = {2023},</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="dt">month</span>       = <span class="st">feb</span>,</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>         = {https://www.naaccr.org/wp-content/uploads/2023/02/Cancer-Registry-Secondary-Data-Sharing-Fact-Sheet_Final_2.9.23.pdf}</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">naaccr2026certification</span>,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{North American Association of Central Cancer Registries}},</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Certification Criteria},</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://www.naaccr.org/certification-criteria/}},</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Accessed 28 July 2026}</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">harron2017challenges</span>,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Harron, Katie and Dibben, Chris and Boyd, James and Hjern, Anders and Azimaee, Mahmoud and Barreto, Mauricio L. and Goldstein, Harvey},</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Challenges in administrative data linkage for research},</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Big Data <span class="ch">\&amp;</span> Society},</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {4},</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {2},</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {2053951717745678},</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2017},</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1177/2053951717745678}</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">buchanich2009methodological</span>,</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Buchanich, Jeanine M. and Youk, Ada O. and Marsh, Gary M. and Bornemann, Zb and Lacey, Steven E. and Kennedy, Kathleen J. and Hancock, Roger P. and Esmen, Nurtan A. and Lieberman, Frank S.},</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Methodological issues in a retrospective cancer incidence study},</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {American Journal of Epidemiology},</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {170},</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {1},</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {112--119},</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2009},</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1093/aje/kwp091}</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="va">@techreport</span>{<span class="ot">alexandersson2023splinkfcds</span>,</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>      = {Alexandersson, Anders},</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>       = {A Feasibility Study of the {Python} Package splink for Probabilistic Record Linkage (2023 Monograph Supplement)},</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>  <span class="dt">institution</span> = {Florida Cancer Data System},</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>        = {2023},</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>  <span class="dt">month</span>       = <span class="st">jun</span>,</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span>         = {https://fcds.med.miami.edu/downloads/RecordLinkageMonograph/2023/splink_monograph_2023_supplement.pdf}</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">alexandersson2024comparing</span>,</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Alexandersson, Anders},</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Comparing the linkage performance of {fastLink}, {Match*Pro} and {Splink} at the {Florida Cancer Registry} using simulated pseudopeople data},</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {9},</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {5},</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2024},</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v9i5.2786},</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>    = {IPDLN 2024 Conference Proceedings issue}</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">haddock2024simulated</span>,</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Haddock, Beatrix and Pletcher, Alix and Blair-Stahn, Nathaniel and Keyes, Os and Kappel, Matt and Bachmeier, Steve and Lutze, Syl and Albright, James and Bowman, Alison and Kinuthia, Caroline and Burke-Conte, Zeb and Mudambi, Rajan and Flaxman, Abraham},</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Simulated data for census-scale entity resolution research without privacy restrictions: a large-scale dataset generated by individual-based modeling},</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Gates Open Research},</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {8},</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {36},</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2024},</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.12688/gatesopenres.15418.2},</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>    = {version 2; peer reviewed}</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">pseudopeople_software</span>,</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Simulation Science Team, Institute for Health Metrics and Evaluation}},</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {pseudopeople: realistic simulated data about a fictional United States population},</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2026},</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://github.com/ihmeuw/pseudopeople}},</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {BSD 3-Clause license; documentation at <span class="ch">\url</span>{https://pseudopeople.readthedocs.io/}. Pin the version used at generation time.}</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">keyes2026governance</span>,</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Keyes, Os and Flaxman, Abraham D.},</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {New Ways of Thinking About Data Governance},</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Interactions},</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {33},</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {1},</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {24--27},</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2026},</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1145/3774948}</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">lam2024synthetic</span>,</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Lam, Joseph and Boyd, Andy and Linacre, Robin and Blackburn, Ruth and Harron, Katie},</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Generating synthetic identifiers to support development and evaluation of data linkage methods},</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {9},</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {1},</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {2389},</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2024},</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v9i1.2389}</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">harron2017guide</span>,</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Harron, Katie L. and Doidge, James C. and Knight, Hannah E. and Gilbert, Ruth E. and Goldstein, Harvey and Cromwell, David A. and van der Meulen, Jan H.},</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {A guide to evaluating linkage quality for the analysis of linked data},</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Epidemiology},</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {46},</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {5},</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {1699--1710},</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2017},</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1093/ije/dyx177}</span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">hand2018fmeasure</span>,</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Hand, David and Christen, Peter},</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {A note on using the {F}-measure for evaluating record linkage algorithms},</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Statistics and Computing},</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {28},</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {3},</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {539--547},</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2018},</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1007/s11222-017-9746-6}</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="va">@incollection</span>{<span class="ot">christen2007quality</span>,</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Christen, Peter and Goiser, Karl},</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Quality and Complexity Measures for Data Linkage and Deduplication},</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Quality Measures in Data Mining},</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>  <span class="dt">series</span>    = {Studies in Computational Intelligence},</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>    = {43},</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span> = {Springer},</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>   = {Berlin, Heidelberg},</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>     = {127--151},</span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2007},</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {10.1007/978-3-540-44918-8_6}</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">doidge2018demystifying</span>,</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Doidge, James C. and Harron, Katie},</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Demystifying probabilistic linkage: Common myths and misconceptions},</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {3},</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {1},</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {410},</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2018},</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v3i1.410}</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">enewold2020seermedicare</span>,</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Enewold, Lindsey and Parsons, Helen and Zhao, Lirong and Bott, David and Rivera, Donna R. and Barrett, Michael J. and Virnig, Beth A. and Warren, Joan L.},</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Updated Overview of the {SEER}-Medicare Data: Enhanced Content and Applications},</span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {JNCI Monographs},</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {2020},</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {55},</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {3--13},</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2020},</span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1093/jncimonographs/lgz029}</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">linacre2022splink</span>,</span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Linacre, Robin and Lindsay, Sam and Manassis, Theodore and Slade, Zoe and Hepworth, Tom},</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Splink: Free software for probabilistic record linkage at scale},</span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {7},</span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {3},</span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {1794},</span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2022},</span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v7i3.1794}</span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">hildebrandt2020dapo</span>,</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Hildebrandt, Kai and Panse, Fabian and Wilcke, Niklas and Ritter, Norbert},</span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Large-Scale Data Pollution with {Apache Spark}},</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {IEEE Transactions on Big Data},</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {6},</span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {2},</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {396--411},</span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2020},</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1109/TBDATA.2016.2637378}</span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">binette2022almost</span>,</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Binette, Olivier and Steorts, Rebecca C.},</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {(Almost) all of entity resolution},</span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Science Advances},</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {8},</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {12},</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {eabi8021},</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2022},</span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1126/sciadv.abi8021}</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">saeedi2018famer</span>,</span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Saeedi, Alieh and Nentwig, Markus and Peukert, Eric and Rahm, Erhard},</span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Scalable Matching and Clustering of Entities with {FAMER}},</span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Complex Systems Informatics and Modeling Quarterly},</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {16},</span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {61--83},</span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2018},</span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.7250/csimq.2018-16.04}</span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">schnell2023microsim</span>,</span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Schnell, Rainer and Weiand, Severin V.},</span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Microsimulation of an educational attainment register to predict future record linkage quality},</span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {8},</span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {1},</span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2023},</span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v8i1.2122}</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">zenodo_policies</span>,</span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{CERN / Zenodo}},</span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Zenodo General Policies},</span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://about.zenodo.org/policies/}},</span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Accessed 28 July 2026; withdrawal/tombstone and DOI-persistence policy}</span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="trim-tier-cut-these-first-if-over-length-cited-in-the-outline-but-each-survivable" class="level3">
+<h3 class="anchored" data-anchor-id="trim-tier-cut-these-first-if-over-length-cited-in-the-outline-but-each-survivable">Trim tier (cut these first if over length — cited in the outline but each survivable)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">schmidtmann2011krebsregister</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Schmidtmann, Irene and Hammer, Gael and Sariyar, Murat and Gerhold-Ay, Aslihan},</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Record Linkage Comparison Patterns},</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2011},</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span> = {UCI Machine Learning Repository},</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {10.24432/C51K6B}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">walonoski2018synthea</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Walonoski, Jason and Kramer, Mark and Nichols, Joseph and Quina, Andre and Moesel, Chris and Hall, Dylan and Duffett, Carlton and Dube, Kudakwashe and Gallagher, Thomas and McLachlan, Scott},</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Synthea: An approach, method, and software mechanism for generating synthetic patients and the synthetic electronic health care record},</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Journal of the American Medical Informatics Association},</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {25},</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {3},</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {230--238},</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2018},</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1093/jamia/ocx079}</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">christen2008febrl</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Christen, Peter},</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Febrl: a freely available record linkage system with a graphical user interface},</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Proceedings of the 14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>     = {1065--1068},</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2008},</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {10.1145/1401890.1402020}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">tran2013geco</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Tran, Khoi-Nguyen and Vatsalan, Dinusha and Christen, Peter},</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {{GeCo}: an online personal data generator and corruptor},</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Proceedings of the 22nd ACM International Conference on Information <span class="ch">\&amp;</span> Knowledge Management (CIKM '13)},</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>     = {2473--2476},</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2013},</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>   = {San Francisco, CA, USA},</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {10.1145/2505515.2508207}</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">talburt2009sog</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Talburt, John R. and Zhou, Yinle and Shivaiah, Savitha Y.},</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {{SOG}: A Synthetic Occupancy Generator to Support Entity Resolution Instruction and Research},</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="dt">booktitle</span> = {Proceedings of the 14th International Conference on Information Quality (ICIQ 2009)},</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>     = {91--105},</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>   = {Potsdam, Germany},</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2009},</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>      = {No DOI. Page range and author list confirmed only from the proceedings listing --- verify against the paper before submission.}</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">qiao2023lexisnexis</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Qiao, Baozhen and Austin, April A. and Musco, Jennifer and Insaf, Tabassum and Schymura, Maria J.},</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Using {LexisNexis} to Improve Social Security Number Information in the {New York State Cancer Registry}},</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Journal of Registry Management},</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {50},</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {4},</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {138--143},</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2023},</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>    = {PMCID: PMC10945922; no DOI assigned}</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">li2006deterministic</span>,</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Li, Bing and Quan, Hude and Fong, Andrew and Lu, Mingshan},</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Assessing record linkage between health care and {Vital Statistics} databases using deterministic methods},</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {BMC Health Services Research},</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {6},</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {48},</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2006},</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1186/1472-6963-6-48}</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">suchow2023coincidental</span>,</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>        = {Suchow, Jordan W. and G{<span class="ch">\"</span>u}rkan, Necdet},</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>         = {Coincidental Generation},</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>          = {2023},</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  <span class="dt">eprint</span>        = {2304.01108},</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  <span class="dt">archivePrefix</span> = {arXiv},</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>           = {10.48550/arXiv.2304.01108}</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="va">@inproceedings</span>{<span class="ot">stadler2022groundhog</span>,</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>    = {Stadler, Theresa and Oprisanu, Bristena and Troncoso, Carmela},</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>     = {Synthetic Data -- Anonymisation Groundhog Day},</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>  <span class="dt">booktitle</span> = {31st USENIX Security Symposium (USENIX Security 22)},</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  <span class="dt">address</span>   = {Boston, MA, USA},</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span> = {USENIX Association},</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>     = {1451--1468},</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>      = {2022},</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>       = {10.48550/arXiv.2011.07018}</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">ico2023pets</span>,</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {{Information Commissioner's Office}},</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {Privacy-enhancing technologies ({PETs}) guidance: Synthetic data},</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2023},</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/privacy-enhancing-technologies/what-pets-are-there/synthetic-data/}},</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {Accessed 28 July 2026}</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">ruggles2025shortcomings</span>,</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Ruggles, Steven},</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {The shortcomings of synthetic census microdata},</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Proceedings of the National Academy of Sciences},</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {122},</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {11},</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {e2424655122},</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2025},</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1073/pnas.2424655122}</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">mcgrathlone2021ethnicbias</span>,</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {{Mc Grath-Lone}, Louise and Libuy, Nicol{<span class="ch">\'</span>a}s and Etoori, David and Blackburn, Ruth and Gilbert, Ruth and Harron, Katie},</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Ethnic bias in data linkage},</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {The Lancet Digital Health},</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {3},</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {6},</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {e339},</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2021},</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1016/S2589-7500(21)00081-9}</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">trentin2018brazil</span>,</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Trentin, Vitor and Bastos, Val{<span class="ch">\'</span>e}ria and Costa, Myrian and Camargo, Kenneth and Sobrino, Rejane and Guill{<span class="ch">\'</span>e}n, Lu{<span class="ch">\'</span>i}s Carlos and Coeli, Cl{<span class="ch">\'</span>a}udia},</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Synthetic data generator for testing record linkage routines in {Brazil}},</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {International Journal of Population Data Science},</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {3},</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {4},</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {722},</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2018},</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.23889/ijpds.v3i4.722}</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">person_linkage_case_study</span>,</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>       = {Burke-Conte, Zeb and Blair-Stahn, Nathaniel},</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>        = {person<span class="ch">\_</span>linkage<span class="ch">\_</span>case<span class="ch">\_</span>study: emulating {US Census Bureau} person linkage with {Splink} and pseudopeople},</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>         = {2024},</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>  <span class="dt">howpublished</span> = {<span class="ch">\url</span>{https://github.com/ihmeuw/person_linkage_case_study}},</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>  <span class="dt">note</span>         = {BSD 3-Clause. AUTHOR ATTRIBUTION IS AN INFERENCE from repository contributors --- confirm with Zeb Burke-Conte before citing by name.}</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="needs-verification-wanted-by-the-text-but-not-verified-by-the-research" class="level3">
+<h3 class="anchored" data-anchor-id="needs-verification-wanted-by-the-text-but-not-verified-by-the-research">NEEDS VERIFICATION — wanted by the text, but not verified by the research</h3>
+<p>Do not paste these into <code>references.bib</code> until each is checked. Four of the six block specific sentences from being written at all.</p>
+<ol type="1">
+<li><p><strong>Efraimidis &amp; Spirakis (2006), weighted random sampling with a reservoir.</strong> The Methods section names the technique after its inventors; naming without citing is not acceptable, and the “present it without attribution” escape hatch should be rejected. Probable target — <em>verify volume, pages and DOI before use</em>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">@article</span>{<span class="ot">efraimidis2006weighted</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>  = {Efraimidis, Pavlos S. and Spirakis, Paul G.},</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>   = {Weighted random sampling with a reservoir},</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">journal</span> = {Information Processing Letters},</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">volume</span>  = {97},</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">number</span>  = {5},</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">pages</span>   = {181--185},</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>    = {2006},</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">doi</span>     = {10.1016/j.ipl.2005.11.003}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>GBD source for the neoplasm prevalence weights.</strong> <code>reference/gbd_neoplasm_prevalence_florida.csv</code> documents only an internal <code>vivarium_inputs</code> extraction and its own header demands the round/release be recorded. As written this is an uncitable provenance chain for a headline Methods input. Needs either a GBD results-tool citation or the capstone paper, plus the round recorded in the CSV.</p></li>
+<li><p><strong>US Census Bureau, Florida 2020 resident population (21,538,187).</strong> The fact is verified (census.gov “Florida Was Third-Largest State in 2020”); no BibTeX entry exists. Either add a <code>@misc</code> with access date or drop the literal from prose — as of now the QA sentence cannot be cited.</p></li>
+<li><p><strong>The “FCDS 2024 monograph.”</strong> <code>config.yaml</code> credits it with the choice of noise rates and flags “Confirm the monograph citation before publication.” The PDF’s existence is confirmed; its authorship and contents were never read. Until confirmed, describe the rates as author-chosen and plausible.</p></li>
+<li><p><strong>The FCDS published incidence rates in <code>reference/fcds_incidence_by_age_sex.csv</code>.</strong> Hand-transcribed, headed “PROVENANCE — NEEDS CONFIRMATION BEFORE PUBLICATION”, and its counts total 3.2M across 18 age groups, far more than one year of Florida incidence. Confirm the report title, the diagnosis-year span and the rate denominator, or drop that panel of Figure 1.</p></li>
+<li><p><strong>Faker / commercial generators.</strong> No citable reference beyond package metadata, and the digest marks the “no cross-file identity” claim about commercial products as an unverified negative. The outline avoids naming them; keep it that way.</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="work-still-to-be-done-before-rendering" class="level2">
+<h2 class="anchored" data-anchor-id="work-still-to-be-done-before-rendering">Work still to be done before rendering</h2>
+<p>Ordered by dependency. Items 1–3 must complete before any other number in the paper can be trusted.</p>
+<ol type="1">
+<li><strong>Commit what already exists.</strong> <code>config.yaml</code>, <code>pipeline/</code>, <code>results/</code> and <code>reference/</code> are all untracked. Commit them now, before anything else — the paper’s only computed artifact is currently invisible to git and to any reviewer of the repo.</li>
+<li><strong><code>pipeline/extract_florida.py</code> → <code>results/population_summary.json</code>.</strong> Port the Florida filter from the working notebook. Computes: <code>fl_simulants</code> (21,123,234); <code>fl_share_census</code>; <code>pop_ssn_never</code> (the <em>population-level</em> never-had-an-SSN rate, a new quantity distinct from the registry-measured rate); the registry duplicate-row count with its verified mechanism.</li>
+<li><strong><code>pipeline/build_cohorts.py</code> → staged Parquet + cohort ID lists.</strong> Port the weighted sampling, the five salted hash streams, the SSA join and the ordering fixes. <strong>The acceptance test is that the pipeline reproduces the four published md5 checksums.</strong> If it does not, the reproducibility claim fails and §2.2, §3.1 and the Conclusion all change. This is the single highest-risk item in the run list.</li>
+<li><strong><code>pipeline/apply_noise_and_package.py</code> → <code>results/release_manifest.json</code> and <code>results/error_rates.json</code>.</strong> Manifest: per-file rows, distinct simulants, overlap by <em>both</em> definitions (distinct simulants and row pairs — this is what reconciles 129,356 vs 129,357), byte sizes, MD5 <strong>and SHA-256</strong> (upstream pseudopeople releases publish SHA-256; matching that practice costs nothing). Error rates: realised missingness per targeted column per file <strong>plus the SSN-transposition rate, which has never been measured</strong>, alongside the targets from <code>config.yaml</code>. Record the finder–finder overlap (2,508) and match prevalence per finder file here too — both are verified but live in no committed file yet. (Why finder SSN missingness lands at exactly 0.200 is now resolved: the noise step sets missingness by target <em>count</em> and tops up only the shortfall, so the finder files hit 20% exactly while the registry, whose structural floor already exceeds its 5% target, is left alone.)</li>
+<li><strong><code>pipeline/qa_age_sex.py</code> → <code>results/registry_age_sex.csv</code>.</strong> Registry and Florida-population counts by age bin and sex, plus the GBD weights used. Backs Figure 1 and the §4.2 claim about where the registry’s mass sits, which currently cannot be made because the realised distribution has never been computed.</li>
+<li><strong><code>pipeline/example_pair.py</code> → <code>results/example_pair.csv</code>.</strong> Search the overlap for exemplars showing a nickname or typo, a transposed SSN, a blanked address field, and a swapped month/day; pin the chosen <code>simulant_id</code>s so Table 2 is stable across reruns. Verify such exemplars actually exist before promising all four.</li>
+<li><strong>Extend <code>pipeline/linkage_baseline.py</code> and re-run.</strong> Add the current layout’s <em>other</em> minimum combination (name + sex + DOB + ZIP + street address) as a tenth rule — the shipped files carry every field it needs, and without it the paper covers only half of FCDS’s current submission floor. Record the node spec (cores, RAM) alongside <code>seconds</code>, or the timing claim must be dropped.</li>
+<li><strong><code>results/environment.json</code>.</strong> Pseudopeople version used at generation time (the venv has 1.2.8, but dataset v0.2 predates it), Python version, DuckDB version, node spec, and the construction run’s wall time and peak RAM — the numbers §4.1 needs to make any scale claim at all.</li>
+<li><strong>Deposit and mint DOIs.</strong> Build the deterministic zip, deposit on Zenodo, mint a dataset DOI and a code-archive DOI, and obtain the private reviewer access URL IJPDS requires at submission. The Data Availability Statement, the abstract and Key Features cannot be finalised without these.</li>
+<li><strong>Fix <code>paper.qmd</code> front matter.</strong> Author is literally “Your Name”; ORCID is all zeros; the title lacks the mandatory <code>Data Note:</code> prefix; the abstract stub uses the five-heading Research Article format instead of the four-heading Data Note format; the section is titled “Highlights” instead of “Key Features”; there is no Background section. Add the back-matter statements (Ethics, COI, Data Availability, Publication Consent, Funding, AI Disclosure, Abbreviations) — all mandatory, and the AI Disclosure especially, since this manuscript is AI-assisted.</li>
+<li><strong>Render once and commit <code>_freeze/</code> with <code>results/</code>.</strong> Per <code>CLAUDE.md</code>, freeze hashes <code>paper.qmd</code> only and does not watch <code>src/</code>, <code>config.yaml</code> or data, so a render is required after every <code>src/</code> change and the two directories must be committed together.</li>
+</ol>
+<hr>
+</section>
+<section id="open-decisions-for-the-author" class="level2">
+<h2 class="anchored" data-anchor-id="open-decisions-for-the-author">Open decisions for the author</h2>
+<ol type="1">
+<li><strong>Manuscript type:</strong> submit as a Data Note (2,000–3,000 words including references) or as a Data Resource Profile (3,000–8,000 words)? Note that the Data Note overage fee is only £50 for up to 5,000 words over, so cost is not the constraint — genre fit and reviewer patience are. <strong>Data Note, or Data Resource Profile?</strong></li>
+<li><strong>Title:</strong> adopt the recommended title above, or one of the three runners-up? <strong>Which one?</strong></li>
+<li><strong>Overlap definition:</strong> report the overlap as distinct simulants in both files (recommended, with pairs footnoted), or as record pairs? <strong>Simulants or pairs?</strong></li>
+<li><strong>FCDS rule vintage:</strong> foreground the 2007/2016 Procedure Guide rule, the current Data Linkage Record Layout rule, or both with the ambiguity stated (recommended)? <strong>Which?</strong></li>
+<li><strong>“Jo Lam’s proposed quality metrics”:</strong> did you mean the missed-match / false-match framing of Lam et al.&nbsp;2024, or the unpublished ITALO reporting work? If ITALO, there is no citable artifact yet. <strong>Lam et al.&nbsp;2024, or ITALO?</strong></li>
+<li><strong>Noise-rate provenance:</strong> can you confirm the FCDS 2024 monograph’s authorship and that it characterises these rates — yes or no? If no, the paper describes the rates as author-chosen. <strong>Yes or no?</strong></li>
+<li><strong>FCDS incidence table:</strong> can you confirm the source, year span and denominator of <code>reference/fcds_incidence_by_age_sex.csv</code> before publication? If no, the incidence panel of Figure 1 is dropped. <strong>Yes or no?</strong></li>
+<li><strong>Objection/redress mechanism:</strong> do you commit to implementing a working one (targeted suppression plus a tombstoned version bump) on the deposit, or present it explicitly as an untested proposal? A salt change does not work — it re-draws which simulants are selected, not the names attached to them. <strong>Commit, or present as proposal?</strong></li>
+<li><strong>Licence:</strong> CC0 (recommended — attribution stacking is impractical for benchmark data embedded in test suites) or CC-BY? <strong>CC0 or CC-BY?</strong></li>
+<li><strong>Conflict of interests:</strong> disclose that you built pseudopeople, co-authored the source population, help govern access to it, and are named personally in the monograph recommendation that motivates this paper — or declare “None”? Recommended: disclose. <strong>Disclose or not?</strong></li>
+<li><strong><code>person_linkage_case_study</code> attribution:</strong> have you confirmed with Zeb Burke-Conte that he is the author and is content to be cited? <strong>Yes or no?</strong></li>
+<li><strong>Attachment 9 conversion demo:</strong> keep <code>lst-fcds-fixed-width</code> (requires writing the converter in <code>src/</code>) or cut it as the first casualty of the word limit? <strong>Keep or cut?</strong></li>
+<li><strong>Funding:</strong> what grant supports <em>this</em> work, as distinct from the underlying population’s Gates INV-060835 and Census CB21RMD0160001 — or is it “no specific funding”? <strong>Which?</strong></li>
+<li><strong>Acknowledgment by name:</strong> may Anders Alexandersson be thanked by name for the monograph recommendation, and have you asked? <strong>Yes or no?</strong></li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
