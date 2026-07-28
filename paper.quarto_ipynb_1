@@ -1,0 +1,373 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "7aab66c8",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "title: \"Simulated data for research and development of Florida-scale record linkage software for cancer data systems\"\n",
+    "author:\n",
+    "  - name: Your Name\n",
+    "    orcid: 0000-0000-0000-0000\n",
+    "    affiliations: [Institute for Health Metrics and Evaluation]\n",
+    "abstract: |\n",
+    "  **Introduction** … **Objectives** … **Methods** … **Results** … **Conclusions** …\n",
+    "keywords: [record linkage, synthetic data, cancer registry, entity resolution]\n",
+    "---\n",
+    "\n",
+    "## Highlights\n",
+    "- quarto\n",
+    "\n",
+    "# Introduction\n",
+    "…\n",
+    "\n",
+    "# Methods\n",
+    "\n",
+    "## Generating simulated records with pseudopeople"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "sample-demo",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "Applying noise:   0%|          | 0/15 [00:00<?, ?type/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "Applying noise:   7%|▋         | 1/15 [00:00<00:01,  8.54type/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "Applying noise:  27%|██▋       | 4/15 [00:00<00:00, 19.57type/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "Applying noise:  67%|██████▋   | 10/15 [00:00<00:00, 32.91type/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "Applying noise:  93%|█████████▎| 14/15 [00:00<00:00, 19.78type/s]"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r",
+      "                                                                 "
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\r"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>simulant_id</th>\n",
+       "      <th>household_id</th>\n",
+       "      <th>first_name</th>\n",
+       "      <th>middle_initial</th>\n",
+       "      <th>last_name</th>\n",
+       "      <th>age</th>\n",
+       "      <th>date_of_birth</th>\n",
+       "      <th>street_number</th>\n",
+       "      <th>street_name</th>\n",
+       "      <th>unit_number</th>\n",
+       "      <th>city</th>\n",
+       "      <th>state</th>\n",
+       "      <th>zipcode</th>\n",
+       "      <th>housing_type</th>\n",
+       "      <th>relationship_to_reference_person</th>\n",
+       "      <th>sex</th>\n",
+       "      <th>race_ethnicity</th>\n",
+       "      <th>year</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0_2</td>\n",
+       "      <td>0_7</td>\n",
+       "      <td>Diana</td>\n",
+       "      <td>P</td>\n",
+       "      <td>Kofron</td>\n",
+       "      <td>25</td>\n",
+       "      <td>05/06/1994</td>\n",
+       "      <td>5112</td>\n",
+       "      <td>145th st</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Anytown</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>00000</td>\n",
+       "      <td>Household</td>\n",
+       "      <td>Reference person</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>White</td>\n",
+       "      <td>2020</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0_3</td>\n",
+       "      <td>0_7</td>\n",
+       "      <td>Anna</td>\n",
+       "      <td>A</td>\n",
+       "      <td>Kofron</td>\n",
+       "      <td>25</td>\n",
+       "      <td>09/29/1994</td>\n",
+       "      <td>5112</td>\n",
+       "      <td>145th st</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Anytown</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>00000</td>\n",
+       "      <td>Household</td>\n",
+       "      <td>Other relative</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>White</td>\n",
+       "      <td>2020</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0_923</td>\n",
+       "      <td>0_8033</td>\n",
+       "      <td>Gerald</td>\n",
+       "      <td>R</td>\n",
+       "      <td>Butler</td>\n",
+       "      <td>76</td>\n",
+       "      <td>11/03/1943</td>\n",
+       "      <td>1130</td>\n",
+       "      <td>mallory ln</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Anytown</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>00000</td>\n",
+       "      <td>Household</td>\n",
+       "      <td>Reference person</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>Black</td>\n",
+       "      <td>2020</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0_2641</td>\n",
+       "      <td>0_1066</td>\n",
+       "      <td>Loretta</td>\n",
+       "      <td>T</td>\n",
+       "      <td>Carley</td>\n",
+       "      <td>61</td>\n",
+       "      <td>07/71/1958</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>delacorte dr</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Anytown</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>00000</td>\n",
+       "      <td>Household</td>\n",
+       "      <td>Reference person</td>\n",
+       "      <td>Female</td>\n",
+       "      <td>White</td>\n",
+       "      <td>2020</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0_2801</td>\n",
+       "      <td>0_1138</td>\n",
+       "      <td>Richard</td>\n",
+       "      <td>R</td>\n",
+       "      <td>Jones</td>\n",
+       "      <td>73</td>\n",
+       "      <td>03/03/1947</td>\n",
+       "      <td>950</td>\n",
+       "      <td>caribou lane</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Anytown</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>00000</td>\n",
+       "      <td>Household</td>\n",
+       "      <td>Reference person</td>\n",
+       "      <td>Male</td>\n",
+       "      <td>White</td>\n",
+       "      <td>2020</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  simulant_id household_id first_name middle_initial last_name age  \\\n",
+       "0         0_2          0_7      Diana              P    Kofron  25   \n",
+       "1         0_3          0_7       Anna              A    Kofron  25   \n",
+       "2       0_923       0_8033     Gerald              R    Butler  76   \n",
+       "3      0_2641       0_1066    Loretta              T    Carley  61   \n",
+       "4      0_2801       0_1138    Richard              R     Jones  73   \n",
+       "\n",
+       "  date_of_birth street_number   street_name unit_number     city state  \\\n",
+       "0    05/06/1994          5112      145th st         NaN  Anytown    WA   \n",
+       "1    09/29/1994          5112      145th st         NaN  Anytown    WA   \n",
+       "2    11/03/1943          1130    mallory ln         NaN  Anytown    WA   \n",
+       "3    07/71/1958           NaN  delacorte dr         NaN  Anytown    WA   \n",
+       "4    03/03/1947           950  caribou lane         NaN  Anytown    WA   \n",
+       "\n",
+       "  zipcode housing_type relationship_to_reference_person     sex  \\\n",
+       "0   00000    Household                 Reference person  Female   \n",
+       "1   00000    Household                   Other relative  Female   \n",
+       "2   00000    Household                 Reference person    Male   \n",
+       "3   00000    Household                 Reference person  Female   \n",
+       "4   00000    Household                 Reference person    Male   \n",
+       "\n",
+       "  race_ethnicity  year  \n",
+       "0          White  2020  \n",
+       "1          White  2020  \n",
+       "2          Black  2020  \n",
+       "3          White  2020  \n",
+       "4          White  2020  "
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#| echo: true\n",
+    "#| label: sample-demo\n",
+    "import pseudopeople as psp\n",
+    "census = psp.generate_decennial_census()   # bundled ~10k-simulant sample\n",
+    "census.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8f12c6d7",
+   "metadata": {},
+   "source": [
+    "# Results"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "load-results",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#| label: load-results\n",
+    "import json, pandas as pd\n",
+    "# sizes = pd.read_csv(\"results/file_sizes.csv\")\n",
+    "# err   = json.load(open(\"results/error_rates.json\"))\n",
+    "sizes = pd.DataFrame({'rows': [10,20,30]})\n",
+    "err = dict(first_name_pct=5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "23f03956",
+   "metadata": {
+    "user_expressions": [
+     {
+      "expression": "f\"{int(sizes['rows'].sum()):,}\"",
+      "result": {
+       "data": {
+        "text/plain": "'60'"
+       },
+       "metadata": {},
+       "status": "ok"
+      }
+     },
+     {
+      "expression": "len(sizes)",
+      "result": {
+       "data": {
+        "text/plain": "3"
+       },
+       "metadata": {},
+       "status": "ok"
+      }
+     },
+     {
+      "expression": "err['first_name_pct']",
+      "result": {
+       "data": {
+        "text/plain": "5"
+       },
+       "metadata": {},
+       "status": "ok"
+      }
+     }
+    ]
+   },
+   "source": [
+    "The Florida-scale extract contains `{python} f\"{int(sizes['rows'].sum()):,}\"` records across\n",
+    "`{python} len(sizes)` files, with a first-name error rate of `{python} err['first_name_pct']`%."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3",
+   "path": "/mnt/share/homes/abie/.local/share/jupyter/kernels/python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.15"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

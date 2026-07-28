@@ -10,7 +10,7 @@ keywords: [record linkage, synthetic data, cancer registry, entity resolution]
 ---
 
 ## Highlights
-- …
+- quarto
 
 # Introduction
 …
