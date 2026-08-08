@@ -32,13 +32,21 @@ cohorts:
   state: FL
   year: 2020
   # Cohorts are drawn oversize because pseudopeople's omission noise drops rows;
-  # exact targets are enforced afterwards by downsampling.
+  # exact targets are enforced afterwards by stratified trimming
+  # (src/simulated_data_for_fcds_scale_rl/downsample.py). The v0.2 build trimmed
+  # unstratified and overshot the overlap targets by roughly a third; the v0.3
+  # rebuild must use stratified_trim, then bump dataset.version and
+  # paths.release_dir (left at 0.2 until the new files exist, so
+  # pipeline/linkage_baseline.py keeps running against the current release).
   oversample: 1.5
   registry_target: 5_000_000
   finder_500k_target: 500_000
   finder_100k_target: 100_000
   overlap_500k_target: 100_000
   overlap_100k_target: 20_000
+  # The two finder files share no simulants (enforced by stratified_trim from
+  # v0.3 on; the v0.2 files accidentally share 2,508).
+  overlap_finder_finder_target: 0
 
 noise:
   # Rates follow the FCDS 2024 monograph characterisation of a finder-file
