@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Data Note for IJPDS: a Florida-scale simulated dataset (generated with pseudopeople)
+Data Resource Profile for IJPDS: a Florida-scale simulated dataset (generated with pseudopeople)
 for testing record-linkage software for cancer data systems (e.g. FCDS).
 Quarto project, analysis in Python.
 
@@ -26,7 +26,7 @@ Quarto project, analysis in Python.
 
 Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic shared by paper + pipeline ·
 `pipeline/` = heavy scripts · `results/` = small committed summaries the paper reads ·
-`reference/` = small committed reference data · `paper.qmd` = the Data Note.
+`reference/` = small committed reference data · `paper.qmd` = the Data Resource Profile.
 
 ## Conventions
 - **Never hard-code a computed number in prose.** Every computed value is an inline
@@ -48,8 +48,13 @@ Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic share
   locations (e.g. paths under /ihme or /mnt/share other than the user's own home). If
   a destructive op there seems needed, copy to a working dir first and ask.
 
-## Writing target (IJPDS)
-IMRAD; structured abstract ≤300 words (intro/objectives/methods/results/conclusions);
-3–5 highlight bullets; figures/tables inline; Vancouver references with DOIs (via
-`ijpds.csl`). The submission is the rendered `.docx` (styled by `reference-doc.docx`);
-the dataset goes to a separate DOI deposit, not as a supplement.
+## Writing target (IJPDS Data Resource Profile)
+Body: Background → Methods → Results → Discussion → Data Access → Conclusions (no
+Introduction section). Structured abstract ≤300 words with four headings
+(Introduction/Methods/Results/Conclusion, dataset-first content); Key Features ≤6
+bullets on the journal's roster; figures/tables inline; Vancouver references with
+DOIs (via `ijpds.csl`). Lingo per the FCDS Procedure Guide: *finder file* = the
+researcher-submitted cohort (the released 500k/100k files); the 5M file is the
+*registry stand-in*, never a finder file. The submission is the rendered `.docx`
+(styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
+as a supplement.

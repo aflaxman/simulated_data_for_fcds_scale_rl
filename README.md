@@ -1,6 +1,6 @@
 # Simulated Data for FCDS-Scale Record Linkage
 
-A Data Note for [IJPDS](https://ijpds.org/) describing a Florida-scale simulated
+A Data Resource Profile for [IJPDS](https://ijpds.org/) describing a Florida-scale simulated
 dataset, generated with [pseudopeople](https://pseudopeople.readthedocs.io/), for
 testing record-linkage software for cancer data systems such as the Florida Cancer
 Data System (FCDS).
@@ -77,7 +77,7 @@ make lint    # uv run ruff check .
 
 ## Project layout
 
-- `paper.qmd` — the Data Note (fast to render: it executes only the small
+- `paper.qmd` — the Data Resource Profile (fast to render: it executes only the small
   bundled pseudopeople sample population and reads precomputed summaries)
 - `src/simulated_data_for_fcds_scale_rl/` — importable, tested Python logic
 - `_quarto.yml` — render configuration; `_freeze/` caches executed results so
