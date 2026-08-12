@@ -1,0 +1,67 @@
+{
+  "columns": [
+    "simulant_id",
+    "first_name",
+    "middle_initial",
+    "last_name",
+    "date_of_birth",
+    "sex",
+    "race_ethnicity",
+    "street_number",
+    "street_name",
+    "unit_number",
+    "city",
+    "state",
+    "zipcode",
+    "ssn"
+  ],
+  "created_utc": "2026-08-12T16:42:56+00:00",
+  "dataset": "sim_cancer_registry_linkage_benchmark",
+  "files": {
+    "finder_100k.csv": {
+      "distinct_simulants": 100000,
+      "md5": "974eaa1228df504e2e7d0e0b70438625",
+      "rows": 100000,
+      "sha256": "0b9873e4ca7635a1b94369b47738c999e2fcec9bee38cfc382c942db6a4ff853",
+      "size_bytes": 9943293
+    },
+    "finder_500k.csv": {
+      "distinct_simulants": 500000,
+      "md5": "d337a5464b0ac71592c2c8746a08332e",
+      "rows": 500000,
+      "sha256": "355c34a4927b645ba06736ed18a605add27e2e3e7b091b99e38a0af5fd9693c4",
+      "size_bytes": 49729407
+    },
+    "registry.csv": {
+      "distinct_simulants": 5000000,
+      "md5": "b1ee6fca3ab49287157652d715afdb56",
+      "rows": 5000012,
+      "sha256": "9ff631d15a58086c0e7973c30c86df2c4797bd07ed02bfaa0daf1f4d443f2079",
+      "size_bytes": 510415173
+    }
+  },
+  "overlaps": {
+    "finder_100k": {
+      "match_prevalence": 0.2,
+      "overlap_simulants": 20000,
+      "overlap_target": 20000,
+      "true_pairs": 20000
+    },
+    "finder_500k": {
+      "match_prevalence": 0.2,
+      "overlap_simulants": 100000,
+      "overlap_target": 100000,
+      "true_pairs": 100000
+    },
+    "finder_finder_simulants": 0
+  },
+  "registry_duplicate_rows": 12,
+  "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_cancer_registry_linkage_benchmark_0.3",
+  "version": "0.3",
+  "zip": {
+    "md5": "cc91aea492d5b1ece8c08086135f8723",
+    "name": "sim_cancer_registry_linkage_benchmark_0.3.zip",
+    "sha256": "d4848a031a8ecc31a4fe6fe5bea59fcaaddbf7041f98599aa22f40e73fe4b374",
+    "size_bytes": 214695506
+  }
+}

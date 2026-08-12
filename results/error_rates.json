@@ -1,0 +1,52 @@
+{
+  "realised": {
+    "finder_100k.csv": {
+      "city_missing": 0.04972,
+      "ssn_blanked": 15269,
+      "ssn_missing": 0.2,
+      "ssn_structural_missing": 0.04731,
+      "ssn_transposed": 822,
+      "state_missing": 0.05006,
+      "street_name_missing": 0.04995,
+      "street_number_missing": 0.09325,
+      "unit_number_missing": 0.94597,
+      "zipcode_missing": 0.05039
+    },
+    "finder_500k.csv": {
+      "city_missing": 0.049804,
+      "ssn_blanked": 76196,
+      "ssn_missing": 0.2,
+      "ssn_structural_missing": 0.047608,
+      "ssn_transposed": 3988,
+      "state_missing": 0.050032,
+      "street_name_missing": 0.049842,
+      "street_number_missing": 0.093326,
+      "unit_number_missing": 0.945114,
+      "zipcode_missing": 0.049876
+    },
+    "registry.csv": {
+      "city_missing": 0.009978776050937478,
+      "ssn_blanked": 0,
+      "ssn_missing": 0.05775166139601265,
+      "ssn_structural_missing": 0.0577518,
+      "ssn_transposed": 0,
+      "state_missing": 0.010027175934777756,
+      "street_name_missing": 0.01006797583685799,
+      "street_number_missing": 0.05495126811695652,
+      "unit_number_missing": 0.9435383355079948,
+      "zipcode_missing": 0.010032575921817787
+    }
+  },
+  "targets": {
+    "finder": {
+      "address_missing": 0.05,
+      "ssn_missing": 0.2,
+      "ssn_transposed": 0.01
+    },
+    "registry": {
+      "address_missing": 0.01,
+      "ssn_missing": 0.05,
+      "ssn_transposed": 0.0
+    }
+  }
+}
