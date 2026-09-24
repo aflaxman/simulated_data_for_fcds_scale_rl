@@ -17,6 +17,12 @@ paths:
   scratch: /ihme/homes/abie/notebook/2026/data/temp_psp_processing
   # Small committed summaries the paper reads.
   results: results
+  # Age- and sex-specific rates that weight the registry draw (only relative
+  # weights matter). FCDS cancer incidence since 2026-09-24 (the author's call:
+  # the registry's own age/sex pattern is the more relevant target); the v0.3
+  # build used reference/gbd_neoplasm_prevalence_florida.csv, which is kept as
+  # the comparator for the age/sex QA figure. Rebuild (v0.4) pending.
+  age_sex_weights: reference/fcds_incidence_by_age_sex.csv
 
 seeds:
   # Salted into md5_number_lower() for DuckDB's weighted sampling.
@@ -53,7 +59,7 @@ noise:
   # citation before publication.
   registry:
     # The realised v0.3 rate is 0.0578, not 0.05: 4.99% of Florida simulants
-    # never held an SSN in the source population, and the prevalence-weighted
+    # never held an SSN in the source population, and the cancer-weighted (older)
     # registry draw concentrates them, so the structural floor (5.78%) already
     # exceeds the target and the pipeline blanks nothing further.
     ssn_missing: 0.05

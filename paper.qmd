@@ -2,18 +2,99 @@
 title: "Data Resource Profile: A Florida-scale simulated dataset for developing and benchmarking record-linkage software for cancer data systems"
 author:
   - name: Abraham D. Flaxman
-    orcid: 0000-0000-0000-0000 # TODO: real ORCID before submission
-    affiliations: [Institute for Health Metrics and Evaluation, University of Washington]
+    orcid: 0000-0001-6033-4713
+    corresponding: true
+    email: abie@ihme.washington.edu
+    affiliations:
+      - department: Institute for Health Metrics and Evaluation
+        name: University of Washington
+        address: "Population Health Building/Hans Rosling Center, 3980 15th Ave. NE, UW Campus Box #351615"
+        city: Seattle
+        region: WA
+        postal-code: "98195"
+        country: USA
+  - name: Anders Alexandersson
+    # TODO before submission: confirm affiliation wording, add full street address and ORCID
+    affiliations:
+      - department: Florida Cancer Data System
+        name: University of Miami Miller School of Medicine
+        city: Miami
+        region: FL
+        country: USA
 abstract: |
   **Introduction** … **Methods** … **Results** … **Conclusion** …
 keywords: [record linkage, entity resolution, simulated data, cancer registry, benchmark dataset, reproducibility, pseudopeople]
 ---
 
-## Key Features
+::: {.content-visible when-format="docx"}
+```{python}
+#| label: author-block
+#| output: asis
+# Quarto's docx template prints author names only, so the affiliations, addresses
+# and corresponding-author email that IJPDS requires are rebuilt here from this
+# document's own front matter (the YAML above stays the single source of truth).
+# The block is shown only in the docx; the HTML title block already carries it.
+import yaml
+_meta = yaml.safe_load(open("paper.qmd").read().split("---")[1])
+_lines = ["**Author affiliations**", ""]
+for _a in _meta["author"]:
+    _head = f"**{_a['name']}**"
+    if _a.get("corresponding"):
+        _head += " (corresponding author)"
+    if _a.get("orcid"):
+        _head += f", ORCID {_a['orcid']}"
+    _lines.append("| " + _head)  # pandoc line block: one line per address part
+    for _aff in _a.get("affiliations", []):
+        _place = " ".join(p for p in (_aff.get("city"), _aff.get("region"), _aff.get("postal-code")) if p)
+        _parts = (_aff.get("department"), _aff.get("name"), _aff.get("address"), _place or None, _aff.get("country"))
+        _lines.append("| " + ", ".join(p for p in _parts if p))
+    if _a.get("email"):
+        _lines.append(f"| Email: {_a['email']}")
+    _lines.append("")
+print("\n".join(_lines))
+```
+:::
 
-- (six bullets on the journal's roster — what is unique; why created; details:
-  location/size/composition; data linkage; main categories of data; how to
-  access/collaborate — drafted in OUTLINE.md)
+```{python}
+#| label: load-summaries
+# Small committed summaries written by pipeline/build_cohorts.py, plus the design
+# targets from config.yaml. Every number in the prose below is one of these
+# variables; nothing is typed by hand.
+import json, yaml
+pop      = json.load(open("results/population_summary.json"))
+manifest = json.load(open("results/release_manifest.json"))
+cfg      = yaml.safe_load(open("config.yaml"))
+
+def n(x):
+    return f"{int(x):,}"
+
+fl_simulants        = n(pop["fl_simulants"])
+registry_rows       = n(manifest["files"]["registry.csv"]["rows"])
+finder_500k_rows    = n(manifest["files"]["finder_500k.csv"]["rows"])
+finder_100k_rows    = n(manifest["files"]["finder_100k.csv"]["rows"])
+overlap_500k_target = n(cfg["cohorts"]["overlap_500k_target"])
+overlap_100k_target = n(cfg["cohorts"]["overlap_100k_target"])
+
+# The Key Features quote the design targets as facts about the files, which is
+# only honest while the build hits them exactly; fail the render otherwise.
+for k in ("500k", "100k"):
+    assert manifest["overlaps"][f"finder_{k}"]["overlap_simulants"] == cfg["cohorts"][f"overlap_{k}_target"]
+assert manifest["overlaps"]["finder_finder_simulants"] == cfg["cohorts"]["overlap_finder_finder_target"]
+```
+
+## Key Features {.unnumbered}
+
+- **What is unique:** a large, fully simulated, multi-file dataset for linking individual people, with cross-file ground truth (every record carries a `simulant_id`, so missed-match and false-match rates of any method can be computed exactly rather than estimated), designed to capture the record matching challenges faced by a Florida-scale cancer data system.
+
+- **Why created:** linkage software for cancer registries must be developed and tested on names, dates of birth, addresses and SSNs, which are exactly the identifiers that confidentiality rules prevent registries from releasing.
+
+- **Details:** a simulated population of Florida residents based on the 2020 population of `{python} fl_simulants` simulants, including a cancer registry of `{python} registry_rows` records where the age and sex structure matches the age- and sex-specific cancer incidence pattern of the Florida Cancer Data System, as well as researcher finder files of `{python} finder_500k_rows` and `{python} finder_100k_rows` records.
+
+- **Data linkage:** the larger finder file includes `{python} overlap_500k_target` simulants in the registry and the smaller finder file includes `{python} overlap_100k_target` simulants. There is no overlap between the finder files.
+
+- **Main categories of data:** simulated person-level identifiers including name, date of birth, sex, street-address fields, SSN, race/ethnicity, carrying realistic synthetic noise (typos, nicknames, month/day swaps, blanks, duplications).
+
+- **Access:** direct download under a permissive licence with a DOI.
 
 # Background
 

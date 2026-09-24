@@ -8,12 +8,22 @@ Quarto project, analysis in Python.
 - Python **3.10–3.11 only** (pseudopeople constraint). Managed with uv:
   `uv sync` to set up, `uv run <cmd>` to execute anything.
 - Core deps: pseudopeople, duckdb, splink>=4, pandas, pyarrow.
-- Quarto must be on PATH (cluster module or local install).
+- Quarto is **not** a system install or cluster module here: it is the `quarto-cli`
+  package in the uv dev group, so `uv sync` puts it at `.venv/bin/quarto`. Always call
+  it as `uv run quarto …` or via the `make` targets. Bare `quarto` is not on PATH, so
+  `which quarto` outside `uv run` wrongly reports it missing.
 
 ## Commands
-- `uv run quarto preview paper.qmd` — live HTML preview while writing.
-- `uv run quarto render paper.qmd --to docx` — build the IJPDS submission file.
-- `uv run pytest` — tests (see tests/).
+- `uv run quarto preview paper.qmd` — live HTML preview while writing. Open the
+  "Browse at http://localhost:PORT/paper.html" link it prints, not the "Listening on"
+  root URL; VS Code Remote-SSH forwards the port from a cluster worker node.
+- `uv run quarto render paper.qmd` — single-document render (always executes; writes
+  `paper.html` and refreshes `_freeze/`). Add `--to docx` for the submission file only.
+- `make paper` — project render to docx (`uv run quarto render --to docx`), which is
+  the one path where `freeze: auto` applies.
+- `uv run pytest` — tests (see tests/). `make test` / `make lint` wrap pytest and ruff.
+- Run renders and previews on a cluster worker node, not the submit node (see README,
+  "Working in VS Code"); the paper tier is cheap enough for a dev node.
 
 ## Architecture — two tiers, keep them separate
 1. **Paper tier (cheap, runs on every render):** `paper.qmd` executes only the

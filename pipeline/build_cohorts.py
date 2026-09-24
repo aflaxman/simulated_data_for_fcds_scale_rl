@@ -8,8 +8,10 @@ ported from the working notebook
   design target exactly and makes the finder files disjoint — v0.2's
   unstratified trim overshot the overlap targets by roughly a third;
 * ``race_ethnicity`` is carried into the released schema;
-* the GBD prevalence weights are read from ``reference/`` instead of being
-  hard-coded;
+* the age/sex weights of the registry draw are read from the reference table
+  named in ``config.yaml`` (``paths.age_sex_weights``) instead of being
+  hard-coded — FCDS cancer incidence from the v0.4 build on, GBD prevalence
+  in v0.3;
 * checksums (MD5 and SHA-256), a release manifest, realised error rates, a
   population summary, and environment info are written to ``results/``.
 
@@ -45,6 +47,7 @@ import pandas as pd
 import pseudopeople as psp
 import yaml
 
+from simulated_data_for_fcds_scale_rl.age_sex_weights import load_age_sex_weights
 from simulated_data_for_fcds_scale_rl.downsample import stratified_trim
 from simulated_data_for_fcds_scale_rl.ssn_noise import apply_targeted_ssn_noise
 
@@ -102,15 +105,32 @@ def create_source_views(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
     log(f"Florida extract: {fl_count:,} simulants after deduplication.")
 
 
-def load_rates(con: duckdb.DuckDBPyConnection) -> None:
-    """GBD all-neoplasm prevalence weights (percentages) from reference/."""
-    rates_csv = ROOT / "reference" / "gbd_neoplasm_prevalence_florida.csv"
-    long_rates = pd.read_csv(rates_csv, comment="#")
-    expected = {"age_start", "age_end", "sex", "prevalence_pct"}
-    if set(long_rates.columns) != expected:
-        raise SystemExit(f"{rates_csv} columns {list(long_rates.columns)} != {sorted(expected)}")
+def load_rates(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
+    """Age/sex weights for the registry draw, from the table named in config.yaml.
+
+    Only relative weights matter (see ``age_sex_weights.py``). Requires the
+    ``raw_census`` view, because it checks that every Florida simulant falls in
+    exactly one (sex, age) bin: a total miss means the sex coding or age units
+    disagree; a partial miss is logged, since those simulants silently drop out
+    of the registry draw.
+    """
+    rates_csv = ROOT / cfg["paths"]["age_sex_weights"]
+    long_rates = load_age_sex_weights(rates_csv)
     con.register("long_rates", long_rates)
     con.execute("CREATE OR REPLACE TABLE rates AS SELECT * FROM long_rates")
+    total, unmatched = con.execute("""
+        SELECT count(*), count(*) FILTER (WHERE r.sex IS NULL)
+        FROM raw_census c
+        LEFT JOIN rates r
+          ON c.sex = r.sex AND c.age >= r.age_start AND c.age < r.age_end
+    """).fetchone()
+    if unmatched == total:
+        raise SystemExit(f"CRITICAL: no simulant matched an age/sex bin of {rates_csv}; "
+                         "check the sex coding and age units.")
+    if unmatched:
+        log(f"WARNING: {unmatched:,} of {total:,} simulants fall outside the bins of "
+            f"{rates_csv.name} and are excluded from the registry draw.")
+    log(f"Age/sex weights: {rates_csv.relative_to(ROOT)} ({len(long_rates)} bins).")
 
 
 def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
@@ -136,13 +156,13 @@ def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
         WITH weighted_pop AS (
             SELECT
                 c.simulant_id,
-                (r.prevalence_pct / 100.0) AS prob_weight
+                r.weight
             FROM raw_census c
             JOIN rates r
               ON c.sex = r.sex
               AND c.age >= r.age_start
               AND c.age < r.age_end
-            WHERE (r.prevalence_pct / 100.0) > 0
+            WHERE r.weight > 0
         )
         SELECT simulant_id
         FROM weighted_pop
@@ -153,7 +173,7 @@ def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
                         CAST(simulant_id AS VARCHAR) || ':df2_weighted:{seed}'
                     )::DOUBLE + 1
                 ) / 18446744073709551617.0
-            ) / prob_weight
+            ) / weight
         LIMIT {n2_sample}
     """)
 
@@ -285,7 +305,8 @@ def write_deterministic_zip(zip_path: Path, release_dir: Path, arc_prefix: str) 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--version", default="0.3", help="dataset version to build (default: 0.3)")
+    parser.add_argument("--version", default="0.4",
+                        help="dataset version to build (default: 0.4, the FCDS-weighted rebuild)")
     parser.add_argument("--config", default=str(ROOT / "config.yaml"))
     parser.add_argument("--force", action="store_true",
                         help="overwrite an existing non-empty release directory")
@@ -328,7 +349,7 @@ def main() -> None:
     """).fetchone()[0]
 
     # --- 2. Weighted oversampling -----------------------------------------
-    load_rates(con)
+    load_rates(con, cfg)
     sample_oversized_cohorts(con, cfg)
 
     # --- 3. Stage parquet for pseudopeople --------------------------------
@@ -447,6 +468,7 @@ def main() -> None:
         },
         "registry_duplicate_rows": int(len(frames["registry.csv"]) - len(reg_ids)),
         "columns": ["simulant_id"] + RELEASE_COLUMNS,
+        "age_sex_weights": cfg["paths"]["age_sex_weights"],
     }
     for fname, frame in frames.items():
         manifest["files"][fname] = {

@@ -1,5 +1,11 @@
 # Florida Cancer Data System age- and sex-specific cancer incidence.
 #
+# USED AS THE REGISTRY SAMPLING WEIGHTS since 2026-09-24: pipeline/build_cohorts.py
+# reads this table (named in config.yaml, paths.age_sex_weights) and draws the
+# registry stand-in with probability proportional to `rate` within (sex, age bin).
+# Only relative weights matter. The GBD prevalence table it replaced is kept as
+# the comparator for the age/sex QA figure.
+#
 # PROVENANCE — NEEDS CONFIRMATION BEFORE PUBLICATION.
 # Transcribed from /ihme/homes/abie/notebook/2026/2026_02_02a_psp_fl_cancer_data.ipynb
 # (cell 6), where it is entered by hand and labelled "FCDS" in the comparison plot
