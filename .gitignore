@@ -8,3 +8,5 @@ data/
 # NOTE: _freeze/ and results/ are committed on purpose
 /.quarto/
 **/*.quarto_ipynb
+# candidate figure renders (regenerate with pipeline/draw_candidate_figures.py)
+figures/

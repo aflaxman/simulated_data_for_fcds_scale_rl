@@ -1,0 +1,26 @@
+{
+  "registry.csv": {
+    "rows": 5000006,
+    "rows_binned": 4824072,
+    "dob_unparseable": 119150,
+    "sex_not_male_female": 50069,
+    "age_outside_bins": 7933,
+    "reference_date": "2020-04-01"
+  },
+  "finder_500k.csv": {
+    "rows": 500001,
+    "rows_binned": 481798,
+    "dob_unparseable": 12054,
+    "sex_not_male_female": 4915,
+    "age_outside_bins": 1374,
+    "reference_date": "2020-04-01"
+  },
+  "finder_100k.csv": {
+    "rows": 100000,
+    "rows_binned": 96374,
+    "dob_unparseable": 2358,
+    "sex_not_male_female": 993,
+    "age_outside_bins": 297,
+    "reference_date": "2020-04-01"
+  }
+}

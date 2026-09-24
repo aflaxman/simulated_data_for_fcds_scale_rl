@@ -1,0 +1,5 @@
+pair,simulant_id,source,first_name,middle_initial,last_name,date_of_birth,sex,race_ethnicity,street_number,street_name,unit_number,city,state,zipcode,ssn,discrepancies
+1,1007_399543,registry,Wes,T,Stevenson,11/29/1960,Male,Black,5600,e 750 n,,cape coral,FL,33161,833-44-2343,first_name: nickname or different name; street_name: typo; ssn: blank
+1,1007_399543,finder_500k,Wesley,T,Stevenson,11/29/1960,Male,Black,5600,e 752 n,,cape coral,FL,33161,,first_name: nickname or different name; street_name: typo; ssn: blank
+2,1534_695157,registry,John,J,Bazo,12/10/1935,Male,White,3261,77 street,,lantana,FL,34221,677-68-7676,date_of_birth: month and day swapped; ssn: adjacent digits swapped
+2,1534_695157,finder_500k,John,J,Bazo,10/12/1935,Male,White,3261,77 street,,lantana,FL,34221,767-68-7676,date_of_birth: month and day swapped; ssn: adjacent digits swapped

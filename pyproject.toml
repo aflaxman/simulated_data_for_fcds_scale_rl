@@ -9,6 +9,7 @@ dependencies = [
     "pandas>=2.2,<3",  # pseudopeople 1.2.8 relies on pandas 2.x NumPy-backed strings; pandas 3's default string dtype breaks noise generation
     "pyarrow",
     "pyyaml",
+    "matplotlib>=3.10.9",
 ]
 
 [dependency-groups]
