@@ -1,26 +1,27 @@
 {
   "registry.csv": {
-    "rows": 5000006,
-    "rows_binned": 4824072,
-    "dob_unparseable": 119150,
-    "sex_not_male_female": 50069,
-    "age_outside_bins": 7933,
-    "reference_date": "2020-04-01"
+    "rows": 5000002,
+    "rows_binned": 5000002,
+    "rows_by_census_year": {
+      "2020": 1329059,
+      "2030": 1376079,
+      "2040": 2294864
+    },
+    "max_abs_share_deviation_pct": 0.0409941177829682,
+    "max_abs_share_deviation_stratum": "Male 45"
   },
   "finder_500k.csv": {
-    "rows": 500001,
-    "rows_binned": 481798,
-    "dob_unparseable": 12054,
-    "sex_not_male_female": 4915,
-    "age_outside_bins": 1374,
-    "reference_date": "2020-04-01"
+    "rows": 500000,
+    "rows_binned": 500000,
+    "rows_by_census_year": {
+      "2040": 500000
+    }
   },
   "finder_100k.csv": {
-    "rows": 100000,
-    "rows_binned": 96374,
-    "dob_unparseable": 2358,
-    "sex_not_male_female": 993,
-    "age_outside_bins": 297,
-    "reference_date": "2020-04-01"
+    "rows": 100001,
+    "rows_binned": 100001,
+    "rows_by_census_year": {
+      "2040": 100001
+    }
   }
 }

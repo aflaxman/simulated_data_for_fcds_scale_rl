@@ -272,7 +272,8 @@ def candidate_pyramid():
     pyramid(ax)
     fig.text(0.01, 0.975, "Who is in the simulated registry", fontsize=9.5, color=INK, weight="bold", va="top")
     fig.text(0.01, 0.93, "Share of the registry stand-in's records by age group and sex, stacked by race/ethnicity.\n"
-                         "Dots: the age and sex distribution of cases reported by the Florida Cancer Data System.\n"
+                         "Dots: the age and sex distribution of cases reported by the Florida Cancer Data System, "
+                         "which the registry was drawn to match.\n"
                          "At the ends: the three most common first names in each group, as they appear in the file.",
              fontsize=6.6, color=INK2, va="top", linespacing=1.4)
     return fig

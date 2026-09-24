@@ -68,7 +68,10 @@ cfg      = yaml.safe_load(open("config.yaml"))
 def n(x):
     return f"{int(x):,}"
 
-fl_simulants        = n(pop["fl_simulants"])
+fl_pool             = n(pop["fl_pool_last_seen"])       # every simulant ever recorded in Florida, once
+fl_finder_pool      = n(pop["fl_residents_finder_year"])
+finder_year         = pop["finder_year"]
+fl_simulants        = n(pop["fl_simulants"])            # 2020 census residents, for the official-count check
 registry_rows       = n(manifest["files"]["registry.csv"]["rows"])
 finder_500k_rows    = n(manifest["files"]["finder_500k.csv"]["rows"])
 finder_100k_rows    = n(manifest["files"]["finder_100k.csv"]["rows"])
@@ -88,7 +91,7 @@ assert manifest["overlaps"]["finder_finder_simulants"] == cfg["cohorts"]["overla
 
 - **Why created:** linkage software for cancer registries must be developed and tested on names, dates of birth, addresses and SSNs, which are exactly the identifiers that confidentiality rules prevent registries from releasing.
 
-- **Details:** a simulated population of Florida residents based on the 2020 population of `{python} fl_simulants` simulants, including a cancer registry of `{python} registry_rows` records where the age and sex structure matches the age- and sex-specific cancer incidence pattern of the Florida Cancer Data System, as well as researcher finder files of `{python} finder_500k_rows` and `{python} finder_100k_rows` records.
+- **Details:** a simulated Florida drawn from the `{python} fl_pool` simulants recorded as residents in the simulated 2020, 2030 or 2040 censuses, including a registry stand-in of `{python} registry_rows` records whose age and sex distribution is that of the cases reported by the Florida Cancer Data System, and researcher finder files of `{python} finder_500k_rows` and `{python} finder_100k_rows` records drawn from residents in `{python} finder_year`.
 
 - **Data linkage:** the larger finder file includes `{python} overlap_500k_target` simulants in the registry and the smaller finder file includes `{python} overlap_100k_target` simulants. There is no overlap between the finder files.
 

@@ -1,13 +1,13 @@
 {
-  "build_wall_seconds": 721.0,
-  "built_utc": "2026-09-24T16:47:24+00:00",
+  "build_wall_seconds": 678.1,
+  "built_utc": "2026-09-24T22:38:17+00:00",
   "cpu_count": 128,
   "dataset_version": "0.3",
   "duckdb": "1.5.4",
-  "hostname": "long-slurm-sarchive-p0010",
+  "hostname": "long-slurm-sarchive-p0108",
   "numpy": "2.4.6",
   "pandas": "2.3.3",
-  "peak_rss_mb": 20065.3,
+  "peak_rss_mb": 23640.4,
   "platform": "Linux-5.4.0-216-generic-x86_64-with-glibc2.31",
   "pseudopeople": "1.2.8",
   "python": "3.11.15"

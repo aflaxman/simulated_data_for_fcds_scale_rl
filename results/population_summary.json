@@ -1,6 +1,14 @@
 {
+  "finder_year": 2040,
   "fl_census_2020": 21538187,
+  "fl_pool_last_seen": 50518675,
+  "fl_residents_finder_year": 22959862,
   "fl_share_census": 0.9807340794283196,
   "fl_simulants": 21123234,
-  "pop_ssn_never": 0.049924362907687314
+  "fl_simulants_by_census": {
+    "2020": 21123234,
+    "2030": 22507492,
+    "2040": 22959862
+  },
+  "pop_ssn_never": 0.04182890782468063
 }
