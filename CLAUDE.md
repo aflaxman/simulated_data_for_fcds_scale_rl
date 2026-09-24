@@ -58,3 +58,44 @@ researcher-submitted cohort (the released 500k/100k files); the 5M file is the
 *registry stand-in*, never a finder file. The submission is the rendered `.docx`
 (styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
 as a supplement.
+
+## Voice (all prose: paper, abstract, README, drafts for the author)
+The full calibrated style prompt is `STYLE.md`; read it before drafting or revising more
+than a sentence. It is measured on the author's 2015 monograph, so it gives numbers to
+hit, not adjectives. The essentials:
+- **First person singular owns every choice** ("I used," "I prefer," "which I call").
+  This is a sole-author paper, so "we" is only for writer-and-reader on the page or for
+  actual collaborators. Never "it was decided" or "the literature suggests."
+- **Pragmatist, not purist.** State the principled objection fairly and in full, then say
+  what was actually done and why the compromise is acceptable ("a method of
+  convenience," "something is better than nothing," "just complicated enough").
+- **Drawback beside the claim, in the same sentence.** "X has the best balance of A and
+  B, but cannot cope with C." Say "crude" or "not very good" plainly. Never sell: no
+  "novel," "robust," "powerful," "comprehensive," "state-of-the-art"; no "importantly,"
+  "crucially," "genuinely," "clearly."
+- **Hedge with frequency, not confidence:** "often," "usually," "in practice." Not
+  "perhaps," "arguably," "it could be argued." Uncertainty is a fact about the data.
+- **Sentences are long but unpadded** (median ~23 words), built from subordinate clauses
+  that each add a qualification, tradeoff, or pointer. No choppy "impact" sentences.
+  Commas and parentheses carry asides; semicolons rare; dashes almost never. About one
+  sentence in ten opens with "This ..." pointing at the previous idea. Argument lives in
+  paragraphs; bullets only enumerate models, steps, or properties.
+- **Order of exposition:** plain-language framing before any notation; announce the plan,
+  then follow it; a real motivating example with actual numbers and units before general
+  theory; simplest model first, and show the failure (a figure, a number) before the
+  fix; equation, every symbol defined in words at once, then "the intuition is simple:".
+  Signpost with exact forward and backward section references.
+- **Terminology:** coin names and say so ("which I call ..."); jargon in quotes on first
+  use only; flag misleading names. Impersonal constructions for the machinery ("can be
+  written as"), first person for the choices.
+- **At most** one dry line per section and one anecdote per piece, and only if it does
+  explanatory work.
+- **Real numbers only,** via the inline `{python}` convention above. If a value is not
+  known, say so rather than invent one.
+- **DRP register dial.** The journal structure above wins over the monograph scaffolding:
+  no "Summary and future work" header; Conclusions carries the two-sentence verdict with
+  its tradeoff, then open directions each given an honest weight ("promising," "worthy of
+  additional attention"). Limitations are collected in Discussion (§4.2) because the
+  journal expects it, but each drawback is still named beside the claim where it first
+  arises, not deferred to that section. The structured abstract and Key Features follow
+  the journal's format, not the voice.

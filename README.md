@@ -84,6 +84,8 @@ make lint    # uv run ruff check .
   the project renders even without the Python environment or data
 - `references.bib`, `ijpds.csl` — bibliography and IJPDS (Vancouver) citation style
 - `reference-doc.docx` — Word styling for the submission
+- `STYLE.md` — the author's voice, as a calibrated style prompt for drafting and
+  revising prose (summarised in `CLAUDE.md`)
 
 Heavy data generation (the full ~22M-person Florida population) belongs in a
 separate pipeline tier run manually on the cluster — see `CLAUDE.md` for the
