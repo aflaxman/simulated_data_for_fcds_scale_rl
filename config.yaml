@@ -17,14 +17,13 @@ paths:
   scratch: /ihme/homes/abie/notebook/2026/data/temp_psp_processing
   # Small committed summaries the paper reads.
   results: results
-  # Age- and sex-specific rates that weight the registry draw (only relative
-  # weights matter). FCDS cancer incidence since 2026-09-24 (the author's call:
-  # the registry's own age/sex pattern is the more relevant target); the
-  # 2026-08-12 build used reference/gbd_neoplasm_prevalence_florida.csv, which
-  # is kept as the comparator for the age/sex QA figure. The FCDS-weighted
-  # rebuild keeps the v0.3 number (nothing was released) and is pending;
-  # results/ describe the 2026-08-12 build until it runs (build_cohorts.py --force).
-  age_sex_weights: reference/fcds_incidence_by_age_sex.csv
+  # The age/sex distribution the registry stand-in is drawn to match exactly,
+  # stratum by stratum: the `count` column of this table, as shares. Since
+  # 2026-09-24 that is the distribution of cases reported by FCDS (the author's
+  # call: the registry's own age/sex pattern is the target). The 2026-08-12
+  # build instead *weighted* a random draw by GBD prevalence
+  # (reference/gbd_neoplasm_prevalence_florida.csv, kept as a QA comparator).
+  age_sex_target: reference/fcds_incidence_by_age_sex.csv
 
 seeds:
   # Salted into md5_number_lower() for DuckDB's weighted sampling.
@@ -36,16 +35,23 @@ seeds:
   postprocess: 999
 
 cohorts:
-  # State and census year the Florida extract is filtered to.
+  # State the extract is filtered to, and which census records feed each file.
+  # The registry stand-in is drawn from the *last-seen pool*: every simulant ever
+  # recorded in Florida in one of these censuses, once, at their last appearance,
+  # so it holds people who have since died or left the state, as a registry does
+  # (decision 2026-09-24, replacing living 2020 residents only). The finder files
+  # are drawn from residents in `finder_year`.
   state: FL
-  year: 2020
-  # Cohorts are drawn oversize because pseudopeople's omission noise drops rows;
-  # exact targets are enforced afterwards by stratified trimming
-  # (src/simulated_data_for_fcds_scale_rl/downsample.py). The v0.2 build trimmed
-  # unstratified and overshot the overlap targets by roughly a third; the v0.3
-  # build (pipeline/build_cohorts.py, run 2026-08-12) hits every target exactly
-  # and passed the run-twice checksum identity test.
-  oversample: 1.5
+  census_years: [2020, 2030, 2040]
+  registry_pool: last_seen
+  finder_year: 2040
+  # Cohorts are drawn oversize because pseudopeople's row noise drops about
+  # 1.5% of rows (do_not_respond 0.0145 by default); exact targets are enforced
+  # afterwards by stratified trimming (src/.../downsample.py). The v0.2 build
+  # trimmed unstratified and overshot the overlap targets by roughly a third.
+  # 1.15 leaves margin over the omission rate while keeping the trim small, so
+  # the registry's exact age/sex allocation survives it to within rounding.
+  oversample: 1.15
   registry_target: 5_000_000
   finder_500k_target: 500_000
   finder_100k_target: 100_000

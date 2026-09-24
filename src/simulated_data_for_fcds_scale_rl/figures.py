@@ -77,7 +77,7 @@ def load_top_names(file: str = "registry.csv") -> pd.DataFrame:
 
 def load_fcds_shares() -> pd.DataFrame:
     """FCDS reported cases by age group and sex, as shares of all reported cases."""
-    f = pd.read_csv(ROOT / CFG["paths"]["age_sex_weights"], comment="#")
+    f = pd.read_csv(ROOT / CFG["paths"]["age_sex_target"], comment="#")
     f["sex"] = f["sex"].str.capitalize()
     f["share"] = f["count"] / f["count"].sum() * 100
     return f[["sex", "age_start", "share"]]

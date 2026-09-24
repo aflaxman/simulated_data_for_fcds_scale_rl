@@ -30,7 +30,8 @@ Quarto project, analysis in Python.
    small bundled pseudopeople *sample* population (~10k simulants) and reads
    precomputed summaries from `results/`. Keep this fast.
 2. **Pipeline tier (heavy, manual, for srun/slogin):** `pipeline/` checks the US
-   population, filters to Florida (~22M), adds noise, writes Parquet to scratch,
+   population, filters to Florida across the simulated 2020, 2030 and 2040 censuses (~50M person-records; the
+   registry is drawn from each simulant's last appearance, the finder files from 2040 residents), adds noise, writes Parquet to scratch,
    and writes *small* summaries (counts, overlaps, error rates, QA) into
    `results/`. Never inline this in the paper; never run it on a login/dev node.
 

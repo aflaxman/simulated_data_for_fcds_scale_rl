@@ -1,19 +1,27 @@
 """Build the released cohorts: registry stand-in plus two finder files.
 
-Heavy pipeline tier — the v0.3 rebuild entry point (run-list items 2-4),
-ported from the working notebook
-``2026_02_11b_duckdb_psp_reproducible_randomness.ipynb`` with the v0.3 fixes:
+Heavy pipeline tier — the v0.3 build entry point, ported from the working
+notebook ``2026_02_11b_duckdb_psp_reproducible_randomness.ipynb`` and
+redesigned 2026-09-24:
 
+* the registry stand-in is drawn from the *last-seen pool*: every simulant ever
+  recorded in Florida in the configured censuses (2020, 2030, 2040), once, at
+  their last appearance, so like a real registry it holds people who have
+  since died or left the state; the finder files are residents of
+  ``cohorts.finder_year`` (2040);
+* the registry's age/sex distribution is that of the cases FCDS reports
+  (``paths.age_sex_target``, the table's ``count`` column as shares): each
+  age/sex stratum contributes an exact quota, drawn by keyed hash within the
+  stratum, instead of the weighted random draw of the 2026-08-12 build, which
+  compressed the weight ratios at a high sampling fraction;
 * the exact-target trim is ``stratified_trim`` (``src/``), which hits every
   design target exactly and makes the finder files disjoint — v0.2's
   unstratified trim overshot the overlap targets by roughly a third;
 * ``race_ethnicity`` is carried into the released schema;
-* the age/sex weights of the registry draw are read from the reference table
-  named in ``config.yaml`` (``paths.age_sex_weights``) instead of being
-  hard-coded — FCDS cancer incidence since 2026-09-24; the 2026-08-12 build
-  used GBD prevalence (same v0.3 number: nothing was released in between);
 * checksums (MD5 and SHA-256), a release manifest, realised error rates, a
-  population summary, and environment info are written to ``results/``.
+  population summary, the age/sex/race composition and top first names of
+  each file (from the source's true ages), and environment info are written
+  to ``results/``.
 
 Every stochastic step is a pure function of the seeds in ``config.yaml``; run
 the script twice and compare checksums for the run-twice identity test.
@@ -50,7 +58,7 @@ import pandas as pd
 import pseudopeople as psp
 import yaml
 
-from simulated_data_for_fcds_scale_rl.age_sex_weights import load_age_sex_weights
+from simulated_data_for_fcds_scale_rl.age_sex_weights import allocate_by_share, load_age_sex_targets
 from simulated_data_for_fcds_scale_rl.downsample import stratified_trim
 from simulated_data_for_fcds_scale_rl.ssn_noise import apply_targeted_ssn_noise
 
@@ -87,98 +95,143 @@ def find_parquet_source(root: Path, possible_names: list[str]) -> str:
 
 
 def create_source_views(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
-    """Deduplicated Florida census view plus the raw SSN view (read-only)."""
+    """Florida census rows for the configured census years (one per simulant per year) and the raw SSN view."""
     root_path = Path(cfg["paths"]["psp_source"])
     census_glob = find_parquet_source(root_path, ["decennial_census", "decennial_census_observer"])
     ssn_glob = find_parquet_source(root_path, ["social_security", "social_security_observer"])
     state = cfg["cohorts"]["state"]
-    year = cfg["cohorts"]["year"]
-
+    years = ", ".join(str(int(y)) for y in cfg["cohorts"]["census_years"])
     con.execute(f"""
-        CREATE OR REPLACE VIEW raw_census AS
+        CREATE OR REPLACE VIEW census_fl AS
         SELECT * FROM read_parquet('{census_glob}')
-        WHERE state = '{state}' AND year = {year}
-        QUALIFY row_number() OVER (PARTITION BY simulant_id ORDER BY year DESC) = 1
+        WHERE state = '{state}' AND year IN ({years})
+        QUALIFY row_number() OVER (PARTITION BY simulant_id, year ORDER BY age) = 1
     """)
     con.execute(f"CREATE OR REPLACE VIEW raw_ssn AS SELECT simulant_id, ssn FROM read_parquet('{ssn_glob}')")
 
-    fl_count = con.execute("SELECT count(*) FROM raw_census").fetchone()[0]
-    if fl_count == 0:
-        raise SystemExit(f"CRITICAL: no records found for state='{state}'. Check paths.psp_source.")
-    log(f"Florida extract: {fl_count:,} simulants after deduplication.")
 
+def build_pools(con: duckdb.DuckDBPyConnection, cfg: dict) -> dict:
+    """The two sampling pools, as small id tables derived from ``census_fl`` in one scan.
 
-def load_rates(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
-    """Age/sex weights for the registry draw, from the table named in config.yaml.
-
-    Only relative weights matter (see ``age_sex_weights.py``). Requires the
-    ``raw_census`` view, because it checks that every Florida simulant falls in
-    exactly one (sex, age) bin: a total miss means the sex coding or age units
-    disagree; a partial miss is logged, since those simulants silently drop out
-    of the registry draw.
+    ``pool_registry`` is the last-seen pool: every simulant ever recorded in
+    Florida, once, at their latest census, with the columns the stratified draw
+    and the QA need. ``pool_finder`` is the residents of ``finder_year``. Staging
+    later re-reads the full rows from parquet for the chosen ids. Returns the
+    pool sizes and the per-census counts.
     """
-    rates_csv = ROOT / cfg["paths"]["age_sex_weights"]
-    long_rates = load_age_sex_weights(rates_csv)
-    con.register("long_rates", long_rates)
-    con.execute("CREATE OR REPLACE TABLE rates AS SELECT * FROM long_rates")
-    total, unmatched = con.execute("""
-        SELECT count(*), count(*) FILTER (WHERE r.sex IS NULL)
-        FROM raw_census c
-        LEFT JOIN rates r
-          ON c.sex = r.sex AND c.age >= r.age_start AND c.age < r.age_end
-    """).fetchone()
-    if unmatched == total:
-        raise SystemExit(f"CRITICAL: no simulant matched an age/sex bin of {rates_csv}; "
-                         "check the sex coding and age units.")
-    if unmatched:
-        log(f"WARNING: {unmatched:,} of {total:,} simulants fall outside the bins of "
-            f"{rates_csv.name} and are excluded from the registry draw.")
-    log(f"Age/sex weights: {rates_csv.relative_to(ROOT)} ({len(long_rates)} bins).")
+    c = cfg["cohorts"]
+    if c.get("registry_pool", "last_seen") != "last_seen":
+        raise SystemExit("only cohorts.registry_pool: last_seen is implemented")
+    finder_year = int(c["finder_year"])
+    log("Reading the Florida census rows (all configured years)...")
+    con.execute("""
+        CREATE OR REPLACE TABLE census_small AS
+        SELECT simulant_id, year, sex, age, race_ethnicity FROM census_fl
+    """)
+    con.execute("""
+        CREATE OR REPLACE TABLE pool_registry AS
+        SELECT * FROM census_small
+        QUALIFY row_number() OVER (PARTITION BY simulant_id ORDER BY year DESC) = 1
+    """)
+    con.execute(f"CREATE OR REPLACE TABLE pool_finder AS SELECT * FROM census_small WHERE year = {finder_year}")
+    sizes = {
+        "pool_registry": con.execute("SELECT count(*) FROM pool_registry").fetchone()[0],
+        "pool_finder": con.execute("SELECT count(*) FROM pool_finder").fetchone()[0],
+        "by_year": {int(y): int(n) for y, n in
+                    con.execute("SELECT year, count(*) FROM census_small GROUP BY year ORDER BY year").fetchall()},
+    }
+    con.execute("DROP TABLE census_small")
+    if sizes["pool_registry"] == 0 or sizes["pool_finder"] == 0:
+        raise SystemExit(f"CRITICAL: empty pool for state='{c['state']}'; check paths.psp_source and cohorts.census_years.")
+    log(f"Florida: {sizes['pool_registry']:,} simulants ever recorded (last-seen pool); "
+        f"{sizes['pool_finder']:,} residents in {finder_year}; per census: "
+        + ", ".join(f"{y}: {n:,}" for y, n in sizes["by_year"].items()))
+    return sizes
+
+
+def load_targets(con: duckdb.DuckDBPyConnection, cfg: dict) -> pd.DataFrame:
+    """Per-stratum registry quotas: target age/sex shares × the oversampled registry target, capped by the pool.
+
+    Maps every ``pool_registry`` simulant to its (sex, age bin) stratum in
+    ``strata`` and registers the quota table as ``quotas``. Simulants whose sex
+    is not Male/Female or whose age falls outside the bins cannot enter the
+    registry and are counted in the log. Returns the quota table.
+    """
+    targets = load_age_sex_targets(ROOT / cfg["paths"]["age_sex_target"])
+    con.register("bins", targets)
+    con.execute("""
+        CREATE OR REPLACE TABLE strata AS
+        SELECT p.simulant_id, p.year, p.sex, b.age_start
+        FROM pool_registry p
+        JOIN bins b ON p.sex = b.sex AND p.age >= b.age_start AND p.age < b.age_end
+    """)
+    n_pool, n_strata = con.execute(
+        "SELECT (SELECT count(*) FROM pool_registry), (SELECT count(*) FROM strata)").fetchone()
+    if n_strata == 0:
+        raise SystemExit("CRITICAL: no simulant matched an age/sex stratum; check the sex coding and age units.")
+    if n_strata < n_pool:
+        log(f"{n_pool - n_strata:,} of {n_pool:,} pool simulants have no age/sex stratum and cannot enter the registry.")
+    avail = con.execute("SELECT sex, age_start, count(*) AS available FROM strata GROUP BY ALL").df()
+    q = targets.merge(avail, on=["sex", "age_start"], how="left").fillna({"available": 0})
+    q["available"] = q["available"].astype(int)
+    idx = pd.MultiIndex.from_frame(q[["sex", "age_start"]])
+    n_sample = int(cfg["cohorts"]["registry_target"] * cfg["cohorts"]["oversample"])
+    quota = allocate_by_share(pd.Series(q["share"].to_numpy(), index=idx), n_sample,
+                              pd.Series(q["available"].to_numpy(), index=idx))
+    q["quota"] = quota.to_numpy()
+    q["take"] = q["quota"] / q["available"].where(q["available"] > 0, 1)
+    capped = q[q["quota"] >= q["available"]]
+    if len(capped):
+        log("WARNING: strata capped at their pool size, so the age/sex target is not met there: "
+            + ", ".join(f"{r.sex} {r.age_start}" for r in capped.itertuples()))
+    top = q.loc[q["take"].idxmax()]
+    log(f"Registry draw: {n_sample:,} simulants across {len(q)} age/sex strata; the largest share of any "
+        f"stratum taken is {top['take']:.2f} ({top['sex']} {top['age_start']}).")
+    con.register("quotas", q[["sex", "age_start", "quota"]])
+    return q
 
 
 def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
-    """Oversampled cohort ID tables via keyed-hash Efraimidis-Spirakis draws.
+    """Oversampled cohort ID tables: the registry by exact stratum quotas, the finders by keyed-hash draws.
 
     We intentionally avoid DuckDB's built-in random() so results are
     reproducible across threads and runs: every draw is a pure function of
-    (simulant_id, salt, seed) via md5_number_lower(). Salt strings are kept
-    identical to the v0.2 notebook so the draws are comparable.
+    (simulant_id, salt, seed) via md5_number_lower(). Within each age/sex
+    stratum the registry takes the ``quota`` simulants with the smallest hash.
+    Finder overlap members are registry members present in the finder year
+    (their last-seen record *is* that year's record); finder filler comes from
+    the finder-year residents outside the registry cohort. Each id table
+    carries the census ``year`` of the record to stage.
     """
     c = cfg["cohorts"]
     seed = cfg["seeds"]["duckdb_sample"]
     oversample = c["oversample"]
-    n2_sample = int(c["registry_target"] * oversample)
+    finder_year = int(c["finder_year"])
     n1a_sample = int(c["finder_500k_target"] * oversample)
     n1b_sample = int(c["finder_100k_target"] * oversample)
     overlap_a_sample = int(c["overlap_500k_target"] * oversample)
     overlap_b_sample = int(c["overlap_100k_target"] * oversample)
 
-    log(f"Sampling oversized cohorts ({oversample}x)...")
+    log(f"Sampling oversized cohorts ({oversample}x): stratified registry, then finders...")
     con.execute(f"""
         CREATE OR REPLACE TABLE df_2_ids AS
-        WITH weighted_pop AS (
-            SELECT
-                c.simulant_id,
-                r.weight
-            FROM raw_census c
-            JOIN rates r
-              ON c.sex = r.sex
-              AND c.age >= r.age_start
-              AND c.age < r.age_end
-            WHERE r.weight > 0
-        )
-        SELECT simulant_id
-        FROM weighted_pop
-        ORDER BY
-            -ln(
-                (
-                    md5_number_lower(
-                        CAST(simulant_id AS VARCHAR) || ':df2_weighted:{seed}'
-                    )::DOUBLE + 1
-                ) / 18446744073709551617.0
-            ) / weight
-        LIMIT {n2_sample}
+        SELECT simulant_id, year FROM (
+            SELECT s.simulant_id, s.year, s.sex, s.age_start,
+                   row_number() OVER (
+                       PARTITION BY s.sex, s.age_start
+                       ORDER BY md5_number_lower(CAST(s.simulant_id AS VARCHAR) || ':df2_stratified:{seed}')
+                   ) AS rn
+            FROM strata s
+        ) x
+        JOIN quotas q ON x.sex = q.sex AND x.age_start = q.age_start
+        WHERE x.rn <= q.quota
     """)
+    n_reg, n_reg_fy = con.execute(
+        f"SELECT count(*), count(*) FILTER (WHERE year = {finder_year}) FROM df_2_ids").fetchone()
+    log(f"Registry cohort: {n_reg:,} simulants, {n_reg_fy:,} of them residents in {finder_year} "
+        f"(the overlap candidates).")
+    if n_reg_fy < overlap_a_sample + overlap_b_sample:
+        raise SystemExit("CRITICAL: too few registry members in the finder year to supply the overlaps.")
 
     for table, overlap_salt, rest_salt, overlap_n, total_n in [
         ("df_1a_ids", "df1a_overlap", "df1a_rest", overlap_a_sample, n1a_sample),
@@ -187,17 +240,18 @@ def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
         con.execute(f"""
             CREATE OR REPLACE TABLE {table} AS
             SELECT * FROM (
-                SELECT simulant_id
+                SELECT simulant_id, year
                 FROM df_2_ids
+                WHERE year = {finder_year}
                 ORDER BY md5_number_lower(CAST(simulant_id AS VARCHAR) || ':{overlap_salt}:{seed}')
                 LIMIT {overlap_n}
             )
             UNION ALL
             SELECT * FROM (
-                SELECT c.simulant_id
-                FROM raw_census c
-                WHERE c.simulant_id NOT IN (SELECT simulant_id FROM df_2_ids)
-                ORDER BY md5_number_lower(CAST(c.simulant_id AS VARCHAR) || ':{rest_salt}:{seed}')
+                SELECT p.simulant_id, p.year
+                FROM pool_finder p
+                WHERE p.simulant_id NOT IN (SELECT simulant_id FROM df_2_ids)
+                ORDER BY md5_number_lower(CAST(p.simulant_id AS VARCHAR) || ':{rest_salt}:{seed}')
                 LIMIT {total_n - overlap_n}
             )
         """)
@@ -220,9 +274,9 @@ def stage_for_psp(con: duckdb.DuckDBPyConnection, table_name: str, dataset_name:
     log(f"Staging {dataset_name} to {target_dir}...")
     con.execute(f"""
         COPY (
-            SELECT c.* FROM raw_census c
-            JOIN {table_name} t ON c.simulant_id = t.simulant_id
-            ORDER BY c.simulant_id
+            SELECT c.* FROM census_fl c
+            JOIN {table_name} t ON c.simulant_id = t.simulant_id AND c.year = t.year
+            ORDER BY c.simulant_id, c.year
         ) TO '{target_dir}/decennial_census_observer.parquet' (FORMAT PARQUET)
     """)
     return str(root_out)
@@ -274,6 +328,72 @@ def attach_noised_ssn(con: duckdb.DuckDBPyConnection, df_census: pd.DataFrame,
     if "ssn" in df_census.columns:
         df_census = df_census.drop(columns=["ssn"])
     return df_census.merge(ssn_df, on="simulant_id", how="left"), stats
+
+
+def age_label(start: int, end: int) -> str:
+    return f"{start}+" if end >= 200 else f"{start}\u2013{end - 1}"
+
+
+def write_age_sex_qa(con: duckdb.DuckDBPyConnection, frames: dict, targets: pd.DataFrame,
+                     results_dir: Path) -> dict:
+    """Composition of each released file by sex, age bin and race/ethnicity, and its top first names.
+
+    Sex, age and race/ethnicity are the source's (true) values at the record's
+    census year, joined back by simulant_id, so the binning is exact; first
+    names are as released (noise included). Writes ``registry_age_sex.csv``,
+    ``registry_top_names.csv`` and ``age_sex_qa.json`` (rows by census year and,
+    for the registry, the largest deviation of a realised stratum share from
+    its target, in percentage points). Returns the QA dict.
+    """
+    con.register("bins_qa", targets[["sex", "age_start", "age_end", "share"]])
+    counts, names, qa = [], [], {}
+    for fname, frame in frames.items():
+        pool = "pool_registry" if fname == "registry.csv" else "pool_finder"
+        con.register("released", frame.reset_index()[["simulant_id", "first_name"]])
+        con.execute(f"""
+            CREATE OR REPLACE TABLE qa_rows AS
+            SELECT r.simulant_id, r.first_name, p.sex, p.year, coalesce(p.race_ethnicity, 'Unknown') AS race_ethnicity,
+                   b.age_start, b.age_end
+            FROM released r
+            JOIN {pool} p ON r.simulant_id = p.simulant_id
+            LEFT JOIN bins_qa b ON p.sex = b.sex AND p.age >= b.age_start AND p.age < b.age_end
+        """)
+        cnt = con.execute("""
+            SELECT sex, age_start, age_end, race_ethnicity, count(*) AS count FROM qa_rows
+            WHERE age_start IS NOT NULL GROUP BY ALL ORDER BY sex, age_start, race_ethnicity
+        """).df()
+        cnt["age_group"] = [age_label(a, b) for a, b in zip(cnt["age_start"], cnt["age_end"])]
+        cnt.insert(0, "file", fname)
+        counts.append(cnt[["file", "sex", "age_group", "age_start", "race_ethnicity", "count"]])
+        top = con.execute("""
+            SELECT * FROM (
+                SELECT sex, age_start, age_end, first_name, count(*) AS count FROM qa_rows
+                WHERE age_start IS NOT NULL AND first_name IS NOT NULL AND first_name <> ''
+                GROUP BY sex, age_start, age_end, first_name
+            )
+            QUALIFY row_number() OVER (PARTITION BY sex, age_start ORDER BY count DESC, first_name) <= 3
+            ORDER BY sex, age_start, count DESC
+        """).df()
+        top["age_group"] = [age_label(a, b) for a, b in zip(top["age_start"], top["age_end"])]
+        top["rank"] = top.groupby(["sex", "age_start"]).cumcount() + 1
+        top.insert(0, "file", fname)
+        names.append(top[["file", "sex", "age_group", "age_start", "first_name", "count", "rank"]])
+        by_year = dict(con.execute("SELECT year, count(*) FROM qa_rows GROUP BY year ORDER BY year").fetchall())
+        entry = {"rows": int(len(frame)), "rows_binned": int(cnt["count"].sum()),
+                 "rows_by_census_year": {str(int(y)): int(n) for y, n in by_year.items()}}
+        if fname == "registry.csv":
+            realised = cnt.groupby(["sex", "age_start"])["count"].sum()
+            realised = realised / realised.sum()
+            tgt = targets.set_index(["sex", "age_start"])["share"]
+            dev = (realised.reindex(tgt.index).fillna(0) - tgt) * 100
+            entry["max_abs_share_deviation_pct"] = float(dev.abs().max())
+            entry["max_abs_share_deviation_stratum"] = " ".join(str(x) for x in dev.abs().idxmax())
+        qa[fname] = entry
+        con.unregister("released")
+    pd.concat(counts).to_csv(results_dir / "registry_age_sex.csv", index=False)
+    pd.concat(names).to_csv(results_dir / "registry_top_names.csv", index=False)
+    (results_dir / "age_sex_qa.json").write_text(json.dumps(qa, indent=2) + "\n")
+    return qa
 
 
 def prep_for_save(df: pd.DataFrame) -> pd.DataFrame:
@@ -342,18 +462,18 @@ def main() -> None:
     log(f"Building {release_name} -> {release_dir}")
     con = duckdb.connect()
 
-    # --- 1. Source views, population summary ------------------------------
+    # --- 1. Source views, pools, population summary ------------------------
     create_source_views(con, cfg)
-    fl_simulants = con.execute("SELECT count(*) FROM raw_census").fetchone()[0]
-    log("Measuring population-level SSN coverage (pop_ssn_never)...")
+    pools = build_pools(con, cfg)
+    log("Measuring SSN coverage of the registry pool (pop_ssn_never)...")
     pop_ssn_never = con.execute("""
-        SELECT 1.0 - count(DISTINCT s.simulant_id)::DOUBLE / count(DISTINCT c.simulant_id)
-        FROM raw_census c
-        LEFT JOIN raw_ssn s ON c.simulant_id = s.simulant_id
+        SELECT 1.0 - count(DISTINCT s.simulant_id)::DOUBLE / count(DISTINCT p.simulant_id)
+        FROM pool_registry p
+        LEFT JOIN raw_ssn s ON p.simulant_id = s.simulant_id
     """).fetchone()[0]
 
-    # --- 2. Weighted oversampling -----------------------------------------
-    load_rates(con, cfg)
+    # --- 2. Stratified oversampling ------------------------------------------
+    quota_table = load_targets(con, cfg)
     sample_oversized_cohorts(con, cfg)
 
     # --- 3. Stage parquet for pseudopeople --------------------------------
@@ -368,15 +488,15 @@ def main() -> None:
     # --- 4. pseudopeople noise --------------------------------------------
     log("Running pseudopeople generation (registry)...")
     df_2 = psp.generate_decennial_census(
-        source=path_2, seed=seeds["psp_registry"],
+        source=path_2, seed=seeds["psp_registry"], year=None,
         config=noise_config(noise["registry"]["address_missing"]))
     log("Running pseudopeople generation (finder_500k)...")
     df_1a = psp.generate_decennial_census(
-        source=path_1a, seed=seeds["psp_finder"],
+        source=path_1a, seed=seeds["psp_finder"], year=None,
         config=noise_config(noise["finder"]["address_missing"]))
     log("Running pseudopeople generation (finder_100k)...")
     df_1b = psp.generate_decennial_census(
-        source=path_1b, seed=seeds["psp_finder"],
+        source=path_1b, seed=seeds["psp_finder"], year=None,
         config=noise_config(noise["finder"]["address_missing"]))
 
     # --- 5. Stratified trim to exact targets (the v0.3 fix) ---------------
@@ -472,7 +592,10 @@ def main() -> None:
         },
         "registry_duplicate_rows": int(len(frames["registry.csv"]) - len(reg_ids)),
         "columns": ["simulant_id"] + RELEASE_COLUMNS,
-        "age_sex_weights": cfg["paths"]["age_sex_weights"],
+        "age_sex_target": cfg["paths"]["age_sex_target"],
+        "registry_pool": "last_seen",
+        "census_years": [int(y) for y in c["census_years"]],
+        "finder_year": int(c["finder_year"]),
     }
     for fname, frame in frames.items():
         manifest["files"][fname] = {
@@ -495,12 +618,23 @@ def main() -> None:
             **{f"{field}_missing": float(frame[field].isna().mean()) for field in ADDRESS_FIELDS},
         }
 
+    fl_2020 = int(pools["by_year"].get(2020, 0))
     population_summary = {
-        "fl_simulants": int(fl_simulants),
+        "fl_pool_last_seen": int(pools["pool_registry"]),
+        "fl_residents_finder_year": int(pools["pool_finder"]),
+        "finder_year": int(c["finder_year"]),
+        "fl_simulants_by_census": {str(y): int(n) for y, n in pools["by_year"].items()},
+        "fl_simulants": fl_2020,  # 2020 residents, kept for the official-count QA below
         "fl_census_2020": FL_CENSUS_2020,
-        "fl_share_census": fl_simulants / FL_CENSUS_2020,
-        "pop_ssn_never": float(pop_ssn_never),
+        "fl_share_census": fl_2020 / FL_CENSUS_2020,
+        "pop_ssn_never": float(pop_ssn_never),  # share of the last-seen registry pool never holding an SSN
     }
+    log("Writing age/sex/race composition and top names from the source's true ages...")
+    age_sex_qa = write_age_sex_qa(con, frames, quota_table, results_dir)
+    reg_qa = age_sex_qa["registry.csv"]
+    log(f"  registry age/sex shares vs target: max deviation {reg_qa['max_abs_share_deviation_pct']:.3f} pp "
+        f"({reg_qa['max_abs_share_deviation_stratum']}); rows by census year "
+        + ", ".join(f"{y}: {n:,}" for y, n in reg_qa["rows_by_census_year"].items()))
 
     environment = {
         "built_utc": manifest["created_utc"],

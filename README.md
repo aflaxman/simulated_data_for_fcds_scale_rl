@@ -87,6 +87,6 @@ make lint    # uv run ruff check .
 - `STYLE.md` — the author's voice, as a calibrated style prompt for drafting and
   revising prose (summarised in `CLAUDE.md`)
 
-Heavy data generation (the full ~22M-person Florida population) belongs in a
+Heavy data generation (the Florida rows of the simulated 2020–2040 censuses, ~50M person-records) belongs in a
 separate pipeline tier run manually on the cluster — see `CLAUDE.md` for the
 architecture and conventions.

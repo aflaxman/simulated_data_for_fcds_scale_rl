@@ -11,7 +11,7 @@ CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
 
 
 def test_configured_weights_table_loads_and_covers_all_ages():
-    w = load_age_sex_weights(ROOT / CFG["paths"]["age_sex_weights"])
+    w = load_age_sex_weights(ROOT / CFG["paths"]["age_sex_target"])
     assert list(w.columns) == ["age_start", "age_end", "sex", "weight"]
     assert set(w["sex"]) == {"Female", "Male"}
     for _, bins in w.groupby("sex"):
@@ -21,7 +21,7 @@ def test_configured_weights_table_loads_and_covers_all_ages():
 
 
 def test_fcds_table_is_the_configured_source_and_has_18_bins_per_sex():
-    assert CFG["paths"]["age_sex_weights"] == "reference/fcds_incidence_by_age_sex.csv"
+    assert CFG["paths"]["age_sex_target"] == "reference/fcds_incidence_by_age_sex.csv"
     w = load_age_sex_weights(ROOT / "reference" / "fcds_incidence_by_age_sex.csv")
     assert w.groupby("sex").size().to_dict() == {"Female": 18, "Male": 18}
     # Rates per 100,000 as committed; a sanity anchor against a silently rescaled file.
@@ -65,3 +65,31 @@ def test_unknown_sex_and_missing_weight_column_are_rejected(tmp_path):
         load_age_sex_weights(_write(tmp_path, [dict(age_start=0, age_end=999, sex="Other", rate=1.0)]))
     with pytest.raises(ValueError, match="weight column"):
         load_age_sex_weights(_write(tmp_path, [dict(age_start=0, age_end=999, sex="Male", count=3)]))
+
+
+def test_targets_are_shares_of_fcds_counts():
+    from simulated_data_for_fcds_scale_rl.age_sex_weights import load_age_sex_targets
+    t = load_age_sex_targets(ROOT / CFG["paths"]["age_sex_target"])
+    assert list(t.columns) == ["age_start", "age_end", "sex", "share"]
+    assert abs(t["share"].sum() - 1) < 1e-9
+    men65 = t[(t.sex == "Male") & (t.age_start >= 65)]["share"].sum()
+    assert 0.33 < men65 < 0.35  # FCDS: about a third of cases are men 65+
+
+
+def test_allocate_by_share_exact_sum_and_proportions():
+    from simulated_data_for_fcds_scale_rl.age_sex_weights import allocate_by_share
+    shares = pd.Series({"a": 0.5, "b": 0.3, "c": 0.2})
+    q = allocate_by_share(shares, 1001)
+    assert int(q.sum()) == 1001
+    assert q.to_dict() == {"a": 501, "b": 300, "c": 200}
+
+
+def test_allocate_by_share_caps_and_redistributes():
+    from simulated_data_for_fcds_scale_rl.age_sex_weights import allocate_by_share
+    shares = pd.Series({"a": 0.5, "b": 0.3, "c": 0.2})
+    caps = pd.Series({"a": 100, "b": 10_000, "c": 10_000})
+    q = allocate_by_share(shares, 1000, caps)
+    assert int(q.sum()) == 1000 and q["a"] == 100
+    assert q["b"] == 540 and q["c"] == 360  # the 400 excess re-spread 3:2
+    with pytest.raises(ValueError, match="hold"):
+        allocate_by_share(shares, 1000, pd.Series({"a": 100, "b": 100, "c": 100}))

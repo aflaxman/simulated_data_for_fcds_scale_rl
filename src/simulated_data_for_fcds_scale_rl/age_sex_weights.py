@@ -64,3 +64,72 @@ def load_age_sex_weights(path: str | Path) -> pd.DataFrame:
         if (bins["age_end"] <= bins["age_start"]).any():
             raise ValueError(f"{path}: {sex} has an empty age bin")
     return out
+
+
+def load_age_sex_targets(path: str | Path) -> pd.DataFrame:
+    """Read a reference table with a ``count`` column into ``age_start, age_end, sex, share``.
+
+    The shares (summing to 1) are the age/sex distribution the registry stand-in is
+    drawn to match exactly, stratum by stratum; for the FCDS table they are the
+    distribution of the cases FCDS reports. Bins and sex coding are validated as in
+    ``load_age_sex_weights``.
+    """
+    path = Path(path)
+    raw = pd.read_csv(path, comment="#")
+    if "count" not in raw.columns:
+        raise ValueError(f"{path}: no 'count' column to derive target shares from")
+    bins = load_age_sex_weights(path)  # validates bins and recodes sex
+    counts = pd.DataFrame(
+        {
+            "age_start": raw["age_start"].astype(int),
+            "sex": raw["sex"].astype(str).str.strip().str.capitalize(),
+            "count": raw["count"].astype(float),
+        }
+    )
+    if counts["count"].isna().any() or (counts["count"] < 0).any() or counts["count"].sum() <= 0:
+        raise ValueError(f"{path}: counts must be present, non-negative and not all zero")
+    out = bins.drop(columns="weight").merge(counts, on=["age_start", "sex"], how="left")
+    out["share"] = out["count"] / out["count"].sum()
+    return out.drop(columns="count")
+
+
+def allocate_by_share(shares: pd.Series, total: int, caps: pd.Series | None = None) -> pd.Series:
+    """Split ``total`` across strata in proportion to ``shares``, as integers summing to ``total``.
+
+    Largest-remainder rounding keeps the sum exact. ``caps`` (same index) are the
+    number available per stratum: a stratum whose quota exceeds its cap is fixed
+    at the cap and the excess is re-spread over the others in proportion to their
+    shares, repeating until nothing is over cap. Raises ``ValueError`` if the caps
+    cannot hold ``total`` at all.
+    """
+    if total < 0:
+        raise ValueError("total must be non-negative")
+    shares = shares.astype(float)
+    if (shares < 0).any() or shares.sum() <= 0:
+        raise ValueError("shares must be non-negative and not all zero")
+    if caps is not None:
+        caps = caps.reindex(shares.index).fillna(0).astype(int)
+        if caps.sum() < total:
+            raise ValueError(f"caps hold {int(caps.sum()):,} but {total:,} are requested")
+    fixed = pd.Series(0, index=shares.index, dtype=int)
+    free = pd.Series(True, index=shares.index)
+    while True:
+        remaining = total - int(fixed[~free].sum())
+        w = shares.where(free, 0.0)
+        raw = w / w.sum() * remaining if w.sum() > 0 else w * 0
+        base = raw.astype(int)
+        short = remaining - int(base.sum())
+        order = (raw - base).sort_values(ascending=False).index
+        base.loc[order[:short]] += 1
+        quota = fixed.where(~free, base)
+        if caps is None:
+            return quota
+        over = free & (quota > caps)
+        if not over.any():
+            return quota
+        fixed = fixed.where(~over, caps)
+        free = free & ~over
+        if not free.any():
+            if int(fixed.sum()) != total:
+                raise ValueError("caps cannot hold the requested total")
+            return fixed

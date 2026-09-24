@@ -34,7 +34,7 @@ RESULTS = ROOT / CFG["paths"]["results"]
 
 def main() -> None:
     src = Path(CFG["paths"]["psp_source"]) / "decennial_census" / "*.parquet"
-    w = load_age_sex_weights(ROOT / CFG["paths"]["age_sex_weights"])
+    w = load_age_sex_weights(ROOT / CFG["paths"]["age_sex_target"])
     bins = w[w["sex"] == "Female"][["age_start", "age_end"]].reset_index(drop=True)
     con = duckdb.connect()
     con.execute("SET memory_limit='48GB'; SET threads=2; SET preserve_insertion_order=false;")
