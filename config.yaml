@@ -62,9 +62,11 @@ cohorts:
   overlap_finder_finder_target: 0
 
 noise:
-  # Rates follow the FCDS 2024 monograph characterisation of a finder-file
-  # submission versus the registry's own data quality. Confirm the monograph
-  # citation before publication.
+  # Rates are the second author's specification (working notebook, 2026-02-02:
+  # "the same customization as in the FCDS 2024 monograph"): a finder-file
+  # submission against the registry's own consolidated file. pseudopeople's
+  # default cell noise (1% per mechanism per field) applies on top. Confirm the
+  # monograph's citation before publication (OUTLINE needs-verification #4).
   registry:
     # The realised v0.3 rate is 0.0578, not 0.05: 4.99% of Florida simulants
     # never held an SSN in the source population, and the cancer-weighted (older)
