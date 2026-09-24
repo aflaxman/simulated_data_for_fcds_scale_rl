@@ -73,9 +73,10 @@ as a supplement.
 The full calibrated style prompt is `STYLE.md`; read it before drafting or revising more
 than a sentence. It is measured on the author's 2015 monograph, so it gives numbers to
 hit, not adjectives. The essentials:
-- **First person singular owns every choice** ("I used," "I prefer," "which I call").
-  This is a sole-author paper, so "we" is only for writer-and-reader on the page or for
-  actual collaborators. Never "it was decided" or "the literature suggests."
+- **First person owns every choice.** Since 2026-09-24 the paper has two authors, so its
+  prose says "we used," "we prefer," "which we call" for the authors' choices (the abstract
+  already does); "I" is for single-author pieces such as README notes and drafts addressed
+  to the author. Never "it was decided" or "the literature suggests."
 - **Pragmatist, not purist.** State the principled objection fairly and in full, then say
   what was actually done and why the compromise is acceptable ("a method of
   convenience," "something is better than nothing," "just complicated enough").
