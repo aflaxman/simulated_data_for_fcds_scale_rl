@@ -1,4 +1,5 @@
 {
+  "age_sex_weights": "reference/fcds_incidence_by_age_sex.csv",
   "columns": [
     "simulant_id",
     "first_name",
@@ -15,29 +16,29 @@
     "zipcode",
     "ssn"
   ],
-  "created_utc": "2026-08-12T16:42:56+00:00",
+  "created_utc": "2026-09-24T16:47:24+00:00",
   "dataset": "sim_cancer_registry_linkage_benchmark",
   "files": {
     "finder_100k.csv": {
       "distinct_simulants": 100000,
-      "md5": "974eaa1228df504e2e7d0e0b70438625",
+      "md5": "93fbc659afdbdd29739931c89a85fda1",
       "rows": 100000,
-      "sha256": "0b9873e4ca7635a1b94369b47738c999e2fcec9bee38cfc382c942db6a4ff853",
-      "size_bytes": 9943293
+      "sha256": "e1bb181e43202c11e9815e85644d1d4788b3d844e9f0c61937f47db27ccd7172",
+      "size_bytes": 9950581
     },
     "finder_500k.csv": {
       "distinct_simulants": 500000,
-      "md5": "d337a5464b0ac71592c2c8746a08332e",
-      "rows": 500000,
-      "sha256": "355c34a4927b645ba06736ed18a605add27e2e3e7b091b99e38a0af5fd9693c4",
-      "size_bytes": 49729407
+      "md5": "0676c0e4e51c9f03a2c1ebe601d10f82",
+      "rows": 500001,
+      "sha256": "2af7194b02b922df4808914472315be2f4e2aa23c7eb3350beb7cc9ea83866ba",
+      "size_bytes": 49752482
     },
     "registry.csv": {
       "distinct_simulants": 5000000,
-      "md5": "b1ee6fca3ab49287157652d715afdb56",
-      "rows": 5000012,
-      "sha256": "9ff631d15a58086c0e7973c30c86df2c4797bd07ed02bfaa0daf1f4d443f2079",
-      "size_bytes": 510415173
+      "md5": "1e7e0eff3dc7eed0b75186273aa55842",
+      "rows": 5000006,
+      "sha256": "174beeaf2c6bee45a8f572927bb3838f4e0e2fb0cc8d5434527b44c28907f57a",
+      "size_bytes": 509466583
     }
   },
   "overlaps": {
@@ -48,20 +49,20 @@
       "true_pairs": 20000
     },
     "finder_500k": {
-      "match_prevalence": 0.2,
+      "match_prevalence": 0.1999996000008,
       "overlap_simulants": 100000,
       "overlap_target": 100000,
       "true_pairs": 100000
     },
     "finder_finder_simulants": 0
   },
-  "registry_duplicate_rows": 12,
+  "registry_duplicate_rows": 6,
   "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_cancer_registry_linkage_benchmark_0.3",
   "version": "0.3",
   "zip": {
-    "md5": "cc91aea492d5b1ece8c08086135f8723",
+    "md5": "9d1a54092619d2cf6811501b779c40d4",
     "name": "sim_cancer_registry_linkage_benchmark_0.3.zip",
-    "sha256": "d4848a031a8ecc31a4fe6fe5bea59fcaaddbf7041f98599aa22f40e73fe4b374",
-    "size_bytes": 214695506
+    "sha256": "149be2916ab072a489a080831b96283af722463275a19621eba3fd187ff75373",
+    "size_bytes": 213252384
   }
 }

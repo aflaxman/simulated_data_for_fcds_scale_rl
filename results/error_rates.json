@@ -1,40 +1,40 @@
 {
   "realised": {
     "finder_100k.csv": {
-      "city_missing": 0.04972,
-      "ssn_blanked": 15269,
+      "city_missing": 0.04934,
+      "ssn_blanked": 15322,
       "ssn_missing": 0.2,
-      "ssn_structural_missing": 0.04731,
-      "ssn_transposed": 822,
-      "state_missing": 0.05006,
-      "street_name_missing": 0.04995,
-      "street_number_missing": 0.09325,
-      "unit_number_missing": 0.94597,
-      "zipcode_missing": 0.05039
+      "ssn_structural_missing": 0.04678,
+      "ssn_transposed": 823,
+      "state_missing": 0.05057,
+      "street_name_missing": 0.04959,
+      "street_number_missing": 0.09361,
+      "unit_number_missing": 0.94572,
+      "zipcode_missing": 0.0502
     },
     "finder_500k.csv": {
-      "city_missing": 0.049804,
-      "ssn_blanked": 76196,
-      "ssn_missing": 0.2,
-      "ssn_structural_missing": 0.047608,
-      "ssn_transposed": 3988,
-      "state_missing": 0.050032,
-      "street_name_missing": 0.049842,
-      "street_number_missing": 0.093326,
-      "unit_number_missing": 0.945114,
-      "zipcode_missing": 0.049876
+      "city_missing": 0.05010789978420043,
+      "ssn_blanked": 76330,
+      "ssn_missing": 0.1999996000008,
+      "ssn_structural_missing": 0.04734,
+      "ssn_transposed": 3987,
+      "state_missing": 0.0500758998482003,
+      "street_name_missing": 0.049829900340199317,
+      "street_number_missing": 0.09338781322437355,
+      "unit_number_missing": 0.9454001091997816,
+      "zipcode_missing": 0.04978390043219914
     },
     "registry.csv": {
-      "city_missing": 0.009978776050937478,
+      "city_missing": 0.009983388019934376,
       "ssn_blanked": 0,
-      "ssn_missing": 0.05775166139601265,
-      "ssn_structural_missing": 0.0577518,
+      "ssn_missing": 0.05810693027168368,
+      "ssn_structural_missing": 0.058107,
       "ssn_transposed": 0,
-      "state_missing": 0.010027175934777756,
-      "street_name_missing": 0.01006797583685799,
-      "street_number_missing": 0.05495126811695652,
-      "unit_number_missing": 0.9435383355079948,
-      "zipcode_missing": 0.010032575921817787
+      "state_missing": 0.009987388015134381,
+      "street_name_missing": 0.010015387981534422,
+      "street_number_missing": 0.05497033403559916,
+      "unit_number_missing": 0.9433716679539984,
+      "zipcode_missing": 0.00997878802545437
     }
   },
   "targets": {

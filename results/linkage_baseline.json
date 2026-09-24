@@ -18,15 +18,15 @@
               "dob"
             ]
           ],
-          "predicted_pairs": 15830,
-          "true_positives": 15797,
-          "false_positives": 33,
-          "false_negatives": 4203,
-          "precision": 0.9979153506001264,
-          "recall": 0.78985,
-          "f1": 0.8817750488417527,
-          "finder_rows_matched": 15822,
-          "finder_rows_matched_correctly": 15797
+          "predicted_pairs": 15893,
+          "true_positives": 15854,
+          "false_positives": 39,
+          "false_negatives": 4146,
+          "precision": 0.9975460894733531,
+          "recall": 0.7927,
+          "f1": 0.8834034491405011,
+          "finder_rows_matched": 15877,
+          "finder_rows_matched_correctly": 15854
         },
         {
           "rule": "name_dob_sex",
@@ -39,15 +39,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 15266,
-          "true_positives": 15236,
-          "false_positives": 30,
-          "false_negatives": 4764,
-          "precision": 0.9980348486833486,
-          "recall": 0.7618,
-          "f1": 0.8640617024896501,
-          "finder_rows_matched": 15259,
-          "finder_rows_matched_correctly": 15236
+          "predicted_pairs": 15260,
+          "true_positives": 15223,
+          "false_positives": 37,
+          "false_negatives": 4777,
+          "precision": 0.9975753604193971,
+          "recall": 0.76115,
+          "f1": 0.863471355643789,
+          "finder_rows_matched": 15245,
+          "finder_rows_matched_correctly": 15223
         },
         {
           "rule": "ssn_only",
@@ -57,15 +57,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 15628,
-          "true_positives": 15625,
-          "false_positives": 3,
-          "false_negatives": 4375,
-          "precision": 0.9998080368569234,
-          "recall": 0.78125,
-          "f1": 0.8771191197934208,
-          "finder_rows_matched": 15628,
-          "finder_rows_matched_correctly": 15625
+          "predicted_pairs": 15776,
+          "true_positives": 15776,
+          "false_positives": 0,
+          "false_negatives": 4224,
+          "precision": 1.0,
+          "recall": 0.7888,
+          "f1": 0.8819320214669052,
+          "finder_rows_matched": 15776,
+          "finder_rows_matched_correctly": 15776
         },
         {
           "rule": "fcds_min_ssn",
@@ -78,15 +78,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 13048,
-          "true_positives": 13048,
+          "predicted_pairs": 13149,
+          "true_positives": 13149,
           "false_positives": 0,
-          "false_negatives": 6952,
+          "false_negatives": 6851,
           "precision": 1.0,
-          "recall": 0.6524,
-          "f1": 0.7896393125151294,
-          "finder_rows_matched": 13048,
-          "finder_rows_matched_correctly": 13048
+          "recall": 0.65745,
+          "f1": 0.7933270988566775,
+          "finder_rows_matched": 13149,
+          "finder_rows_matched_correctly": 13149
         },
         {
           "rule": "fcds_min_monthyear",
@@ -100,15 +100,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 16432,
-          "true_positives": 15333,
-          "false_positives": 1099,
-          "false_negatives": 4667,
-          "precision": 0.9331183057448881,
-          "recall": 0.76665,
-          "f1": 0.8417325428194994,
-          "finder_rows_matched": 15986,
-          "finder_rows_matched_correctly": 15333
+          "predicted_pairs": 16396,
+          "true_positives": 15323,
+          "false_positives": 1073,
+          "false_negatives": 4677,
+          "precision": 0.9345572090753842,
+          "recall": 0.76615,
+          "f1": 0.8420156061105617,
+          "finder_rows_matched": 15872,
+          "finder_rows_matched_correctly": 15323
         },
         {
           "rule": "fcds_min_either",
@@ -128,15 +128,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 17438,
-          "true_positives": 16339,
-          "false_positives": 1099,
-          "false_negatives": 3661,
-          "precision": 0.9369767175134763,
-          "recall": 0.81695,
-          "f1": 0.8728564560072654,
-          "finder_rows_matched": 16977,
-          "finder_rows_matched_correctly": 16339
+          "predicted_pairs": 17436,
+          "true_positives": 16363,
+          "false_positives": 1073,
+          "false_negatives": 3637,
+          "precision": 0.9384606561137876,
+          "recall": 0.81815,
+          "f1": 0.8741852762047227,
+          "finder_rows_matched": 16894,
+          "finder_rows_matched_correctly": 16363
         },
         {
           "rule": "fcds_current_dob_ssn",
@@ -150,15 +150,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 11963,
-          "true_positives": 11963,
+          "predicted_pairs": 12035,
+          "true_positives": 12035,
           "false_positives": 0,
-          "false_negatives": 8037,
+          "false_negatives": 7965,
           "precision": 1.0,
-          "recall": 0.59815,
-          "f1": 0.7485530144229264,
-          "finder_rows_matched": 11963,
-          "finder_rows_matched_correctly": 11963
+          "recall": 0.60175,
+          "f1": 0.7513656937724364,
+          "finder_rows_matched": 12035,
+          "finder_rows_matched_correctly": 12035
         },
         {
           "rule": "name_dob_or_ssn",
@@ -173,15 +173,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 19049,
-          "true_positives": 19013,
-          "false_positives": 36,
-          "false_negatives": 987,
-          "precision": 0.9981101370150665,
-          "recall": 0.95065,
-          "f1": 0.9738021460216651,
-          "finder_rows_matched": 19037,
-          "finder_rows_matched_correctly": 19013
+          "predicted_pairs": 19159,
+          "true_positives": 19120,
+          "false_positives": 39,
+          "false_negatives": 880,
+          "precision": 0.9979644031525654,
+          "recall": 0.956,
+          "f1": 0.976531576393677,
+          "finder_rows_matched": 19141,
+          "finder_rows_matched_correctly": 19120
         },
         {
           "rule": "lastname_dob",
@@ -192,23 +192,23 @@
               "dob"
             ]
           ],
-          "predicted_pairs": 26804,
-          "true_positives": 17221,
-          "false_positives": 9583,
-          "false_negatives": 2779,
-          "precision": 0.6424787345172362,
-          "recall": 0.86105,
-          "f1": 0.7358772754465431,
-          "finder_rows_matched": 21988,
-          "finder_rows_matched_correctly": 17221
+          "predicted_pairs": 25130,
+          "true_positives": 17187,
+          "false_positives": 7943,
+          "false_negatives": 2813,
+          "precision": 0.6839235972940708,
+          "recall": 0.85935,
+          "f1": 0.761666297363173,
+          "finder_rows_matched": 20874,
+          "finder_rows_matched_correctly": 17187
         }
       ],
-      "seconds": 4.7
+      "seconds": 1.6
     },
     "finder_500k.csv": {
-      "rows": 500000,
+      "rows": 500001,
       "simulants": 500000,
-      "ssn_missing": 0.2,
+      "ssn_missing": 0.1999996000008,
       "true_pairs": 100000,
       "rules": [
         {
@@ -221,15 +221,15 @@
               "dob"
             ]
           ],
-          "predicted_pairs": 79627,
-          "true_positives": 79448,
-          "false_positives": 179,
-          "false_negatives": 20552,
-          "precision": 0.9977520187875971,
-          "recall": 0.79448,
-          "f1": 0.8845886197509283,
-          "finder_rows_matched": 79565,
-          "finder_rows_matched_correctly": 79448
+          "predicted_pairs": 79590,
+          "true_positives": 79424,
+          "false_positives": 166,
+          "false_negatives": 20576,
+          "precision": 0.9979143108430707,
+          "recall": 0.79424,
+          "f1": 0.8845035915140042,
+          "finder_rows_matched": 79519,
+          "finder_rows_matched_correctly": 79424
         },
         {
           "rule": "name_dob_sex",
@@ -242,15 +242,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 76501,
-          "true_positives": 76328,
-          "false_positives": 173,
-          "false_negatives": 23672,
-          "precision": 0.9977385916523968,
-          "recall": 0.76328,
-          "f1": 0.8649016152882986,
-          "finder_rows_matched": 76440,
-          "finder_rows_matched_correctly": 76328
+          "predicted_pairs": 76395,
+          "true_positives": 76241,
+          "false_positives": 154,
+          "false_negatives": 23759,
+          "precision": 0.9979841612670987,
+          "recall": 0.76241,
+          "f1": 0.8644349329629525,
+          "finder_rows_matched": 76330,
+          "finder_rows_matched_correctly": 76241
         },
         {
           "rule": "ssn_only",
@@ -260,15 +260,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 78490,
-          "true_positives": 78473,
-          "false_positives": 17,
-          "false_negatives": 21527,
-          "precision": 0.9997834118996051,
-          "recall": 0.78473,
-          "f1": 0.8792985601434254,
-          "finder_rows_matched": 78490,
-          "finder_rows_matched_correctly": 78473
+          "predicted_pairs": 78598,
+          "true_positives": 78568,
+          "false_positives": 30,
+          "false_negatives": 21432,
+          "precision": 0.9996183108984962,
+          "recall": 0.78568,
+          "f1": 0.8798306811946383,
+          "finder_rows_matched": 78598,
+          "finder_rows_matched_correctly": 78568
         },
         {
           "rule": "fcds_min_ssn",
@@ -281,15 +281,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 65439,
-          "true_positives": 65439,
+          "predicted_pairs": 65454,
+          "true_positives": 65454,
           "false_positives": 0,
-          "false_negatives": 34561,
+          "false_negatives": 34546,
           "precision": 1.0,
-          "recall": 0.65439,
-          "f1": 0.7910952072969494,
-          "finder_rows_matched": 65439,
-          "finder_rows_matched_correctly": 65439
+          "recall": 0.65454,
+          "f1": 0.7912048061696907,
+          "finder_rows_matched": 65454,
+          "finder_rows_matched_correctly": 65454
         },
         {
           "rule": "fcds_min_monthyear",
@@ -303,15 +303,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 82329,
-          "true_positives": 76779,
-          "false_positives": 5550,
-          "false_negatives": 23221,
-          "precision": 0.9325875450934664,
-          "recall": 0.76779,
-          "f1": 0.8422028311458956,
-          "finder_rows_matched": 80088,
-          "finder_rows_matched_correctly": 76779
+          "predicted_pairs": 82045,
+          "true_positives": 76697,
+          "false_positives": 5348,
+          "false_negatives": 23303,
+          "precision": 0.934816259369858,
+          "recall": 0.76697,
+          "f1": 0.8426158367436622,
+          "finder_rows_matched": 79422,
+          "finder_rows_matched_correctly": 76697
         },
         {
           "rule": "fcds_min_either",
@@ -331,15 +331,15 @@
               "sex"
             ]
           ],
-          "predicted_pairs": 87494,
-          "true_positives": 81944,
-          "false_positives": 5550,
-          "false_negatives": 18056,
-          "precision": 0.9365670788854092,
-          "recall": 0.81944,
-          "f1": 0.8740973044470757,
-          "finder_rows_matched": 85187,
-          "finder_rows_matched_correctly": 81944
+          "predicted_pairs": 87290,
+          "true_positives": 81942,
+          "false_positives": 5348,
+          "false_negatives": 18058,
+          "precision": 0.9387329591018444,
+          "recall": 0.81942,
+          "f1": 0.8750280313951625,
+          "finder_rows_matched": 84583,
+          "finder_rows_matched_correctly": 81942
         },
         {
           "rule": "fcds_current_dob_ssn",
@@ -353,15 +353,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 59916,
-          "true_positives": 59916,
+          "predicted_pairs": 59864,
+          "true_positives": 59864,
           "false_positives": 0,
-          "false_negatives": 40084,
+          "false_negatives": 40136,
           "precision": 1.0,
-          "recall": 0.59916,
-          "f1": 0.7493434052877762,
-          "finder_rows_matched": 59916,
-          "finder_rows_matched_correctly": 59916
+          "recall": 0.59864,
+          "f1": 0.7489365961066906,
+          "finder_rows_matched": 59864,
+          "finder_rows_matched_correctly": 59864
         },
         {
           "rule": "name_dob_or_ssn",
@@ -376,15 +376,15 @@
               "ssn"
             ]
           ],
-          "predicted_pairs": 95746,
-          "true_positives": 95550,
+          "predicted_pairs": 95853,
+          "true_positives": 95657,
           "false_positives": 196,
-          "false_negatives": 4450,
-          "precision": 0.9979529170931423,
-          "recall": 0.9555,
-          "f1": 0.9762651599521829,
-          "finder_rows_matched": 95673,
-          "finder_rows_matched_correctly": 95550
+          "false_negatives": 4343,
+          "precision": 0.9979552022367584,
+          "recall": 0.95657,
+          "f1": 0.9768244550760009,
+          "finder_rows_matched": 95768,
+          "finder_rows_matched_correctly": 95657
         },
         {
           "rule": "lastname_dob",
@@ -395,23 +395,23 @@
               "dob"
             ]
           ],
-          "predicted_pairs": 132038,
-          "true_positives": 86099,
-          "false_positives": 45939,
-          "false_negatives": 13901,
-          "precision": 0.652077432254351,
-          "recall": 0.86099,
-          "f1": 0.7421112059231678,
-          "finder_rows_matched": 109272,
-          "finder_rows_matched_correctly": 86099
+          "predicted_pairs": 125316,
+          "true_positives": 86075,
+          "false_positives": 39241,
+          "false_negatives": 13925,
+          "precision": 0.6868636087969613,
+          "recall": 0.86075,
+          "f1": 0.7640380620994514,
+          "finder_rows_matched": 104217,
+          "finder_rows_matched_correctly": 86075
         }
       ],
-      "seconds": 7.1
+      "seconds": 2.7
     }
   },
   "registry": {
-    "rows": 5000012,
+    "rows": 5000006,
     "simulants": 5000000,
-    "ssn_missing": 0.05775166139601265
+    "ssn_missing": 0.05810693027168368
   }
 }
