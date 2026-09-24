@@ -4,9 +4,9 @@ The registry draw in ``pipeline/build_cohorts.py`` is weighted sampling without
 replacement (Efraimidis-Spirakis keyed-hash draws), so only the *relative* weights
 matter and any rate table with contiguous, exclusive-end age bins by sex will do.
 Which table is used is named in ``config.yaml`` (``paths.age_sex_weights``): since
-2026-09-24 that is the FCDS age- and sex-specific cancer incidence table; the v0.3
-build used GBD all-neoplasm prevalence for Florida, which stays in ``reference/``
-as the comparator for the age/sex QA figure.
+2026-09-24 that is the FCDS age- and sex-specific cancer incidence table; the
+2026-08-12 build used GBD all-neoplasm prevalence for Florida, which stays in
+``reference/`` as the comparator for the age/sex QA figure.
 """
 
 from __future__ import annotations

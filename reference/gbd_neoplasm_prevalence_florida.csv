@@ -1,5 +1,5 @@
 # GBD prevalence of all neoplasms, Florida. Weighted the simulated cancer registry
-# cohort by age and sex in the v0.3 build; since 2026-09-24 the weights come from
+# cohort by age and sex in the 2026-08-12 build; since 2026-09-24 the weights come from
 # fcds_incidence_by_age_sex.csv (config.yaml, paths.age_sex_weights) and this table
 # is kept only as the comparator for the age/sex QA figure.
 #

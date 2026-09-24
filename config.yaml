@@ -19,9 +19,11 @@ paths:
   results: results
   # Age- and sex-specific rates that weight the registry draw (only relative
   # weights matter). FCDS cancer incidence since 2026-09-24 (the author's call:
-  # the registry's own age/sex pattern is the more relevant target); the v0.3
-  # build used reference/gbd_neoplasm_prevalence_florida.csv, which is kept as
-  # the comparator for the age/sex QA figure. Rebuild (v0.4) pending.
+  # the registry's own age/sex pattern is the more relevant target); the
+  # 2026-08-12 build used reference/gbd_neoplasm_prevalence_florida.csv, which
+  # is kept as the comparator for the age/sex QA figure. The FCDS-weighted
+  # rebuild keeps the v0.3 number (nothing was released) and is pending;
+  # results/ describe the 2026-08-12 build until it runs (build_cohorts.py --force).
   age_sex_weights: reference/fcds_incidence_by_age_sex.csv
 
 seeds:

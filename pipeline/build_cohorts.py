@@ -10,21 +10,24 @@ ported from the working notebook
 * ``race_ethnicity`` is carried into the released schema;
 * the age/sex weights of the registry draw are read from the reference table
   named in ``config.yaml`` (``paths.age_sex_weights``) instead of being
-  hard-coded — FCDS cancer incidence from the v0.4 build on, GBD prevalence
-  in v0.3;
+  hard-coded — FCDS cancer incidence since 2026-09-24; the 2026-08-12 build
+  used GBD prevalence (same v0.3 number: nothing was released in between);
 * checksums (MD5 and SHA-256), a release manifest, realised error rates, a
   population summary, and environment info are written to ``results/``.
 
 Every stochastic step is a pure function of the seeds in ``config.yaml``; run
 the script twice and compare checksums for the run-twice identity test.
 
-Run on a compute node, never a login/dev node:
+Run on a compute node, never a login/dev node (``sbatch --wrap``, not ``srun``
+from inside an interactive allocation):
 
-    srun --mem=120G -c 8 uv run python pipeline/build_cohorts.py
+    sbatch --mem=120G -c 8 --wrap "uv run python pipeline/build_cohorts.py --force"
 
-On success: bump ``dataset.version`` and ``paths.release_dir`` in
-``config.yaml``, re-run ``pipeline/linkage_baseline.py``, and re-render the
-paper once.
+``--force`` rebuilds a version in place, which is the plan for the FCDS-weighted
+v0.3: nothing was released, so the number stays and ``config.yaml`` needs no
+bump. If the version does change, bump ``dataset.version`` and
+``paths.release_dir`` in ``config.yaml``. Either way, re-run
+``pipeline/linkage_baseline.py`` and re-render the paper once afterwards.
 """
 
 from __future__ import annotations
@@ -305,8 +308,9 @@ def write_deterministic_zip(zip_path: Path, release_dir: Path, arc_prefix: str) 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--version", default="0.4",
-                        help="dataset version to build (default: 0.4, the FCDS-weighted rebuild)")
+    parser.add_argument("--version", default="0.3",
+                        help="dataset version to build (default: 0.3; the FCDS-weighted rebuild "
+                             "keeps the number because nothing was released, so pass --force)")
     parser.add_argument("--config", default=str(ROOT / "config.yaml"))
     parser.add_argument("--force", action="store_true",
                         help="overwrite an existing non-empty release directory")
