@@ -12,7 +12,12 @@ Written 2026-09-24 to answer whether a yearly observer could replace the census 
     uv run python pipeline/qa_observer_pool.py american_community_survey survey_date results/observer_pool_acs.json 2 40GB
     sbatch -c 8 --mem=120G --wrap "uv run python pipeline/qa_observer_pool.py taxes_1040 tax_year results/observer_pool_1040.json 8 100GB"
 """
-import sys, json, time, duckdb, pandas as pd, yaml
+import sys
+import json
+import time
+import duckdb
+import pandas as pd
+import yaml
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 from simulated_data_for_fcds_scale_rl.age_sex_weights import load_age_sex_weights
