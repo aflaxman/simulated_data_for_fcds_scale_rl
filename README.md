@@ -80,6 +80,10 @@ make lint    # uv run ruff check .
 - `paper.qmd` — the Data Resource Profile (fast to render: it executes only the small
   bundled pseudopeople sample population and reads precomputed summaries)
 - `src/simulated_data_for_fcds_scale_rl/` — importable, tested Python logic
+- `notebooks/v03_acceptance_checks.ipynb` — the receiver's checks: does each released file match
+  what the second author specified (noise rates, FCDS age/sex table, minimum field sets, sizes,
+  overlaps, checksums)? Re-execute after a rebuild with
+  `uv run jupyter nbconvert --to notebook --execute --inplace notebooks/v03_acceptance_checks.ipynb`
 - `_quarto.yml` — render configuration; `_freeze/` caches executed results so
   the project renders even without the Python environment or data
 - `references.bib`, `ijpds.csl` — bibliography and IJPDS (Vancouver) citation style
