@@ -21,8 +21,9 @@
     "zipcode",
     "ssn"
   ],
-  "created_utc": "2026-09-24T22:38:17+00:00",
+  "created_utc": "2026-09-25T01:31:32+00:00",
   "dataset": "sim_cancer_registry_linkage_benchmark",
+  "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
   "files": {
     "finder_100k.csv": {
       "distinct_simulants": 100000,
@@ -40,10 +41,10 @@
     },
     "registry.csv": {
       "distinct_simulants": 5000000,
-      "md5": "0656cd4be9f97a086e4292d4b3ebd05c",
+      "md5": "0dd8e15bf7582324bbd1a713918617a1",
       "rows": 5000002,
-      "sha256": "7419204182a9d0d26f94fa1346c1de7e69f812b9fb3a0f432884f66546615c79",
-      "size_bytes": 509834386
+      "sha256": "aae46990cd1d10d13675d05ba30dbc2953a4fc9d3a7a548016a215342d567254",
+      "size_bytes": 564834423
     }
   },
   "finder_year": 2040,
@@ -62,14 +63,31 @@
     },
     "finder_finder_simulants": 0
   },
+  "registry_columns": [
+    "simulant_id",
+    "first_name",
+    "middle_initial",
+    "last_name",
+    "date_of_birth",
+    "sex",
+    "race_ethnicity",
+    "street_number",
+    "street_name",
+    "unit_number",
+    "city",
+    "state",
+    "zipcode",
+    "ssn",
+    "diagnosis_date"
+  ],
   "registry_duplicate_rows": 2,
   "registry_pool": "last_seen",
   "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_cancer_registry_linkage_benchmark_0.3",
   "version": "0.3",
   "zip": {
-    "md5": "3d2ef2961d1596b0a979b60ba43eba47",
+    "md5": "f05136aaee6e346501c51b86e13a43b1",
     "name": "sim_cancer_registry_linkage_benchmark_0.3.zip",
-    "sha256": "ee38578306c47741e7e19d91793857cbee29650f5ae1f62615359750af065f33",
-    "size_bytes": 218943209
+    "sha256": "2d0551cee0c51bcf6a952e0e8fe21a98841d1a1c420e5bdb710ed46e012f8a3e",
+    "size_bytes": 234496656
   }
 }

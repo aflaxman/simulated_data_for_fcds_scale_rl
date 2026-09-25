@@ -203,7 +203,7 @@
           "finder_rows_matched_correctly": 17271
         }
       ],
-      "seconds": 1.6
+      "seconds": 1.9
     },
     "finder_500k.csv": {
       "rows": 500000,
@@ -406,7 +406,7 @@
           "finder_rows_matched_correctly": 86125
         }
       ],
-      "seconds": 2.7
+      "seconds": 2.9
     }
   },
   "registry": {
