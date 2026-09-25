@@ -25,3 +25,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/simulated_data_for_fcds_scale_rl"]
+
+[tool.ruff]
+# Notebooks are allowed their semicolons and late imports; the linter covers the code.
+extend-exclude = ["notebooks"]
