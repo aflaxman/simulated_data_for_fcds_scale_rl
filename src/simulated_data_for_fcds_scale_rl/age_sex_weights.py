@@ -1,12 +1,13 @@
-"""Age- and sex-specific sampling weights for the registry stand-in.
+"""Age/sex tables for the registry stand-in: the FCDS target shares and a validated rate loader.
 
-The registry draw in ``pipeline/build_cohorts.py`` is weighted sampling without
-replacement (Efraimidis-Spirakis keyed-hash draws), so only the *relative* weights
-matter and any rate table with contiguous, exclusive-end age bins by sex will do.
-Which table is used is named in ``config.yaml`` (``paths.age_sex_weights``): since
-2026-09-24 that is the FCDS age- and sex-specific cancer incidence table; the
-2026-08-12 build used GBD all-neoplasm prevalence for Florida, which stays in
-``reference/`` as the comparator for the age/sex QA figure.
+``load_age_sex_targets`` reads the table named in ``config.yaml`` (``paths.age_sex_target``:
+FCDS's reported cases by age and sex) into shares, and ``allocate_by_share`` turns them
+into exact per-stratum quotas for the registry draw in ``pipeline/build_cohorts.py``.
+``load_age_sex_weights`` reads any rate table with contiguous, exclusive-end age bins
+(the same FCDS file, or the GBD prevalence table kept as the QA comparator) and recodes
+sex to pseudopeople's ``Male``/``Female``; the 2026-08-12 build used it to weight a random
+draw, which the exact quotas replaced on 2026-09-24 because weighted successive sampling
+compresses weight ratios at a high sampling fraction.
 """
 
 from __future__ import annotations

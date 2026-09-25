@@ -26,7 +26,7 @@ paths:
   age_sex_target: reference/fcds_incidence_by_age_sex.csv
 
 seeds:
-  # Salted into md5_number_lower() for DuckDB's weighted sampling.
+  # Salted into md5_number_lower() for DuckDB's keyed-hash draws (stratum quotas, finders).
   duckdb_sample: 42
   # pseudopeople noise seeds, one per output file.
   psp_registry: 42
@@ -70,9 +70,9 @@ noise:
   # default cell noise (1% per mechanism per field) applies on top. Confirm the
   # monograph's citation before publication (OUTLINE needs-verification #4).
   registry:
-    # The realised v0.3 rate is 0.0578, not 0.05: 4.99% of Florida simulants
-    # never held an SSN in the source population, and the cancer-weighted (older)
-    # registry draw concentrates them, so the structural floor (5.78%) already
+    # The realised rate is 0.0568, not 0.05 (2026-09-24 build): 4.18% of the
+    # last-seen pool never held an SSN in the source population, and the older
+    # registry draw concentrates them, so the structural floor (5.68%) already
     # exceeds the target and the pipeline blanks nothing further.
     ssn_missing: 0.05
     ssn_transposed: 0.00

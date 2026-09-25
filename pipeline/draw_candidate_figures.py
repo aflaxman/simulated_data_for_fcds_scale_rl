@@ -1,4 +1,7 @@
-"""Render the three master-graphic candidates to figures/ (PNG at 300 dpi and PDF).
+"""Render the paper's figures to figures/ (PNG at 300 dpi and PDF).
+
+Candidate 1 is Figure 1 (the age/sex pyramid with names), candidate 2 is Figure 2 (the
+record pairs); candidate 3, the composite, was not chosen and is kept for reference.
 
 Paper-tier work: it reads only results/ and reference/. Run after
 pipeline/qa_age_sex.py and pipeline/example_pair.py have written their summaries.

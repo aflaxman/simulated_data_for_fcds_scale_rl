@@ -7,7 +7,7 @@ Quarto project, analysis in Python.
 ## Environment
 - Python **3.10–3.11 only** (pseudopeople constraint). Managed with uv:
   `uv sync` to set up, `uv run <cmd>` to execute anything.
-- Core deps: pseudopeople, duckdb, splink>=4, pandas, pyarrow.
+- Core deps: pseudopeople, duckdb, splink>=4, pandas, pyarrow, pyyaml, matplotlib (figures).
 - Quarto is **not** a system install or cluster module here: it is the `quarto-cli`
   package in the uv dev group, so `uv sync` puts it at `.venv/bin/quarto`. Always call
   it as `uv run quarto …` or via the `make` targets. Bare `quarto` is not on PATH, so
@@ -24,6 +24,10 @@ Quarto project, analysis in Python.
 - `uv run pytest` — tests (see tests/). `make test` / `make lint` wrap pytest and ruff.
 - Run renders and previews on a cluster worker node, not the submit node (see README,
   "Working in VS Code"); the paper tier is cheap enough for a dev node.
+- Rebuild (cluster only, via `sbatch`, never a login node): `pipeline/build_cohorts.py --force`
+  (~10 min, 8 CPUs, 120G), then `linkage_baseline.py`, `example_pair.py`, `pair_agreement.py`
+  (seconds each), then `make checks`, `make figures` and a render; commit `results/`, `_freeze/`,
+  the notebook and the renders together. README gives the exact commands.
 
 ## Architecture — two tiers, keep them separate
 1. **Paper tier (cheap, runs on every render):** `paper.qmd` executes only the
@@ -37,6 +41,8 @@ Quarto project, analysis in Python.
 
 Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic shared by paper + pipeline ·
 `pipeline/` = heavy scripts · `results/` = small committed summaries the paper reads ·
+`notebooks/` = the receiver's acceptance checks (generated and executed by `notebooks/make_acceptance_checks.py`) ·
+`figures/` = figure renders, gitignored ·
 `reference/` = small committed reference data · `paper.qmd` = the Data Resource Profile.
 
 ## Conventions
@@ -66,7 +72,7 @@ Introduction section). Structured abstract ≤300 words with four headings
 bullets on the journal's roster; figures/tables inline; Vancouver references with
 DOIs (via `ijpds.csl`). Lingo per the FCDS Procedure Guide: *finder file* = the
 researcher-submitted cohort (the released 500k/100k files); the 5M file is the
-*registry stand-in*, never a finder file. The submission is the rendered `.docx`
+*registry stand-in*, never a finder file. The registry alone carries `diagnosis_date`. The submission is the rendered `.docx`
 (styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
 as a supplement.
 

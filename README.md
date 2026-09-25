@@ -71,9 +71,33 @@ uv sync
 ## Other commands
 
 ```sh
-make test    # uv run pytest
-make lint    # uv run ruff check .
+make test     # uv run pytest
+make lint     # uv run ruff check .
+make figures  # redraw the paper's figures into figures/ from results/
+make checks   # regenerate and execute the acceptance-check notebook against the release
 ```
+
+## Rebuilding the data (cluster only)
+
+The heavy tier reads the 52 GB source population and runs on a compute node via
+`sbatch`, never on a login node. Everything it produces that the paper needs is small
+and lands in `results/`. In order:
+
+1. `sbatch -c 8 --mem=120G -t 03:00:00 --wrap "uv run python pipeline/build_cohorts.py --force"`
+   rebuilds the release named in `config.yaml` in place (about 10 minutes): the three
+   CSVs and the zip, plus the manifest, error rates, population summary, age/sex/race
+   composition, top names and environment record.
+2. `uv run python pipeline/linkage_baseline.py && uv run python pipeline/example_pair.py && uv run python pipeline/pair_agreement.py`
+   scores the deterministic ladder, picks the worked example pairs, and measures
+   agreement among true pairs (seconds each; chain them after the build with
+   `--dependency=afterok:<jobid>`).
+3. `make checks`, `make figures`, then `uv run quarto render paper.qmd` to refresh
+   `_freeze/` and the renders.
+4. Commit `results/`, `_freeze/`, the notebook and the renders together.
+
+`pipeline/qa_source_age_sex.py` (Florida census pools by year) and
+`pipeline/qa_observer_pool.py` (size another observer as a registry pool) back design
+decisions and are not part of a rebuild.
 
 ## Project layout
 

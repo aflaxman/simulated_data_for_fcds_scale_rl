@@ -1,6 +1,7 @@
 """Drawing functions for the paper's figures (paper tier: reads ``results/`` and ``reference/`` only).
 
-Three master-graphic candidates (2026-09-24), for the author to compare:
+Three master-graphic candidates were drawn on 2026-09-24; the author chose 1 and 2 as
+separate figures (the paper's Figure 1 and Figure 2) and 3 is kept for reference:
 
 1. ``candidate_pyramid``      — age/sex pyramid of the registry stand-in, stacked by
                                 race/ethnicity, FCDS reported-case shares as dots, top-3

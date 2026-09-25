@@ -60,7 +60,9 @@ print("\n".join(_lines))
 # Small committed summaries written by pipeline/build_cohorts.py, plus the design
 # targets from config.yaml. Every number in the prose below is one of these
 # variables; nothing is typed by hand.
-import json, yaml
+import json
+import pandas as pd
+import yaml
 pop      = json.load(open("results/population_summary.json"))
 manifest = json.load(open("results/release_manifest.json"))
 cfg      = yaml.safe_load(open("config.yaml"))
@@ -83,6 +85,83 @@ overlap_100k_target = n(cfg["cohorts"]["overlap_100k_target"])
 for k in ("500k", "100k"):
     assert manifest["overlaps"][f"finder_{k}"]["overlap_simulants"] == cfg["cohorts"][f"overlap_{k}_target"]
 assert manifest["overlaps"]["finder_finder_simulants"] == cfg["cohorts"]["overlap_finder_finder_target"]
+
+# --- everything else the prose quotes, named as in OUTLINE.md's computed-values table ---
+err   = json.load(open("results/error_rates.json"))["realised"]
+lb    = json.load(open("results/linkage_baseline.json"))
+pairs = json.load(open("results/pair_agreement.json"))["finder_500k.csv"]
+qa    = json.load(open("results/age_sex_qa.json"))["registry.csv"]
+env   = json.load(open("results/environment.json"))
+fcds  = pd.read_csv(cfg["paths"]["age_sex_target"], comment="#")
+
+def pct(x, d=1):
+    return f"{100 * x:.{d}f}%"
+
+files, ov = manifest["files"], manifest["overlaps"]
+registry_simulants     = n(files["registry.csv"]["distinct_simulants"])
+registry_dupe_rows     = manifest["registry_duplicate_rows"]
+finder_500k_simulants  = n(files["finder_500k.csv"]["distinct_simulants"])
+finder_100k_simulants  = n(files["finder_100k.csv"]["distinct_simulants"])
+overlap_500k_simulants = n(ov["finder_500k"]["overlap_simulants"])
+overlap_100k_simulants = n(ov["finder_100k"]["overlap_simulants"])
+overlap_500k_pairs     = n(ov["finder_500k"]["true_pairs"])
+overlap_100k_pairs     = n(ov["finder_100k"]["true_pairs"])
+overlap_finder_finder  = ov["finder_finder_simulants"]
+match_prevalence_500k  = round(ov["finder_500k"]["match_prevalence"], 3)
+fl_share_census        = pct(pop["fl_share_census"])
+pop_ssn_never          = pct(pop["pop_ssn_never"], 2)
+registry_ssn_missing   = pct(err["registry.csv"]["ssn_missing"], 2)
+finder_ssn_missing     = pct(err["finder_500k.csv"]["ssn_missing"])
+err_ssn_transposed     = n(err["finder_500k.csv"]["ssn_transposed"])
+size_registry_mb, size_finder500k_mb, size_finder100k_mb, size_zip_mb = (
+    f"{files['registry.csv']['size_bytes'] / 1e6:.0f}", f"{files['finder_500k.csv']['size_bytes'] / 1e6:.0f}",
+    f"{files['finder_100k.csv']['size_bytes'] / 1e6:.0f}", f"{manifest['zip']['size_bytes'] / 1e6:.0f}")
+md5_registry, md5_finder500k, md5_finder100k, md5_zip = (
+    files["registry.csv"]["md5"], files["finder_500k.csv"]["md5"], files["finder_100k.csv"]["md5"], manifest["zip"]["md5"])
+
+co, se, no = cfg["cohorts"], cfg["seeds"], cfg["noise"]
+cfg_registry_target, cfg_finder_500k_target, cfg_finder_100k_target = n(co["registry_target"]), n(co["finder_500k_target"]), n(co["finder_100k_target"])
+cfg_oversample = co["oversample"]
+cfg_seed_sample, cfg_seed_registry, cfg_seed_finder, cfg_seed_postprocess = se["duckdb_sample"], se["psp_registry"], se["psp_finder"], se["postprocess"]
+cfg_finder_ssn_missing, cfg_finder_ssn_transposed, cfg_finder_address_missing = pct(no["finder"]["ssn_missing"], 0), pct(no["finder"]["ssn_transposed"], 0), pct(no["finder"]["address_missing"], 0)
+cfg_registry_ssn_missing, cfg_registry_ssn_transposed, cfg_registry_address_missing = pct(no["registry"]["ssn_missing"], 0), pct(no["registry"]["ssn_transposed"], 0), pct(no["registry"]["address_missing"], 0)
+
+# deterministic ladder on the 500k finder file (results/linkage_baseline.json)
+lb500  = lb["finder_files"]["finder_500k.csv"]
+rules  = {r["rule"]: r for r in lb500["rules"]}
+def rule(name, key):
+    return round(rules[name][key], 4)
+r500_name_dob_precision, r500_name_dob_recall = rule("name_dob", "precision"), rule("name_dob", "recall")
+r500_name_dob_missed        = round(1 - rules["name_dob"]["recall"], 4)
+r500_ssn_only_precision     = rule("ssn_only", "precision")
+r500_ssn_only_missed        = round(1 - rules["ssn_only"]["recall"], 4)
+r500_fcds_min_ssn_recall    = rule("fcds_min_ssn", "recall")
+r500_fcds_min_monthyear_precision = rule("fcds_min_monthyear", "precision")
+r500_fcds_min_monthyear_fp  = n(rules["fcds_min_monthyear"]["predicted_pairs"] - round(rules["fcds_min_monthyear"]["recall"] * lb500["true_pairs"]))
+r500_fcds_either_recall, r500_fcds_either_precision = rule("fcds_min_either", "recall"), rule("fcds_min_either", "precision")
+r500_fcds_current_recall    = rule("fcds_current_dob_ssn", "recall")
+r500_best_recall, r500_best_precision = rule("name_dob_or_ssn", "recall"), rule("name_dob_or_ssn", "precision")
+r500_best_missed            = round(1 - rules["name_dob_or_ssn"]["recall"], 4)
+r500_lastname_dob_precision = rule("lastname_dob", "precision")
+baseline_seconds_500k       = lb500["seconds"]
+
+# agreement among true pairs (results/pair_agreement.json)
+pa = pairs["fields"]
+agree_first_name_500k, blank_first_name_500k = pct(pa["first_name"]["agree_when_both_present"]), pct(pa["first_name"]["blank_on_either_side"])
+agree_last_name_500k,  blank_last_name_500k  = pct(pa["last_name"]["agree_when_both_present"]), pct(pa["last_name"]["blank_on_either_side"])
+agree_dob_500k,        blank_dob_500k        = pct(pa["date_of_birth"]["agree_when_both_present"]), pct(pa["date_of_birth"]["blank_on_either_side"])
+agree_street_name_500k, blank_street_name_500k = pct(pa["street_name"]["agree_when_both_present"]), pct(pa["street_name"]["blank_on_either_side"])
+agree_ssn_500k,        blank_ssn_500k        = pct(pa["ssn"]["agree_when_both_present"]), pct(pa["ssn"]["blank_on_either_side"])
+name_dob_all_agree_500k = pct(pairs["name_dob_all_agree"])
+ssn_usable_500k         = pct(pairs["ssn_usable_and_agree"])
+
+# age/sex QA, FCDS table facts, environment
+age_sex_max_dev     = round(qa["max_abs_share_deviation_pct"], 3)
+by_year             = qa["rows_by_census_year"]
+registry_share_2040 = pct(by_year["2040"] / sum(by_year.values()), 0)
+fcds_rate_min, fcds_rate_max = round(fcds["rate"].min(), 2), round(fcds["rate"].max(), 2)
+duckdb_version, psp_version, dataset_version = env["duckdb"], env["pseudopeople"], manifest["version"]
+build_wall_seconds, build_peak_gb = round(env["build_wall_seconds"]), round(env["peak_rss_mb"] / 1024, 1)
 ```
 
 ## Key Features {.unnumbered}
@@ -117,17 +196,7 @@ census.head()
 
 # Results
 
-```{python}
-#| label: load-results
-import json, pandas as pd
-# sizes = pd.read_csv("results/file_sizes.csv")
-# err   = json.load(open("results/error_rates.json"))
-sizes = pd.DataFrame({'rows': [10,20,30]})
-err = dict(first_name_pct=5)
-```
-
-The Florida-scale extract contains `{python} f"{int(sizes['rows'].sum()):,}"` records across
-`{python} len(sizes)` files, with a first-name error rate of `{python} err['first_name_pct']`%.
+…
 
 # Discussion
 
