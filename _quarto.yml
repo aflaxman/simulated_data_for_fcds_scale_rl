@@ -17,6 +17,7 @@ format:
   # `make paper` / `quarto render --to docx`.
   html:                         # self-contained copy to share / preprint
     toc: true
+    number-sections: true       # so @sec- cross-references resolve in both formats
     embed-resources: true
     code-fold: true
   docx:                         # the IJPDS submission artifact

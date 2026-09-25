@@ -58,7 +58,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>/*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
@@ -2227,15 +2246,21 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
    
   <ul>
   <li><a href="#key-features" id="toc-key-features" class="nav-link active" data-scroll-target="#key-features">Key Features</a></li>
-  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <li><a href="#sec-background" id="toc-sec-background" class="nav-link" data-scroll-target="#sec-background"><span class="header-section-number">1</span> Background</a></li>
+  <li><a href="#sec-methods" id="toc-sec-methods" class="nav-link" data-scroll-target="#sec-methods"><span class="header-section-number">2</span> Methods</a>
   <ul class="collapse">
-  <li><a href="#generating-simulated-records-with-pseudopeople" id="toc-generating-simulated-records-with-pseudopeople" class="nav-link" data-scroll-target="#generating-simulated-records-with-pseudopeople">Generating simulated records with pseudopeople</a></li>
+  <li><a href="#generating-simulated-records-with-pseudopeople" id="toc-generating-simulated-records-with-pseudopeople" class="nav-link" data-scroll-target="#generating-simulated-records-with-pseudopeople"><span class="header-section-number">2.1</span> Generating simulated records with pseudopeople</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
-  <li><a href="#data-access" id="toc-data-access" class="nav-link" data-scroll-target="#data-access">Data Access</a></li>
-  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
+  <li><a href="#sec-results" id="toc-sec-results" class="nav-link" data-scroll-target="#sec-results"><span class="header-section-number">3</span> Results</a>
+  <ul class="collapse">
+  <li><a href="#sec-structure" id="toc-sec-structure" class="nav-link" data-scroll-target="#sec-structure"><span class="header-section-number">3.1</span> Structure, contents, and where the data are held</a></li>
+  <li><a href="#sec-population" id="toc-sec-population" class="nav-link" data-scroll-target="#sec-population"><span class="header-section-number">3.2</span> Population characteristics</a></li>
+  <li><a href="#sec-errors" id="toc-sec-errors" class="nav-link" data-scroll-target="#sec-errors"><span class="header-section-number">3.3</span> Error structure</a></li>
+  <li><a href="#sec-difficulty" id="toc-sec-difficulty" class="nav-link" data-scroll-target="#sec-difficulty"><span class="header-section-number">3.4</span> Linkage difficulty</a></li>
+  </ul></li>
+  <li><a href="#sec-discussion" id="toc-sec-discussion" class="nav-link" data-scroll-target="#sec-discussion"><span class="header-section-number">4</span> Discussion</a></li>
+  <li><a href="#sec-access" id="toc-sec-access" class="nav-link" data-scroll-target="#sec-access"><span class="header-section-number">5</span> Data Access</a></li>
+  <li><a href="#sec-conclusions" id="toc-sec-conclusions" class="nav-link" data-scroll-target="#sec-conclusions"><span class="header-section-number">6</span> Conclusions</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="paper.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
 </div>
@@ -2304,14 +2329,14 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <li><p><strong>Access:</strong> direct download under a permissive licence with a DOI.</p></li>
 </ul>
 </section>
-<section id="background" class="level1">
-<h1>Background</h1>
+<section id="sec-background" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Background</h1>
 <p>…</p>
 </section>
-<section id="methods" class="level1">
-<h1>Methods</h1>
-<section id="generating-simulated-records-with-pseudopeople" class="level2">
-<h2 class="anchored" data-anchor-id="generating-simulated-records-with-pseudopeople">Generating simulated records with pseudopeople</h2>
+<section id="sec-methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
+<section id="generating-simulated-records-with-pseudopeople" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="generating-simulated-records-with-pseudopeople"><span class="header-section-number">2.1</span> Generating simulated records with pseudopeople</h2>
 <div id="cell-sample-demo" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2461,24 +2486,121 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 </div>
 </section>
 </section>
-<section id="results" class="level1">
-<h1>Results</h1>
+<section id="sec-results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<section id="sec-structure" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-structure"><span class="header-section-number">3.1</span> Structure, contents, and where the data are held</h2>
+<p>The resource is three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance <!-- OUTLINE run-list item 10 --> and described in <a href="#tbl-release" class="quarto-xref">Table 1</a>: a registry stand-in of 5,000,000 simulated people and two finder files of 500,000 and 100,000. All three are drawn from the 50,518,675 simulants ever recorded as Florida residents in the simulated 2020, 2030 or 2040 census (<a href="#sec-methods" class="quarto-xref">Section 2</a>), a pool that includes people who had died or left the state by the time of the later censuses, as a registry’s caseload does. As one external check of scale, the 2020 census slice alone holds 21,123,234 simulants, which is 98.1% of the official 2020 count of 21,538,187 Floridians <!-- TODO: Census Bureau citation, OUTLINE needs-verification #3 -->. The geography is Florida only, at the granularity of city and ZIP code, and the street addresses are simulated and cannot be geocoded; registry records carry a diagnosis date in 2020, 2030 or 2040, the finder files describe residents of 2040, and there are no county, tract or facility identifiers and no tumour variables, a scope we return to in <a href="#sec-discussion" class="quarto-xref">Section 4</a>.</p>
+<p>Rows and people are not quite the same count, and the difference is deliberate. The registry holds 5,000,002 rows for 5,000,000 distinct simulants, because pseudopeople’s duplication noise, which copies a child’s record onto a guardian’s response, occasionally emits two rows for one person; it touches an old registry only 2 times among 5,000,000 people, so the files are unique to within those rows, which is close to the uniqueness FCDS expects of its own data <span class="citation" data-cites="pseudopeople_issue205">[<a href="#ref-pseudopeople_issue205" role="doc-biblioref">1</a>]</span>. We define overlap once, as the number of distinct simulants present in both a finder file and the registry, and report true record pairs separately where they serve as the denominator of recall (<a href="#sec-difficulty" class="quarto-xref">Section 3.4</a>); in this release the two counts coincide. The larger finder file shares 100,000 people with the registry and the smaller 20,000, both exactly as designed, and the two finder files share 0 people with each other, so the smaller file is a clean held-out replicate of the larger.</p>
+<p>This exactness was not free. An earlier build trimmed the oversampled cohorts without stratifying by overlap status, overshot both overlap targets by roughly a third and left the two finder files sharing people they were designed not to share, an error that scoring against the identity key caught before anything was released; the released build trims within strata (<a href="#sec-methods" class="quarto-xref">Section 2</a>) and hits every design count. We publish MD5 and SHA-256 digests for each file and for the bundle, so that a user can prove the file in hand is the file profiled here, and we record every seed so that the build can be repeated; at the time of writing the current design has been built once, so the checksums are there to let reproducibility be checked rather than to claim it has been demonstrated.</p>
+<div id="tbl-release" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-release-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1: The released files: people and rows, designed overlaps, blank shares against their targets, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files.
+</figcaption>
+<div aria-describedby="tbl-release-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Rows</th>
+<th>People</th>
+<th>Shared with registry</th>
+<th>SSN blank (target → realised)</th>
+<th>Street name blank</th>
+<th>MB</th>
+<th>MD5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>registry.csv</code></td>
+<td>5,000,002</td>
+<td>5,000,000</td>
+<td>—</td>
+<td>5% → 5.68%</td>
+<td>1% → 1.00%</td>
+<td>565</td>
+<td><code>0dd8e15bf7582324bbd1a713918617a1</code></td>
+</tr>
+<tr class="even">
+<td><code>finder_500k.csv</code></td>
+<td>500,000</td>
+<td>500,000</td>
+<td>100,000</td>
+<td>20% → 20.0%</td>
+<td>5% → 5.0%</td>
+<td>50</td>
+<td><code>6025e4065d9616864fc0519d31da211a</code></td>
+</tr>
+<tr class="odd">
+<td><code>finder_100k.csv</code></td>
+<td>100,001</td>
+<td>100,000</td>
+<td>20,000</td>
+<td>20% → 20.0%</td>
+<td>5% → 5.0%</td>
+<td>10</td>
+<td><code>ffbc3a53f3b34e0d69854b07139b322d</code></td>
+</tr>
+<tr class="even">
+<td><code>sim_cancer_registry_linkage_benchmark_0.3.zip</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>234</td>
+<td><code>f05136aaee6e346501c51b86e13a43b1</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="sec-population" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-population"><span class="header-section-number">3.2</span> Population characteristics</h2>
 <p>…</p>
 </section>
-<section id="discussion" class="level1">
-<h1>Discussion</h1>
+<section id="sec-errors" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-errors"><span class="header-section-number">3.3</span> Error structure</h2>
 <p>…</p>
 </section>
-<section id="data-access" class="level1">
-<h1>Data Access</h1>
+<section id="sec-difficulty" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-difficulty"><span class="header-section-number">3.4</span> Linkage difficulty</h2>
 <p>…</p>
 </section>
-<section id="conclusions" class="level1">
-<h1>Conclusions</h1>
+</section>
+<section id="sec-discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
 <p>…</p>
+</section>
+<section id="sec-access" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Data Access</h1>
+<p>…</p>
+</section>
+<section id="sec-conclusions" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Conclusions</h1>
+<p>…</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-pseudopeople_issue205" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Alexandersson A, Flaxman AD, Keyes O. Data access request: Comparing the accuracy and speed of <span>Match*Pro</span>, <span class="nocase">fastLink</span>, and <span class="nocase">splink</span> at the <span>Florida Cancer Data System</span> (pseudopeople issue #205) [Internet]. 2023--2026; Available from: <a href="https://github.com/ihmeuw/pseudopeople/issues/205">https://github.com/ihmeuw/pseudopeople/issues/205</a></div>
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

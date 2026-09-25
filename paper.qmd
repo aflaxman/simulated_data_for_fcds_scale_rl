@@ -178,11 +178,11 @@ build_wall_seconds, build_peak_gb = round(env["build_wall_seconds"]), round(env[
 
 - **Access:** direct download under a permissive licence with a DOI.
 
-# Background
+# Background {#sec-background}
 
 …
 
-# Methods
+# Methods {#sec-methods}
 
 ## Generating simulated records with pseudopeople
 
@@ -194,18 +194,64 @@ census = psp.generate_decennial_census()   # bundled ~10k-simulant sample
 census.head()
 ```
 
-# Results
+# Results {#sec-results}
+
+## Structure, contents, and where the data are held {#sec-structure}
+
+The resource is three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance <!-- OUTLINE run-list item 10 --> and described in @tbl-release: a registry stand-in of `{python} registry_simulants` simulated people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants`. All three are drawn from the `{python} fl_pool` simulants ever recorded as Florida residents in the simulated 2020, 2030 or 2040 census (@sec-methods), a pool that includes people who had died or left the state by the time of the later censuses, as a registry's caseload does. As one external check of scale, the 2020 census slice alone holds `{python} fl_simulants` simulants, which is `{python} fl_share_census` of the official 2020 count of `{python} n(pop["fl_census_2020"])` Floridians <!-- TODO: Census Bureau citation, OUTLINE needs-verification #3 -->. The geography is Florida only, at the granularity of city and ZIP code, and the street addresses are simulated and cannot be geocoded; registry records carry a diagnosis date in 2020, 2030 or 2040, the finder files describe residents of `{python} finder_year`, and there are no county, tract or facility identifiers and no tumour variables, a scope we return to in @sec-discussion.
+
+Rows and people are not quite the same count, and the difference is deliberate. The registry holds `{python} registry_rows` rows for `{python} registry_simulants` distinct simulants, because pseudopeople's duplication noise, which copies a child's record onto a guardian's response, occasionally emits two rows for one person; it touches an old registry only `{python} registry_dupe_rows` times among `{python} registry_simulants` people, so the files are unique to within those rows, which is close to the uniqueness FCDS expects of its own data [@pseudopeople_issue205]. We define overlap once, as the number of distinct simulants present in both a finder file and the registry, and report true record pairs separately where they serve as the denominator of recall (@sec-difficulty); in this release the two counts coincide. The larger finder file shares `{python} overlap_500k_simulants` people with the registry and the smaller `{python} overlap_100k_simulants`, both exactly as designed, and the two finder files share `{python} overlap_finder_finder` people with each other, so the smaller file is a clean held-out replicate of the larger.
+
+This exactness was not free. An earlier build trimmed the oversampled cohorts without stratifying by overlap status, overshot both overlap targets by roughly a third and left the two finder files sharing people they were designed not to share, an error that scoring against the identity key caught before anything was released; the released build trims within strata (@sec-methods) and hits every design count. We publish MD5 and SHA-256 digests for each file and for the bundle, so that a user can prove the file in hand is the file profiled here, and we record every seed so that the build can be repeated; at the time of writing the current design has been built once, so the checksums are there to let reproducibility be checked rather than to claim it has been demonstrated.
+
+```{python}
+#| label: tbl-release
+#| tbl-cap: "The released files: people and rows, designed overlaps, blank shares against their targets, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files."
+#| output: asis
+def blank(file, field, target):
+    return f"{pct(target, 0)} → {pct(err[file][field], 2 if file == 'registry.csv' else 1)}"
+rows = [
+    ("registry.csv", registry_rows, registry_simulants, "—",
+     blank("registry.csv", "ssn_missing", no["registry"]["ssn_missing"]),
+     blank("registry.csv", "street_name_missing", no["registry"]["address_missing"]),
+     size_registry_mb, md5_registry),
+    ("finder_500k.csv", n(files["finder_500k.csv"]["rows"]), finder_500k_simulants, overlap_500k_simulants,
+     blank("finder_500k.csv", "ssn_missing", no["finder"]["ssn_missing"]),
+     blank("finder_500k.csv", "street_name_missing", no["finder"]["address_missing"]),
+     size_finder500k_mb, md5_finder500k),
+    ("finder_100k.csv", n(files["finder_100k.csv"]["rows"]), finder_100k_simulants, overlap_100k_simulants,
+     blank("finder_100k.csv", "ssn_missing", no["finder"]["ssn_missing"]),
+     blank("finder_100k.csv", "street_name_missing", no["finder"]["address_missing"]),
+     size_finder100k_mb, md5_finder100k),
+    (manifest["zip"]["name"], "", "", "", "", "", size_zip_mb, md5_zip),
+]
+header = ["File", "Rows", "People", "Shared with registry", "SSN blank (target → realised)", "Street name blank", "MB", "MD5"]
+print("| " + " | ".join(header) + " |")
+print("|" + "|".join(["---"] * len(header)) + "|")
+for r in rows:
+    print("| " + " | ".join(f"`{c}`" if i in (0, 7) and c else str(c) for i, c in enumerate(r)) + " |")
+```
+
+## Population characteristics {#sec-population}
 
 …
 
-# Discussion
+## Error structure {#sec-errors}
 
 …
 
-# Data Access
+## Linkage difficulty {#sec-difficulty}
 
 …
 
-# Conclusions
+# Discussion {#sec-discussion}
+
+…
+
+# Data Access {#sec-access}
+
+…
+
+# Conclusions {#sec-conclusions}
 
 …
