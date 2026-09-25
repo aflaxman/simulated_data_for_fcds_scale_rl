@@ -19,8 +19,10 @@ import duckdb
 import pandas as pd
 import yaml
 from pathlib import Path
-ROOT = Path(__file__).resolve().parent.parent
+
 from simulated_data_for_fcds_scale_rl.age_sex_weights import load_age_sex_weights
+
+ROOT = Path(__file__).resolve().parent.parent
 obs, datecol, out = sys.argv[1], sys.argv[2], sys.argv[3]
 threads = int(sys.argv[4]) if len(sys.argv) > 4 else 2
 mem = sys.argv[5] if len(sys.argv) > 5 else "40GB"
@@ -29,9 +31,11 @@ src = cfg["paths"]["psp_source"]
 yearexpr = f"year({datecol})" if datecol == "survey_date" else datecol
 w = load_age_sex_weights(ROOT / cfg["paths"]["age_sex_target"])
 bins = w[w.sex == "Female"][["age_start", "age_end"]].reset_index(drop=True)
-fc = pd.read_csv(ROOT / cfg["paths"]["age_sex_target"], comment="#"); fc["sex"] = fc.sex.str.capitalize()
+fc = pd.read_csv(ROOT / cfg["paths"]["age_sex_target"], comment="#")
+fc["sex"] = fc.sex.str.capitalize()
 share = fc.set_index(["age_start", "sex"])["count"] / fc["count"].sum()
-con = duckdb.connect(); con.execute(f"SET memory_limit='{mem}'; SET threads={threads}; SET preserve_insertion_order=false;")
+con = duckdb.connect()
+con.execute(f"SET memory_limit='{mem}'; SET threads={threads}; SET preserve_insertion_order=false;")
 con.register("bins", bins)
 t0 = time.time()
 con.execute(f"""
