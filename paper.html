@@ -2595,7 +2595,129 @@ Figure 2: Two simulated people as they appear in the registry and in the 500,00
 </section>
 <section id="sec-errors" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="sec-errors"><span class="header-section-number">3.3</span> Error structure</h2>
-<p>…</p>
+<p><a href="#tbl-errors" class="quarto-xref">Table 2</a> gives the error structure field by field: the share of values that are blank in the registry and in the larger finder file, against the blanking rate set for each, and, among the 100,000 true pairs, the share of pairs whose two records agree exactly when both have a value and the share with a blank on either side. The smaller finder file matches the larger on every figure in the table to within 0.8 percentage points.</p>
+<p>SSNs are blank in 20.0% of finder records, the rate FCDS specified, and in 5.68% of registry records against a specified 5%; the excess is structural, since 4.18% of the people in the registry pool never held an SSN in the source population. Of the SSNs present in the larger finder file, 4,001 carry two adjacent digits swapped, and where a true pair has an SSN on both sides the two agree in 99.1% of pairs.</p>
+<p>Names and dates of birth disagree more often than SSNs do. Among true pairs with both values present, first names agree in 94.0% of pairs, last names in 95.9% and dates of birth in 93.6%, and each of these fields is blank on one side in about 2.1% of pairs. Taken together, 79.3% of true pairs agree exactly on first name, last name and date of birth, and 77.9% have an SSN on both sides that agrees; these two shares bound what exact-match rules can find in <a href="#sec-difficulty" class="quarto-xref">Section 3.4</a>. Address fields agree in 97.0% of pairs with both present and are blank on one side in 5.9%; the unit number is blank for 94% of registry records, because most addresses have none, and street numbers are blank above their set rates because some source addresses carry none.</p>
+<div id="tbl-errors" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="9">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 2: Error structure by field. Blank shares in the registry and the 500,000-record finder file, with the blanking rate set for each field in parentheses (FCDS’s specification for SSN and address fields, pseudopeople’s default elsewhere); and, among the 100,000 true pairs, the share of pairs whose two records agree exactly when both have a value and the share with a blank on either side.
+</figcaption>
+<div aria-describedby="tbl-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Blank, registry (set)</th>
+<th>Blank, finder file (set)</th>
+<th>True pairs: agree when both present</th>
+<th>True pairs: blank on either side</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>First name</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>94.0%</td>
+<td>2.1%</td>
+</tr>
+<tr class="even">
+<td>Middle initial</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>99.7%</td>
+<td>2.0%</td>
+</tr>
+<tr class="odd">
+<td>Last name</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>95.9%</td>
+<td>2.0%</td>
+</tr>
+<tr class="even">
+<td>Date of birth</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>93.6%</td>
+<td>2.0%</td>
+</tr>
+<tr class="odd">
+<td>Sex</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>98.0%</td>
+<td>2.0%</td>
+</tr>
+<tr class="even">
+<td>Race/ethnicity</td>
+<td>1.0% (1%)</td>
+<td>1.0% (1%)</td>
+<td>98.0%</td>
+<td>2.0%</td>
+</tr>
+<tr class="odd">
+<td>Street number</td>
+<td>5.6% (1%)</td>
+<td>9.5% (5%)</td>
+<td>98.3%</td>
+<td>10.2%</td>
+</tr>
+<tr class="even">
+<td>Street name</td>
+<td>1.0% (1%)</td>
+<td>5.0% (5%)</td>
+<td>97.0%</td>
+<td>5.9%</td>
+</tr>
+<tr class="odd">
+<td>Unit number</td>
+<td>94.2% (1%)</td>
+<td>94.3% (5%)</td>
+<td>98.2%</td>
+<td>94.4%</td>
+</tr>
+<tr class="even">
+<td>City</td>
+<td>1.0% (1%)</td>
+<td>5.0% (5%)</td>
+<td>97.2%</td>
+<td>6.1%</td>
+</tr>
+<tr class="odd">
+<td>State</td>
+<td>1.0% (1%)</td>
+<td>5.0% (5%)</td>
+<td>98.1%</td>
+<td>6.0%</td>
+</tr>
+<tr class="even">
+<td>ZIP code</td>
+<td>1.0% (1%)</td>
+<td>5.0% (5%)</td>
+<td>97.5%</td>
+<td>5.9%</td>
+</tr>
+<tr class="odd">
+<td>SSN</td>
+<td>5.7% (5%)</td>
+<td>20.0% (20%)</td>
+<td>99.1%</td>
+<td>21.4%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 </section>
 <section id="sec-difficulty" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="sec-difficulty"><span class="header-section-number">3.4</span> Linkage difficulty</h2>

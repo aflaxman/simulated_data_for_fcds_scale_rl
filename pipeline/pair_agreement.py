@@ -64,6 +64,14 @@ def main() -> None:
               f"SSN usable and agreeing {row['ssn_usable_and_agree']:.3f}")
         for f in ("first_name", "last_name", "date_of_birth", "street_name", "ssn"):
             print(f"  {f:14} agree {row[f'agree_{f}']:.3f}  blank {row[f'blank_{f}']:.3f}")
+    # Per-file blank shares for every released field (the error-structure table in Results §3.3
+    # sets them against the rates that were configured).
+    blank_by_file = {}
+    for fname in ("registry.csv", "finder_500k.csv", "finder_100k.csv"):
+        sel = ", ".join(f"avg((NOT {present('r', f)})::INT) AS {f}" for f in FIELDS)
+        row = con.execute(f"SELECT {sel} FROM read_csv('{RELEASE / fname}', {READ_OPTS}) r").df().iloc[0]
+        blank_by_file[fname] = {f: float(row[f]) for f in FIELDS}
+    out["blank_share_by_file"] = blank_by_file
     (RESULTS / "pair_agreement.json").write_text(json.dumps(out, indent=2) + "\n")
     print("wrote results/pair_agreement.json")
 

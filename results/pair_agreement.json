@@ -116,5 +116,52 @@
     },
     "name_dob_all_agree": 0.79695,
     "ssn_usable_and_agree": 0.7709
+  },
+  "blank_share_by_file": {
+    "registry.csv": {
+      "first_name": 0.010040195983921606,
+      "middle_initial": 0.009982796006881598,
+      "last_name": 0.009964996014001594,
+      "date_of_birth": 0.009956996017201594,
+      "sex": 0.010007595996961601,
+      "race_ethnicity": 0.010020395991841603,
+      "street_number": 0.056035577585768964,
+      "street_name": 0.010027995988801604,
+      "unit_number": 0.9423174230730308,
+      "city": 0.009983796006481598,
+      "state": 0.009988596004561598,
+      "zipcode": 0.010007795996881601,
+      "ssn": 0.0568475772609691
+    },
+    "finder_500k.csv": {
+      "first_name": 0.009876,
+      "middle_initial": 0.009782,
+      "last_name": 0.009974,
+      "date_of_birth": 0.009938,
+      "sex": 0.009948,
+      "race_ethnicity": 0.01013,
+      "street_number": 0.095308,
+      "street_name": 0.049846,
+      "unit_number": 0.942936,
+      "city": 0.050074,
+      "state": 0.050026,
+      "zipcode": 0.049944,
+      "ssn": 0.2
+    },
+    "finder_100k.csv": {
+      "first_name": 0.00982990170098299,
+      "middle_initial": 0.01041989580104199,
+      "last_name": 0.010129898701012989,
+      "date_of_birth": 0.01002989970100299,
+      "sex": 0.00990990090099099,
+      "race_ethnicity": 0.01005989940100599,
+      "street_number": 0.0943990560094399,
+      "street_name": 0.04958950410495895,
+      "unit_number": 0.944340556594434,
+      "city": 0.04975950240497595,
+      "state": 0.04988950110498895,
+      "zipcode": 0.049769502304976954,
+      "ssn": 0.1999980000199998
+    }
   }
 }
