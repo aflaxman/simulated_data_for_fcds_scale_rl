@@ -1,29 +1,19 @@
 # Florida Cancer Data System age- and sex-specific cancer incidence.
 #
-# USED AS THE REGISTRY SAMPLING WEIGHTS since 2026-09-24: pipeline/build_cohorts.py
-# reads this table (named in config.yaml, paths.age_sex_weights) and draws the
-# registry stand-in with probability proportional to `rate` within (sex, age bin).
-# Only relative weights matter. The GBD prevalence table it replaced is kept as
-# the comparator for the age/sex QA figure.
+# SOURCE (confirmed 2026-09-24): Florida Cancer Registry, General Incidence, diagnosis
+# years 1995-2023, all malignant sites, sex detail, 5-year age groups (18 groups, 85+
+# open-ended), counts and crude age-specific rates per 100,000 population per year;
+# "extracted and authorized for this project" and posted by the second author, Anders
+# Alexandersson (FCDS), in the pseudopeople data-access thread
+# https://github.com/ihmeuw/pseudopeople/issues/205 on 2026-01-28 (counts) and
+# 2026-01-30 (rates). The 1,605 cases of unknown sex are excluded. Counts total
+# 3,241,109 (male 1,693,898, female 1,547,211).
 #
-# PROVENANCE — NEEDS CONFIRMATION BEFORE PUBLICATION.
-# Transcribed from /ihme/homes/abie/notebook/2026/2026_02_02a_psp_fl_cancer_data.ipynb
-# (cell 6), where it is entered by hand and labelled "FCDS" in the comparison plot
-# against GBD in 2026_02_05a_psp_prep_get_cancer_prevalence.ipynb. A companion note
-# in the same notebook attributes the linkage-error rates used by the pipeline to
-# the "FCDS 2024 monograph", which is the presumed source of this table too.
-# Before this is cited in the paper, confirm: (a) the exact monograph/report title,
-# year and URL; (b) the diagnosis-year span the counts cover; (c) the denominator
-# and period the rates are expressed over. The counts total 3,241,109 across the 18
-# age groups, which is far more than one year of Florida incidence, so these are
-# cumulative counts paired with average annual rates per 100,000 — state the span
-# explicitly once confirmed.
-#
-# A "Total" summary row present in the source was dropped. Records with unknown sex
-# (n = 1,605) are excluded from this table.
+# USE: pipeline/build_cohorts.py draws the registry stand-in to the age/sex shares of
+# the `count` column (config.yaml, paths.age_sex_target), each stratum an exact quota.
+# The `rate` column is kept for the record and is not used by the build.
 #
 # age_end is EXCLUSIVE; the open-ended top group is recorded as age_end = 999.
-# rate is per 100,000.
 age_group,age_start,age_end,sex,count,rate
 0-4,0,5,male,3856,24.54836046
 0-4,0,5,female,3256,21.64637718
