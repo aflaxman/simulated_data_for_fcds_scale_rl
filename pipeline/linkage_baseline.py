@@ -16,6 +16,8 @@ under a minute on one node; it does not need srun.
 from __future__ import annotations
 
 import json
+import os
+import platform
 import time
 from pathlib import Path
 
@@ -49,6 +51,10 @@ RULES: list[tuple[str, str, list[list[str]]]] = [
      [["fn", "ln", "ssn", "sex"], ["fn", "ln", "mob", "yob", "sex"]]),
     ("fcds_current_dob_ssn", "Current FCDS layout rule: name, sex, date of birth and SSN",
      [["fn", "ln", "sex", "dob", "ssn"]]),
+    ("fcds_current_dob_address", "Current FCDS layout rule: name, sex, date of birth, ZIP and street address",
+     [["fn", "ln", "sex", "dob", "zip", "stno", "stname"]]),
+    ("fcds_current_either", "Either current FCDS layout rule",
+     [["fn", "ln", "sex", "dob", "ssn"], ["fn", "ln", "sex", "dob", "zip", "stno", "stname"]]),
     ("name_dob_or_ssn", "First + last name and date of birth, or SSN",
      [["fn", "ln", "dob"], ["ssn"]]),
     ("lastname_dob", "Last name and date of birth only",
@@ -68,8 +74,16 @@ NORMALISE = """
     lower(trim(sex))        AS sex,
     nullif(replace(ssn, '-', ''), '') AS ssn,
     substr(date_of_birth, 1, 2) AS mob,
-    substr(date_of_birth, 7, 4) AS yob
+    substr(date_of_birth, 7, 4) AS yob,
+    lower(trim(zipcode)) AS zip,
+    lower(trim(street_number)) AS stno,
+    lower(trim(street_name)) AS stname,
+    CASE WHEN race_ethnicity IN ('White', 'Latino', 'Black', 'Asian') THEN race_ethnicity
+         ELSE 'Other or unknown' END AS race_group
 """
+
+# Rules reported by stratum of the finder record's race/ethnicity (Figure 3).
+STRATIFIED_RULES = ["name_dob", "ssn_only", "name_dob_or_ssn"]
 
 
 def load(con: duckdb.DuckDBPyConnection, name: str, csv: Path) -> None:
@@ -116,15 +130,46 @@ def evaluate(con: duckdb.DuckDBPyConnection, keysets: list[list[str]], truth_pai
     }
 
 
+def evaluate_stratified(con: duckdb.DuckDBPyConnection, keysets: list[list[str]]) -> dict:
+    """The same scoring, grouped by the race/ethnicity recorded on the finder record."""
+    parts = []
+    for keys in keysets:
+        on = " AND ".join(f"a.{k} = b.{k}" for k in keys)
+        notnull = " AND ".join(f"a.{k} IS NOT NULL" for k in keys)
+        parts.append(f"SELECT a.race_group AS grp, a.rid AS rid_f, b.rid AS rid_r, a.simulant_id AS sid_f, "
+                     f"b.simulant_id AS sid_r FROM F a JOIN R b ON {on} WHERE {notnull}")
+    truth = dict(con.execute(
+        "SELECT a.race_group, count(*) FROM F a JOIN R b USING (simulant_id) GROUP BY 1").fetchall())
+    rows = con.execute(f"""
+        WITH pairs AS ({" UNION ".join(parts)})
+        SELECT grp, count(*), count(*) FILTER (WHERE sid_f = sid_r) FROM pairs GROUP BY grp
+    """).fetchall()
+    out = {}
+    for grp, predicted, tp in rows:
+        t = truth.get(grp, 0)
+        out[grp] = {"true_pairs": t, "predicted_pairs": predicted, "true_positives": tp,
+                    "precision": tp / predicted if predicted else float("nan"),
+                    "recall": tp / t if t else float("nan")}
+    for grp, t in truth.items():
+        out.setdefault(grp, {"true_pairs": t, "predicted_pairs": 0, "true_positives": 0,
+                             "precision": float("nan"), "recall": 0.0})
+    return out
+
+
 def main() -> None:
     con = duckdb.connect()
-    con.execute("PRAGMA threads=8")
+    threads = min(8, os.cpu_count() or 1)
+    con.execute(f"PRAGMA threads={threads}")
 
     out: dict = {
         "dataset_version": CONFIG["dataset"]["version"],
         "duckdb_version": duckdb.__version__,
+        "node": {"hostname": platform.node(), "cpu_count": os.cpu_count(),
+                 "slurm_cpus": os.environ.get("SLURM_CPUS_ON_NODE"), "duckdb_threads": threads},
         "finder_files": {},
     }
+    stratified: dict = {"stratifier": "race_ethnicity as recorded on the finder record, folded to five groups",
+                        "rules": STRATIFIED_RULES, "finder_files": {}}
 
     load(con, "R", RELEASE / REGISTRY)
     out["registry"] = {
@@ -155,10 +200,17 @@ def main() -> None:
                   f"R={scores['recall']:.4f} F1={scores['f1']:.4f}", flush=True)
         entry["seconds"] = round(time.time() - t0, 1)
         out["finder_files"][finder] = entry
+        strata = dict(con.execute(
+            "SELECT a.race_group, count(*) FROM F a JOIN R b USING (simulant_id) GROUP BY 1").fetchall())
+        stratified["finder_files"][finder] = {
+            "strata_true_pairs": strata,
+            "rules": {key: evaluate_stratified(con, keysets) for key, label, keysets in RULES if key in STRATIFIED_RULES},
+        }
 
     RESULTS.mkdir(exist_ok=True)
     (RESULTS / "linkage_baseline.json").write_text(json.dumps(out, indent=2) + "\n")
-    print(f"wrote {RESULTS / 'linkage_baseline.json'}")
+    (RESULTS / "linkage_baseline_stratified.json").write_text(json.dumps(stratified, indent=2) + "\n")
+    print(f"wrote {RESULTS / 'linkage_baseline.json'} and linkage_baseline_stratified.json")
 
 
 if __name__ == "__main__":

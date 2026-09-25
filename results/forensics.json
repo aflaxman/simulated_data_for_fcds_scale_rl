@@ -1,0 +1,153 @@
+{
+  "uniqueness": {
+    "unique_name_dob": 0.9696182,
+    "unique_lastname_dob": 0.888384,
+    "unique_zip_dob_sex": 0.8155412,
+    "people_sharing_full_name": 2332067,
+    "share_sharing_full_name": 0.4664134,
+    "registry_people": 5000000
+  },
+  "top_names_registry": {
+    "first": [
+      {
+        "name": "james",
+        "count": 95483
+      },
+      {
+        "name": "michael",
+        "count": 94326
+      },
+      {
+        "name": "robert",
+        "count": 90290
+      },
+      {
+        "name": "john",
+        "count": 89945
+      },
+      {
+        "name": "david",
+        "count": 80363
+      },
+      {
+        "name": "william",
+        "count": 63992
+      },
+      {
+        "name": "mary",
+        "count": 55327
+      },
+      {
+        "name": "richard",
+        "count": 53271
+      },
+      {
+        "name": "thomas",
+        "count": 44444
+      },
+      {
+        "name": "joseph",
+        "count": 39190
+      }
+    ],
+    "last": [
+      {
+        "name": "smith",
+        "count": 43088
+      },
+      {
+        "name": "johnson",
+        "count": 33913
+      },
+      {
+        "name": "williams",
+        "count": 28192
+      },
+      {
+        "name": "brown",
+        "count": 25075
+      },
+      {
+        "name": "jones",
+        "count": 24799
+      },
+      {
+        "name": "miller",
+        "count": 20644
+      },
+      {
+        "name": "davis",
+        "count": 19890
+      },
+      {
+        "name": "garcia",
+        "count": 18002
+      },
+      {
+        "name": "rodriguez",
+        "count": 17533
+      },
+      {
+        "name": "hernandez",
+        "count": 16375
+      }
+    ]
+  },
+  "blocking": {
+    "finder_500k.csv": {
+      "naive_pairs": 2500001000000,
+      "block_dob": {
+        "candidate_pairs": 58071270,
+        "pairs_completeness": 0.91702,
+        "reduction_ratio": 0.9999767715012914
+      },
+      "block_lastname_initial_yob": {
+        "candidate_pairs": 1230428011,
+        "pairs_completeness": 0.90745,
+        "reduction_ratio": 0.9995078289924684
+      }
+    },
+    "finder_100k.csv": {
+      "naive_pairs": 500005200002,
+      "block_dob": {
+        "candidate_pairs": 11573127,
+        "pairs_completeness": 0.91985,
+        "reduction_ratio": 0.9999768539867187
+      },
+      "block_lastname_initial_yob": {
+        "candidate_pairs": 245080081,
+        "pairs_completeness": 0.91,
+        "reduction_ratio": 0.9995098449356147
+      }
+    }
+  },
+  "sentinels": {
+    "registry.csv": {
+      "rows": 5000002,
+      "dob_blank_share": 0.009956996017201594,
+      "dob_unparseable_share_of_present": 0.014087665247806308,
+      "doe_names": 11,
+      "ssn_repeated_digit": 0,
+      "ssn_not_issuable": 0,
+      "ssn_present": 4715764
+    },
+    "finder_500k.csv": {
+      "rows": 500000,
+      "dob_blank_share": 0.009938,
+      "dob_unparseable_share_of_present": 0.014172849781124819,
+      "doe_names": 0,
+      "ssn_repeated_digit": 0,
+      "ssn_not_issuable": 52,
+      "ssn_present": 400000
+    },
+    "finder_100k.csv": {
+      "rows": 100001,
+      "dob_blank_share": 0.01002989970100299,
+      "dob_unparseable_share_of_present": 0.014303319258974928,
+      "doe_names": 0,
+      "ssn_repeated_digit": 0,
+      "ssn_not_issuable": 15,
+      "ssn_present": 80001
+    }
+  }
+}

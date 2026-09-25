@@ -336,7 +336,77 @@ for f, label in FIELD_LABELS:
 
 ## Linkage difficulty {#sec-difficulty}
 
-…
+```{python}
+#| label: difficulty-values
+fx = json.load(open("results/forensics.json"))
+u = fx["uniqueness"]
+uniq_name_dob, uniq_lastname_dob, uniq_zip_dob_sex = pct(u["unique_name_dob"]), pct(u["unique_lastname_dob"]), pct(u["unique_zip_dob_sex"])
+shared_fullname = pct(u["share_sharing_full_name"], 0)
+bl = fx["blocking"]["finder_500k.csv"]
+n_pairs_naive = f"{bl['naive_pairs'] / 1e12:.1f} trillion"
+pairs_block_dob = f"{bl['block_dob']['candidate_pairs'] / 1e6:.0f} million"
+completeness_block_dob = pct(bl["block_dob"]["pairs_completeness"])
+pairs_block_ln_yob = f"{bl['block_lastname_initial_yob']['candidate_pairs'] / 1e9:.2f} billion"
+completeness_block_ln_yob = pct(bl["block_lastname_initial_yob"]["pairs_completeness"])
+r500_ssn_only_recall = rule("ssn_only", "recall")
+r500_current_either_recall = rule("fcds_current_either", "recall")
+strat = json.load(open("results/linkage_baseline_stratified.json"))["finder_files"]["finder_500k.csv"]["rules"]
+def missed(rule_name, group):
+    return 1 - strat[rule_name][group]["recall"]
+def fm(rule_name, group):
+    return 1 - strat[rule_name][group]["precision"]
+groups = ["White", "Latino", "Black", "Asian", "Other or unknown"]
+nd_missed_min, nd_missed_max = pct(min(missed("name_dob", g) for g in groups)), pct(max(missed("name_dob", g) for g in groups))
+nd_fm_max = pct(max(fm("name_dob", g) for g in groups), 2)
+ssn_missed_white, ssn_missed_latino, ssn_missed_asian = (pct(missed("ssn_only", g), 0) for g in ("White", "Latino", "Asian"))
+best_missed_white, best_missed_asian = pct(missed("name_dob_or_ssn", "White")), pct(missed("name_dob_or_ssn", "Asian"))
+lb100 = lb["finder_files"]["finder_100k.csv"]
+rules100 = {r["rule"]: r for r in lb100["rules"]}
+ladder_100k_max_diff = f"{100 * max(abs(rules[k]['recall'] - rules100[k]['recall']) for k in rules):.1f}"
+baseline_threads = lb["node"]["duckdb_threads"]
+n_rules = len(rules)
+```
+
+Exact keys are less unique than they look. Among the `{python} registry_simulants` people in the registry, `{python} uniq_name_dob` have a first name, last name and date of birth that no one else in the file shares, `{python} uniq_lastname_dob` have a unique last name and date of birth, and `{python} uniq_zip_dob_sex` a unique ZIP code, date of birth and sex, while `{python} shared_fullname` share their full name with at least one other person.
+
+@tbl-ladder scores exact-agreement rules on the larger finder file against the key. Agreement on first name, last name and date of birth links `{python} pct(r500_name_dob_recall)` of true pairs at a precision of `{python} pct(r500_name_dob_precision, 2)`, and the SSN alone links `{python} pct(r500_ssn_only_recall)` at `{python} pct(r500_ssn_only_precision, 2)`. The two field sets FCDS's Procedure Guide requires a submission to carry behave differently as exact rules: name, SSN and sex makes no false matches and finds `{python} pct(r500_fcds_min_ssn_recall)` of true pairs, name with month and year of birth and sex admits `{python} r500_fcds_min_monthyear_fp` false matches, and either set finds `{python} pct(r500_fcds_either_recall)`; the current layout's two sets, which both require the full date of birth, find `{python} pct(r500_current_either_recall)` together with no false matches. Name and date of birth or SSN, the best simple rule, reaches a recall of `{python} pct(r500_best_recall)` at a precision of `{python} pct(r500_best_precision, 2)`, and last name with date of birth alone falls to a precision of `{python} pct(r500_lastname_dob_precision)`. These are exact-agreement rules on the field sets FCDS requires a submission to carry, not the registry's own matching procedure.
+
+```{python}
+#| label: tbl-ladder
+#| tbl-cap: "Exact-agreement rules on the 500,000-record finder file, scored against the identity key. The Guide and layout rows are exact agreement on the field sets FCDS requires a submission to carry, not the registry's own matching procedure."
+#| output: asis
+SHORT = {
+    "name_dob": "First name, last name, date of birth",
+    "ssn_only": "SSN alone",
+    "fcds_min_ssn": "Guide set: name, SSN, sex",
+    "fcds_min_monthyear": "Guide set: name, month and year of birth, sex",
+    "fcds_min_either": "Either Guide set",
+    "fcds_current_either": "Either current layout set (name, sex, date of birth, with SSN or with address)",
+    "name_dob_or_ssn": "Name and date of birth, or SSN",
+    "lastname_dob": "Last name and date of birth",
+}
+print("| Rule | Predicted pairs | True | False | Precision | Recall | Missed-match |")
+print("|---|---|---|---|---|---|---|")
+for key, label in SHORT.items():
+    r = rules[key]
+    print(f"| {label} | {n(r['predicted_pairs'])} | {n(r['true_positives'])} | {n(r['false_positives'])} | {r['precision']:.4f} | {r['recall']:.4f} | {pct(1 - r['recall'])} |")
+```
+
+Without blocking the two files present `{python} n_pairs_naive` record pairs. Blocking on the full date of birth leaves `{python} pairs_block_dob` candidate pairs and keeps `{python} completeness_block_dob` of true pairs; blocking on the first letter of the last name with the year of birth leaves `{python} pairs_block_ln_yob` and keeps `{python} completeness_block_ln_yob`.
+
+@fig-stratified splits three rules by the race/ethnicity recorded on the finder record. For first name, last name and date of birth the missed-match rate is alike across groups, from `{python} nd_missed_min` to `{python} nd_missed_max`, and the false-match rate stays below `{python} nd_fm_max` in every group. The SSN rule differs by group: it misses `{python} ssn_missed_asian` of true pairs for Asian people and `{python} ssn_missed_latino` for Latino people against `{python} ssn_missed_white` for White people, and the difference carries into the best simple rule, which misses `{python} best_missed_asian` of Asian true pairs against `{python} best_missed_white` of White ones.
+
+```{python}
+#| label: fig-stratified
+#| fig-cap: "Missed-match and false-match rates of three exact-agreement rules on the 500,000-record finder file, by the race/ethnicity recorded on the finder record, with the number of true pairs in each group."
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(7.09, 3.1), gridspec_kw={"width_ratios": [1.3, 1]})
+fig.subplots_adjust(left=0.27, right=0.99, top=0.97, bottom=0.27, wspace=0.08)
+handles = F.stratified_baseline(ax1, ax2)
+fig.legend(handles=handles, loc="lower center", ncol=3, frameon=False, fontsize=7, bbox_to_anchor=(0.5, 0.0))
+plt.show()
+```
+
+The `{python} n_rules` rules run in `{python} baseline_seconds_500k` seconds on the 500,000-record file with `{python} baseline_threads` threads on an eight-core allocation. The 100,000-record file gives the same picture: every rule's recall is within `{python} ladder_100k_max_diff` percentage points of the larger file's.
 
 # Discussion {#sec-discussion}
 

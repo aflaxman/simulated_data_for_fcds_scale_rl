@@ -1,6 +1,12 @@
 {
   "dataset_version": "0.3",
   "duckdb_version": "1.5.4",
+  "node": {
+    "hostname": "long-slurm-sarchive-p0112",
+    "cpu_count": 128,
+    "slurm_cpus": "8",
+    "duckdb_threads": 8
+  },
   "finder_files": {
     "finder_100k.csv": {
       "rows": 100001,
@@ -161,6 +167,61 @@
           "finder_rows_matched_correctly": 11845
         },
         {
+          "rule": "fcds_current_dob_address",
+          "label": "Current FCDS layout rule: name, sex, date of birth, ZIP and street address",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "zip",
+              "stno",
+              "stname"
+            ]
+          ],
+          "predicted_pairs": 11285,
+          "true_positives": 11285,
+          "false_positives": 0,
+          "false_negatives": 8715,
+          "precision": 1.0,
+          "recall": 0.56425,
+          "f1": 0.7214319961642961,
+          "finder_rows_matched": 11285,
+          "finder_rows_matched_correctly": 11285
+        },
+        {
+          "rule": "fcds_current_either",
+          "label": "Either current FCDS layout rule",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "ssn"
+            ],
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "zip",
+              "stno",
+              "stname"
+            ]
+          ],
+          "predicted_pairs": 14384,
+          "true_positives": 14384,
+          "false_positives": 0,
+          "false_negatives": 5616,
+          "precision": 1.0,
+          "recall": 0.7192,
+          "f1": 0.8366682177757097,
+          "finder_rows_matched": 14384,
+          "finder_rows_matched_correctly": 14384
+        },
+        {
           "rule": "name_dob_or_ssn",
           "label": "First + last name and date of birth, or SSN",
           "keysets": [
@@ -203,7 +264,7 @@
           "finder_rows_matched_correctly": 17271
         }
       ],
-      "seconds": 1.9
+      "seconds": 2.6
     },
     "finder_500k.csv": {
       "rows": 500000,
@@ -364,6 +425,61 @@
           "finder_rows_matched_correctly": 59318
         },
         {
+          "rule": "fcds_current_dob_address",
+          "label": "Current FCDS layout rule: name, sex, date of birth, ZIP and street address",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "zip",
+              "stno",
+              "stname"
+            ]
+          ],
+          "predicted_pairs": 56141,
+          "true_positives": 56141,
+          "false_positives": 0,
+          "false_negatives": 43859,
+          "precision": 1.0,
+          "recall": 0.56141,
+          "f1": 0.7191064486585842,
+          "finder_rows_matched": 56141,
+          "finder_rows_matched_correctly": 56141
+        },
+        {
+          "rule": "fcds_current_either",
+          "label": "Either current FCDS layout rule",
+          "keysets": [
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "ssn"
+            ],
+            [
+              "fn",
+              "ln",
+              "sex",
+              "dob",
+              "zip",
+              "stno",
+              "stname"
+            ]
+          ],
+          "predicted_pairs": 71692,
+          "true_positives": 71692,
+          "false_positives": 0,
+          "false_negatives": 28308,
+          "precision": 1.0,
+          "recall": 0.71692,
+          "f1": 0.8351233604361298,
+          "finder_rows_matched": 71692,
+          "finder_rows_matched_correctly": 71692
+        },
+        {
           "rule": "name_dob_or_ssn",
           "label": "First + last name and date of birth, or SSN",
           "keysets": [
@@ -406,7 +522,7 @@
           "finder_rows_matched_correctly": 86125
         }
       ],
-      "seconds": 2.9
+      "seconds": 3.8
     }
   },
   "registry": {

@@ -23,6 +23,7 @@ import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import yaml
 from matplotlib.lines import Line2D
@@ -266,6 +267,40 @@ def deposit_inset(ax, size: float = 6.0) -> None:
             f"{ov['finder_100k']['overlap_simulants']:,} of the 100k file\nare also in the registry; none are in both "
             "finder files. Every row carries\nits simulant_id, so any linkage can be scored exactly.")
     ax.text(0, y + 0.05, text, fontsize=size - 0.4, color=INK2, va="top", linespacing=1.35)
+
+
+# --- stratified ladder (Figure 3) ------------------------------------------------------
+STRATA = ["White", "Latino", "Black", "Asian", "Other or unknown"]
+RULE_LABELS = {"name_dob": "first name, last name and date of birth", "ssn_only": "SSN alone",
+               "name_dob_or_ssn": "name and date of birth, or SSN"}
+
+
+def stratified_baseline(ax_missed, ax_false, finder: str = "finder_500k.csv",
+                        rules=("name_dob", "ssn_only", "name_dob_or_ssn"), size: float = 7.0):
+    """Missed-match and false-match rates of exact-agreement rules by the finder record's race/ethnicity."""
+    d = json.load(open(RESULTS / "linkage_baseline_stratified.json"))["finder_files"][finder]
+    y = np.arange(len(STRATA))
+    h = 0.8 / len(rules)
+    handles = []
+    for i, rule in enumerate(rules):
+        off = (i - (len(rules) - 1) / 2) * h
+        missed = [100 * (1 - d["rules"][rule][g]["recall"]) for g in STRATA]
+        false = [100 * (1 - d["rules"][rule][g]["precision"]) for g in STRATA]
+        handles.append(ax_missed.barh(y + off, missed, height=h * 0.9, color=SLOTS[i], label=RULE_LABELS.get(rule, rule)))
+        ax_false.barh(y + off, false, height=h * 0.9, color=SLOTS[i])
+    for ax, title in ((ax_missed, "Missed-match rate (%)"), (ax_false, "False-match rate (%)")):
+        ax.set_yticks(y)
+        ax.invert_yaxis()
+        ax.grid(axis="x", color=GRID, lw=0.6, zorder=0)
+        ax.set_axisbelow(True)
+        ax.set_xlabel(title, fontsize=size, color=INK2)
+        for side in ("top", "right", "left"):
+            ax.spines[side].set_visible(False)
+        ax.tick_params(axis="y", length=0)
+        ax.tick_params(axis="x", labelsize=size - 0.5)
+    ax_missed.set_yticklabels([f"{g}  (n = {d['strata_true_pairs'][g]:,})" for g in STRATA], fontsize=size)
+    ax_false.set_yticklabels([])
+    return handles
 
 
 # --- candidates -----------------------------------------------------------------------
