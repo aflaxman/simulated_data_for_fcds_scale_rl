@@ -52,7 +52,7 @@ def matched_pairs(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
                    QUALIFY row_number() OVER (PARTITION BY simulant_id) = 1),
              f AS (SELECT * FROM read_csv('{fin}', {READ_OPTS})
                    QUALIFY row_number() OVER (PARTITION BY simulant_id) = 1)
-        SELECT r.simulant_id, {cols_r}, {cols_f}
+        SELECT r.simulant_id, {cols_r}, {cols_f}, r.diagnosis_date AS r_diagnosis_date
         FROM r JOIN f USING (simulant_id)
         ORDER BY r.simulant_id
     """).df()
@@ -110,7 +110,9 @@ def main() -> None:
         note = "; ".join(f"{f}: {lab}" for f, lab in d)
         for source, prefix in (("registry", "r_"), ("finder_500k", "f_")):
             rows.append({"pair": k, "simulant_id": sid, "source": source,
-                         **{c: row[f"{prefix}{c}"] for c in FIELDS}, "discrepancies": note})
+                         **{c: row[f"{prefix}{c}"] for c in FIELDS},
+                         "diagnosis_date": row["r_diagnosis_date"] if source == "registry" else "",
+                         "discrepancies": note})
         print(f"pair {k}: {sid}: {note}")
     pd.DataFrame(rows).to_csv(RESULTS / "example_pair.csv", index=False)
     print("wrote results/example_pair.csv")

@@ -33,6 +33,8 @@ seeds:
   psp_finder: 1
   # numpy RNG for exact-target downsampling and SSN noise.
   postprocess: 999
+  # Keyed hash placing each registry record's diagnosis date within its census year.
+  diagnosis_date: 2026
 
 cohorts:
   # State the extract is filtered to, and which census records feed each file.

@@ -95,7 +95,7 @@ assert manifest["overlaps"]["finder_finder_simulants"] == cfg["cohorts"]["overla
 
 - **Data linkage:** the larger finder file includes `{python} overlap_500k_target` simulants in the registry and the smaller finder file includes `{python} overlap_100k_target` simulants. There is no overlap between the finder files.
 
-- **Main categories of data:** simulated person-level identifiers including name, date of birth, sex, street-address fields, SSN, race/ethnicity, carrying realistic synthetic noise (typos, nicknames, month/day swaps, blanks, duplications).
+- **Main categories of data:** simulated person-level identifiers including name, date of birth, sex, street-address fields, SSN, race/ethnicity, and a diagnosis date on each registry record, carrying realistic synthetic noise (typos, nicknames, month/day swaps, blanks, duplications).
 
 - **Access:** direct download under a permissive licence with a DOI.
 

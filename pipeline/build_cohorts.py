@@ -17,7 +17,11 @@ redesigned 2026-09-24:
 * the exact-target trim is ``stratified_trim`` (``src/``), which hits every
   design target exactly and makes the finder files disjoint — v0.2's
   unstratified trim overshot the overlap targets by roughly a third;
-* ``race_ethnicity`` is carried into the released schema;
+* ``race_ethnicity`` is carried into the released schema, and each registry
+  record carries a ``diagnosis_date``: a day drawn uniformly within the record's
+  census year by keyed hash (``seeds.diagnosis_date``), so age at diagnosis is
+  within a year of the age the FCDS target was matched on (dates therefore
+  heap on the census years);
 * checksums (MD5 and SHA-256), a release manifest, realised error rates, a
   population summary, the age/sex/race composition and top first names of
   each file (from the source's true ages), and environment info are written
@@ -59,6 +63,7 @@ import pseudopeople as psp
 import yaml
 
 from simulated_data_for_fcds_scale_rl.age_sex_weights import allocate_by_share, load_age_sex_targets
+from simulated_data_for_fcds_scale_rl.diagnosis_date import diagnosis_dates
 from simulated_data_for_fcds_scale_rl.downsample import stratified_trim
 from simulated_data_for_fcds_scale_rl.ssn_noise import apply_targeted_ssn_noise
 
@@ -74,6 +79,8 @@ RELEASE_COLUMNS = [
 ]
 ADDRESS_FIELDS = ["street_number", "street_name", "unit_number", "city", "state", "zipcode"]
 RELEASE_FILES = ["registry.csv", "finder_500k.csv", "finder_100k.csv"]
+# The registry alone carries a diagnosis date; a finder file is a cohort roster.
+REGISTRY_EXTRA_COLUMNS = ["diagnosis_date"]
 
 # Official 2020 Census count for Florida (cited literal; see OUTLINE.md for
 # the pending Census Bureau citekey).
@@ -396,11 +403,12 @@ def write_age_sex_qa(con: duckdb.DuckDBPyConnection, frames: dict, targets: pd.D
     return qa
 
 
-def prep_for_save(df: pd.DataFrame) -> pd.DataFrame:
-    missing = [c for c in RELEASE_COLUMNS if c not in df.columns]
+def prep_for_save(df: pd.DataFrame, extra: list[str] | None = None) -> pd.DataFrame:
+    columns = RELEASE_COLUMNS + list(extra or [])
+    missing = [c for c in columns if c not in df.columns]
     if missing:
         raise SystemExit(f"Release columns missing from generated data: {missing}")
-    out = df.set_index("simulant_id").filter(RELEASE_COLUMNS)
+    out = df.set_index("simulant_id").filter(columns)
     # Stable sort: duplicated simulants (pseudopeople row-duplication noise)
     # keep a deterministic relative order.
     return out.sort_index(kind="stable")
@@ -514,6 +522,10 @@ def main() -> None:
     df_1a = df_1a[df_1a.simulant_id.isin(ids["finder_a"])].copy()
     df_1b = df_1b[df_1b.simulant_id.isin(ids["finder_b"])].copy()
 
+    # --- 5b. Diagnosis date: a day within the record's census year --------
+    log("Assigning diagnosis dates (uniform within each record's census year)...")
+    df_2["diagnosis_date"] = diagnosis_dates(df_2["simulant_id"], df_2["year"], seeds["diagnosis_date"])
+
     # --- 6. SSN join + targeted noise --------------------------------------
     log("Attaching SSNs with targeted noise...")
     df_2, ssn_stats_2 = attach_noised_ssn(
@@ -531,7 +543,7 @@ def main() -> None:
 
     # --- 7. Write release CSVs ---------------------------------------------
     frames = {
-        "registry.csv": prep_for_save(df_2),
+        "registry.csv": prep_for_save(df_2, REGISTRY_EXTRA_COLUMNS),
         "finder_500k.csv": prep_for_save(df_1a),
         "finder_100k.csv": prep_for_save(df_1b),
     }
@@ -592,6 +604,8 @@ def main() -> None:
         },
         "registry_duplicate_rows": int(len(frames["registry.csv"]) - len(reg_ids)),
         "columns": ["simulant_id"] + RELEASE_COLUMNS,
+        "registry_columns": ["simulant_id"] + RELEASE_COLUMNS + REGISTRY_EXTRA_COLUMNS,
+        "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
         "age_sex_target": cfg["paths"]["age_sex_target"],
         "registry_pool": "last_seen",
         "census_years": [int(y) for y in c["census_years"]],

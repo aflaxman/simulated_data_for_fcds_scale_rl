@@ -177,6 +177,7 @@ DISPLAY_ROWS = [
     ("Street address", ["street_number", "street_name", "unit_number"]),
     ("City, state, ZIP", ["city", "state", "zipcode"]),
     ("SSN", ["ssn"]),
+    ("Diagnosis date", ["diagnosis_date"]),  # registry only
 ]
 
 
@@ -197,7 +198,7 @@ def _fmt(rec: pd.Series, fields: list[str]) -> str:
 
 
 COMPACT_LABELS = ["First name", "Middle init.", "Last name", "Birth date", "Sex", "Race/eth.",
-                  "Street", "City, ST ZIP", "SSN"]
+                  "Street", "City, ST ZIP", "SSN", "Dx date"]
 SHORT_NOTES = {"nickname or different name": "nickname/other name", "adjacent digits swapped": "digits swapped",
                "month and day swapped": "month/day swapped"}
 
@@ -232,6 +233,10 @@ def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = T
         y = top - (i + 0.5) * row_h
         a, b = _fmt(reg, fields), _fmt(fin, fields)
         hit = [f for f in fields if f in notes]
+        if fields == ["diagnosis_date"]:
+            if not reg.get("diagnosis_date"):
+                continue  # files built before the column existed
+            b, hit = "(registry only)", []
         if hit:
             ax.add_patch(Rectangle((xs["reg"] - 0.012, y - row_h * 0.46), (xs["note"] - 0.02) - (xs["reg"] - 0.012),
                                    row_h * 0.92, facecolor=WASH, edgecolor="none", zorder=0))
