@@ -1,0 +1,31 @@
+{
+  "test": "run-twice checksum identity: the release rebuilt from the same config.yaml and seeds on a different day and node",
+  "date": "2026-09-24",
+  "first_build": {
+    "created_utc": "2026-09-25T01:31:32+00:00",
+    "slurm_job": 47915288
+  },
+  "second_build": {
+    "created_utc": "2026-09-25T02:18:43+00:00",
+    "slurm_job": 47925415,
+    "hostname": "long-slurm-sarchive-p0115",
+    "build_wall_seconds": 591.1,
+    "peak_rss_mb": 22856.2
+  },
+  "files_identical": true,
+  "files": {
+    "finder_100k.csv": {
+      "md5": "ffbc3a53f3b34e0d69854b07139b322d",
+      "second_build_md5": "ffbc3a53f3b34e0d69854b07139b322d"
+    },
+    "finder_500k.csv": {
+      "md5": "6025e4065d9616864fc0519d31da211a",
+      "second_build_md5": "6025e4065d9616864fc0519d31da211a"
+    },
+    "registry.csv": {
+      "md5": "0dd8e15bf7582324bbd1a713918617a1",
+      "second_build_md5": "0dd8e15bf7582324bbd1a713918617a1"
+    }
+  },
+  "note": "The zip differs by construction because its archive prefix carries the version name; the CSVs inside are the same bytes."
+}
