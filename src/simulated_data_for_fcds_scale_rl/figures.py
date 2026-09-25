@@ -22,14 +22,11 @@ import json
 import math
 from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-import pandas as pd  # noqa: E402
-import yaml  # noqa: E402
-from matplotlib.lines import Line2D  # noqa: E402
-from matplotlib.patches import Patch, Rectangle  # noqa: E402
+import matplotlib.pyplot as plt
+import pandas as pd
+import yaml
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch, Rectangle
 
 ROOT = Path(__file__).resolve().parents[2]
 CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
