@@ -58,26 +58,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-
-div.csl-bib-body { }
-div.csl-entry {
-clear: both;
-}
-.hanging-indent div.csl-entry {
-margin-left:2em;
-text-indent:-2em;
-}
-div.csl-left-margin {
-min-width:2em;
-float:left;
-}
-div.csl-right-inline {
-margin-left:2em;
-padding-left:1em;
-}
-div.csl-indent {
-margin-left: 2em;
-}</style>
+</style>
 
 
 <script>/*! jQuery v3.5.1 | (c) JS Foundation and other contributors | jquery.org/license */
@@ -2490,25 +2471,23 @@ var requirejs,require,define;(function(global,setTimeout){var req,s,head,baseEle
 <h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
 <section id="sec-structure" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="sec-structure"><span class="header-section-number">3.1</span> Structure, contents, and where the data are held</h2>
-<p>The resource is three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance <!-- OUTLINE run-list item 10 --> and described in <a href="#tbl-release" class="quarto-xref">Table 1</a>: a registry stand-in of 5,000,000 simulated people and two finder files of 500,000 and 100,000. All three are drawn from the 50,518,675 simulants ever recorded as Florida residents in the simulated 2020, 2030 or 2040 census (<a href="#sec-methods" class="quarto-xref">Section 2</a>), a pool that includes people who had died or left the state by the time of the later censuses, as a registry’s caseload does. As one external check of scale, the 2020 census slice alone holds 21,123,234 simulants, which is 98.1% of the official 2020 count of 21,538,187 Floridians <!-- TODO: Census Bureau citation, OUTLINE needs-verification #3 -->. The geography is Florida only, at the granularity of city and ZIP code, and the street addresses are simulated and cannot be geocoded; registry records carry a diagnosis date in 2020, 2030 or 2040, the finder files describe residents of 2040, and there are no county, tract or facility identifiers and no tumour variables, a scope we return to in <a href="#sec-discussion" class="quarto-xref">Section 4</a>.</p>
-<p>Rows and people are not quite the same count, and the difference is deliberate. The registry holds 5,000,002 rows for 5,000,000 distinct simulants, because pseudopeople’s duplication noise, which copies a child’s record onto a guardian’s response, occasionally emits two rows for one person; it touches an old registry only 2 times among 5,000,000 people, so the files are unique to within those rows, which is close to the uniqueness FCDS expects of its own data <span class="citation" data-cites="pseudopeople_issue205">[<a href="#ref-pseudopeople_issue205" role="doc-biblioref">1</a>]</span>. We define overlap once, as the number of distinct simulants present in both a finder file and the registry, and report true record pairs separately where they serve as the denominator of recall (<a href="#sec-difficulty" class="quarto-xref">Section 3.4</a>); in this release the two counts coincide. The larger finder file shares 100,000 people with the registry and the smaller 20,000, both exactly as designed, and the two finder files share no people with each other, so the smaller file is a clean held-out replicate of the larger.</p>
-<p>This exactness was not free. An earlier build trimmed the oversampled cohorts without stratifying by overlap status, overshot both overlap targets by roughly a third and left the two finder files sharing people they were designed not to share, an error that scoring against the identity key caught before anything was released; the released build trims within strata (<a href="#sec-methods" class="quarto-xref">Section 2</a>) and hits every design count. We publish MD5 and SHA-256 digests for each file and for the bundle, so that a user can prove the file in hand is the file profiled here, and we record every seed so that the build can be repeated. Repeating it is the test that matters, and we ran it: a second build from the same configuration on another node, 10 minutes of wall time later, produced the three files byte for byte, so the digests in <a href="#tbl-release" class="quarto-xref">Table 1</a> identify not just a download but a computation that anyone with the source population and the pipeline can rerun.</p>
+<p>The resource is three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance <!-- OUTLINE run-list item 10 --> and described in <a href="#tbl-release" class="quarto-xref">Table 1</a>: a simulated registry file of 5,000,000 simulated people and two finder files of 500,000 and 100,000 simulated people respectively. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of 50,518,675 distinct simulants.</p>
+<p>Every row carries a <code>simulant_id</code>, the identifier of the simulated person it describes, and the same identifier means the same person in all three files; this is the ground truth against which any linkage of the files can be scored. The remaining fields are the ones a linkage runs on: first name, middle initial, last name, date of birth, sex, race/ethnicity, street number, street name, unit number, city, state, ZIP code and SSN. Registry rows also carry a diagnosis date, which falls in 2020, 2030 or 2040. Addresses are Florida addresses down to city and ZIP code, with simulated rather than real streets. The registry has 5,000,002 rows for its 5,000,000 people, and the finder files have 500,000 and 100,001 rows for 500,000 and 100,000 people; the few people with two rows are duplicated records (<a href="#sec-methods" class="quarto-xref">Section 2</a>).</p>
+<p>The larger finder file shares 100,000 people with the registry, 20% of its records, and the smaller shares 20,000, the same share; the two finder files share no people with each other. Because the key is exact, every finder record is either a true match to one registry person or a true non-match, and the 100,000 and 20,000 true record pairs are known rather than estimated. Alongside the files, the deposit carries a manifest of MD5 and SHA-256 digests (<a href="#tbl-release" class="quarto-xref">Table 1</a> gives the MD5) and the configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI <!-- OUTLINE run-list item 10: code DOI -->. A second build from that configuration reproduced all three files byte for byte.</p>
 <div id="tbl-release" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-release-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table 1: The released files: people and rows, designed overlaps, blank shares against their targets, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files.
+Table 1: The released files: rows, people, people shared with the registry, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files.
 </figcaption>
 <div aria-describedby="tbl-release-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -2516,8 +2495,6 @@ Table 1: The released files: people and rows, designed overlaps, blank shares a
 <th>Rows</th>
 <th>People</th>
 <th>Shared with registry</th>
-<th>SSN blank (target → realised)</th>
-<th>Street name blank</th>
 <th>MB</th>
 <th>MD5</th>
 </tr>
@@ -2528,8 +2505,6 @@ Table 1: The released files: people and rows, designed overlaps, blank shares a
 <td>5,000,002</td>
 <td>5,000,000</td>
 <td>—</td>
-<td>5% → 5.68%</td>
-<td>1% → 1.00%</td>
 <td>565</td>
 <td><code>0dd8e15bf7582324bbd1a713918617a1</code></td>
 </tr>
@@ -2538,8 +2513,6 @@ Table 1: The released files: people and rows, designed overlaps, blank shares a
 <td>500,000</td>
 <td>500,000</td>
 <td>100,000</td>
-<td>20% → 20.0%</td>
-<td>5% → 5.0%</td>
 <td>50</td>
 <td><code>6025e4065d9616864fc0519d31da211a</code></td>
 </tr>
@@ -2548,15 +2521,11 @@ Table 1: The released files: people and rows, designed overlaps, blank shares a
 <td>100,001</td>
 <td>100,000</td>
 <td>20,000</td>
-<td>20% → 20.0%</td>
-<td>5% → 5.0%</td>
 <td>10</td>
 <td><code>ffbc3a53f3b34e0d69854b07139b322d</code></td>
 </tr>
 <tr class="even">
 <td><code>sim_cancer_registry_linkage_benchmark_0.3.zip</code></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -2593,14 +2562,9 @@ Table 1: The released files: people and rows, designed overlaps, blank shares a
 <section id="sec-conclusions" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Conclusions</h1>
 <p>…</p>
-
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
-<div id="ref-pseudopeople_issue205" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div><div class="csl-right-inline">Alexandersson A, Flaxman AD, Keyes O. Data access request: Comparing the accuracy and speed of <span>Match*Pro</span>, <span class="nocase">fastLink</span>, and <span class="nocase">splink</span> at the <span>Florida Cancer Data System</span> (pseudopeople issue #205) [Internet]. 2023--2026; Available from: <a href="https://github.com/ihmeuw/pseudopeople/issues/205">https://github.com/ihmeuw/pseudopeople/issues/205</a></div>
-</div>
-</div></section></div></main>
+</main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
