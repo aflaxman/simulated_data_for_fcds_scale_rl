@@ -72,7 +72,7 @@ Introduction section). Structured abstract ≤300 words with four headings
 bullets on the journal's roster; figures/tables inline; Vancouver references with
 DOIs (via `ijpds.csl`). Lingo per the FCDS Procedure Guide: *finder file* = the
 researcher-submitted cohort (the released 500k/100k files); the 5M file is the
-*registry stand-in*, never a finder file. The registry alone carries `diagnosis_date`. The submission is the rendered `.docx`
+*simulated registry*, never a finder file. The registry alone carries `diagnosis_date`. The submission is the rendered `.docx`
 (styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
 as a supplement.
 

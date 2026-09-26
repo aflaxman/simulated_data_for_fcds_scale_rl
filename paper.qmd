@@ -173,7 +173,7 @@ assert run_twice["files_identical"], "the run-twice identity test failed; fix th
 
 - **Why created:** linkage software for cancer registries must be developed and tested on names, dates of birth, addresses and SSNs, which are exactly the identifiers that confidentiality rules prevent registries from releasing.
 
-- **Details:** a simulated Florida drawn from the `{python} fl_pool` simulants recorded as residents in the simulated 2020, 2030 or 2040 censuses, including a registry stand-in of `{python} registry_rows` records whose age and sex distribution is that of the cases reported by the Florida Cancer Data System, and researcher finder files of `{python} finder_500k_rows` and `{python} finder_100k_rows` records drawn from residents in `{python} finder_year`.
+- **Details:** a simulated Florida drawn from the `{python} fl_pool` simulants recorded as residents in the simulated 2020, 2030 or 2040 censuses, including a simulated registry of `{python} registry_rows` records whose age and sex distribution is that of the cases reported by the Florida Cancer Data System, and researcher finder files of `{python} finder_500k_rows` and `{python} finder_100k_rows` records drawn from residents in `{python} finder_year`.
 
 - **Data linkage:** the larger finder file includes `{python} overlap_500k_target` simulants in the registry and the smaller finder file includes `{python} overlap_100k_target` simulants. There is no overlap between the finder files.
 
