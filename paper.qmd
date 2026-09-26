@@ -108,6 +108,7 @@ overlap_500k_pairs     = n(ov["finder_500k"]["true_pairs"])
 overlap_100k_pairs     = n(ov["finder_100k"]["true_pairs"])
 overlap_finder_finder  = ov["finder_finder_simulants"]
 match_prevalence_500k  = round(ov["finder_500k"]["match_prevalence"], 3)
+match_prevalence_100k  = round(ov["finder_100k"]["match_prevalence"], 3)
 fl_share_census        = pct(pop["fl_share_census"])
 pop_ssn_never          = pct(pop["pop_ssn_never"], 2)
 registry_ssn_missing   = pct(err["registry.csv"]["ssn_missing"], 2)
@@ -200,21 +201,21 @@ census.head()
 
 ## Structure, contents, and where the data are held {#sec-structure}
 
-The resource is three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance <!-- OUTLINE run-list item 10 --> and described in @tbl-release: a simulated registry file of `{python} registry_simulants` simulated people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` simulated people respectively. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulants. 
+This data resource is a zip archive containing three comma-separated files, deposited on Zenodo under a DOI that will be minted at acceptance<!-- OUTLINE run-list item 10 -->. The high-level characteristics of the files are described in @tbl-release: a simulated registry file of `{python} registry_simulants` simulated people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` simulated people respectively. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulants. 
 
-Every row carries a `simulant_id`, the identifier of the simulated person it describes, and the same identifier means the same person in all three files; this is the ground truth against which any linkage of the files can be scored. The remaining fields are the ones a linkage runs on: first name, middle initial, last name, date of birth, sex, race/ethnicity, street number, street name, unit number, city, state, ZIP code and SSN. Registry rows also carry a diagnosis date, which falls in 2020, 2030 or 2040. Addresses are Florida addresses down to city and ZIP code, with simulated rather than real streets. The registry has `{python} registry_rows` rows for its `{python} registry_simulants` people, and the finder files have `{python} n(files["finder_500k.csv"]["rows"])` and `{python} n(files["finder_100k.csv"]["rows"])` rows for `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people; the few people with two rows are duplicated records (@sec-methods).
+Every row of each file carries a `simulant_id`, the identifier of the simulated person it describes, and the identifier provides a "ground truth" linkage of the same person in all three files; this is the true and correct linkage against which any other linkage of the files can be scored. The files also contain the fields that record linkage typically relies on: first name, middle initial, last name, date of birth, sex, race/ethnicity, street number, street name, unit number, city, state, ZIP code and social security number (SSN). Registry rows also carry a diagnosis date, which is one of these three values: 2020, 2030 or 2040. Addresses are for Florida cities and ZIP codes, designed to have street addresses that are *not* real street locations. The registry has `{python} registry_rows` rows for its `{python} registry_simulants` people, and the finder files have `{python} n(files["finder_500k.csv"]["rows"])` and `{python} n(files["finder_100k.csv"]["rows"])` rows for `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people; the few people with two rows are duplicated records (@sec-methods).
 
-The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same share; the two finder files share no people with each other. Because the key is exact, every finder record is either a true match to one registry person or a true non-match, and the `{python} overlap_500k_pairs` and `{python} overlap_100k_pairs` true record pairs are known rather than estimated. Alongside the files, the deposit carries a manifest of MD5 and SHA-256 digests (@tbl-release gives the MD5) and the configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI <!-- OUTLINE run-list item 10: code DOI -->. A second build from that configuration reproduced all three files byte for byte.
+The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same `{python} pct(match_prevalence_100k, 0)` share; the two finder files share no people with each other. Alongside the files, the deposit carries a manifest of MD5 and SHA-256 digests (@tbl-release gives the MD5) and the configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI<!-- OUTLINE run-list item 10: code DOI -->. A second build from that configuration reproduced all three files byte for byte.
 
 ```{python}
 #| label: tbl-release
 #| tbl-cap: "The released files: rows, people, people shared with the registry, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files."
 #| output: asis
 rows = [
+    (manifest["zip"]["name"].replace('cancer_registry_linkage', 'fcds'), "", "", "", size_zip_mb, md5_zip),
     ("registry.csv", registry_rows, registry_simulants, "—", size_registry_mb, md5_registry),
     ("finder_500k.csv", n(files["finder_500k.csv"]["rows"]), finder_500k_simulants, overlap_500k_simulants, size_finder500k_mb, md5_finder500k),
     ("finder_100k.csv", n(files["finder_100k.csv"]["rows"]), finder_100k_simulants, overlap_100k_simulants, size_finder100k_mb, md5_finder100k),
-    (manifest["zip"]["name"], "", "", "", size_zip_mb, md5_zip),
 ]
 header = ["File", "Rows", "People", "Shared with registry", "MB", "MD5"]
 print("| " + " | ".join(header) + " |")
@@ -260,17 +261,17 @@ girls_0_4, women_85 = top3("Female", "0–4"), top3("Female", "85+")
 share_2020, share_2030, share_2040 = (pct(by_year[y] / sum(by_year.values()), 0) for y in ("2020", "2030", "2040"))
 ```
 
-The registry stand-in has the age and sex distribution of the cases reported to FCDS between 1995 and 2023 [@pseudopeople_issue205]: in each of the 36 age and sex strata its share of records is within `{python} age_sex_max_dev` percentage points of FCDS's share (@fig-registry-age-sex). `{python} over65_reg` of registry records are people aged 65 or older at diagnosis and `{python} under40_reg` are under 40; `{python} female_reg` are women. The finder files have the age structure of Florida's residents in 2040 instead: `{python} over65_500k` of the larger file is 65 or older, `{python} under40_500k` is under 40, and `{python} female_500k` is female.
+The simulated registry has the age and sex distribution matching the cases reported to FCDS between 1995 and 2023 [@pseudopeople_issue205]: in each of the 36 age and sex strata its share of records is within `{python} age_sex_max_dev` percentage points of FCDS's share (@fig-registry-age-sex). `{python} over65_reg` of registry records are simulants aged 65 or older at diagnosis and `{python} under40_reg` are under 40; `{python} female_reg` are women. The simulants in the finder files have the age structure of Florida's residents in 2040 instead: `{python} over65_500k` of simulants the larger file are 65 or older, `{python} under40_500k` are under 40, and `{python} female_500k` are female.
 
-By race and ethnicity the registry is `{python} race_reg["White"]` White, `{python} race_reg["Latino"]` Latino, `{python} race_reg["Black"]` Black, `{python} race_reg["Asian"]` Asian and `{python} race_reg["Other"]` other or multiracial, against `{python} race_500k["White"]`, `{python} race_500k["Latino"]`, `{python} race_500k["Black"]`, `{python} race_500k["Asian"]` and `{python} race_500k["Other"]` in the larger finder file. The two finder files differ from each other by at most `{python} finder_files_max_diff_pp` percentage points on every share reported in this section.
+By race and ethnicity, simulants in the registry are `{python} race_reg["White"]` White, `{python} race_reg["Latino"]` Latino, `{python} race_reg["Black"]` Black, `{python} race_reg["Asian"]` Asian and `{python} race_reg["Other"]` other or multiracial, compared with `{python} race_500k["White"]`, `{python} race_500k["Latino"]`, `{python} race_500k["Black"]`, `{python} race_500k["Asian"]` and `{python} race_500k["Other"]` in the larger finder file. The two finder files differ from each other by at most `{python} finder_files_max_diff_pp` percentage points on every share reported in this section.
 
-Registry records come from three censuses: `{python} share_2020` of them date from 2020, `{python} share_2030` from 2030 and `{python} share_2040` from 2040, and each record's diagnosis date falls within its census year. Every finder record dates from 2040.
+Registry records come from three censuses: `{python} share_2020` of them are from 2020, `{python} share_2030` from 2030 and `{python} share_2040` from 2040. Every finder record is from 2040.
 
 The three most common first names in each age group, printed at the ends of the bars in @fig-registry-age-sex, run from `{python} boys_0_4` among boys under five to `{python} men_85` among men of 85 and over, and from `{python} girls_0_4` to `{python} women_85` among girls and women.
 
 ```{python}
 #| label: fig-registry-age-sex
-#| fig-cap: "Who is in the simulated registry. Share of registry records by age group and sex, stacked by race/ethnicity. Dots are the age and sex distribution of cases reported to FCDS, which the registry was drawn to match, so they sit on the bar ends by construction. At the ends of the bars, the three most common first names in each group as they appear in the file."
+#| fig-cap: "Who is in the simulated registry. Share of registry records by age group and sex, stacked by race/ethnicity. Dots are the age and sex distribution of cases reported to FCDS, which the registry was drawn to match, so they sit on the bar ends by construction. At the ends of the bars, the three most common first names in each group as they appear in the simulated registry file."
 from simulated_data_for_fcds_scale_rl import figures as F
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(7.09, 4.4))
