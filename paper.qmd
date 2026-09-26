@@ -278,9 +278,9 @@ The three most common first names in each age group, printed at the ends of the 
 #| fig-cap: "Who is in the simulated registry. Share of registry records by age group and sex, stacked by race/ethnicity. Dots are the age and sex distribution of cases reported to FCDS, which the registry was drawn to match, so they sit on the bar ends by construction. At the ends of the bars, the three most common first names in each group as they appear in the simulated registry file."
 from simulated_data_for_fcds_scale_rl import figures as F
 import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(7.09, 4.4))
-fig.subplots_adjust(left=0.01, right=0.99, top=0.95, bottom=0.17)
-F.pyramid(ax)
+fig, ax = plt.subplots(figsize=(7.09, 6.6))
+fig.subplots_adjust(left=0.005, right=0.995, top=0.965, bottom=0.12)
+F.pyramid(ax, scale=1.45, names_room=2.05, gap=1.6)
 plt.show()
 ```
 

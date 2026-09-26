@@ -92,8 +92,16 @@ def load_example_pairs() -> pd.DataFrame:
 
 # --- pyramid ------------------------------------------------------------------------
 def pyramid(ax, file: str = "registry.csv", show_names: bool = True, show_fcds: bool = True,
-            name_size: float = 6.0, label_size: float = 6.4, gap: float = 1.2, legend: bool = True):
-    """Age/sex pyramid of one released file. Returns the legend handles (for a figure-level legend)."""
+            name_size: float = 6.0, label_size: float = 6.4, gap: float = 1.2, legend: bool = True,
+            scale: float = 1.0, names_room: float = 1.75, bar_height: float = 0.72):
+    """Age/sex pyramid of one released file. Returns the legend handles (for a figure-level legend).
+
+    ``scale`` multiplies every font size (use with a taller figure); ``names_room`` is how
+    much wider than the bars the axis is made so the name columns fit; ``bar_height`` is the
+    bar thickness in row units.
+    """
+    name_size, label_size = name_size * scale, label_size * scale
+    tick_size, header_size, xlabel_size, legend_size = 6.5 * scale, 7.5 * scale, 6.8 * scale, 6.4 * scale
     df = load_age_sex(file)
     bins = df[["age_group", "age_start"]].drop_duplicates().sort_values("age_start").reset_index(drop=True)
     groups = bins["age_group"].tolist()
@@ -113,26 +121,26 @@ def pyramid(ax, file: str = "registry.csv", show_names: bool = True, show_fcds: 
                 w = float(row.get(race, 0.0)) if row is not None else 0.0
                 if w <= 0:
                     continue
-                ax.barh(yi, sign * w, left=sign * left, height=0.72, color=color,
+                ax.barh(yi, sign * w, left=sign * left, height=bar_height, color=color,
                         edgecolor=SURFACE, linewidth=0.7, zorder=2)
                 left += w
             xmax = max(xmax, left)
         if fcds is not None:
             f = fcds[fcds["sex"] == sex].set_index("age_start").reindex(bins["age_start"])
             xs = sign * (gap + f["share"].to_numpy())
-            ax.plot(xs, range(n), color=INK2, lw=1.3, zorder=3, marker="o", ms=4.2,
+            ax.plot(xs, range(n), color=INK2, lw=1.3 * scale, zorder=3, marker="o", ms=4.2 * scale,
                     mfc=INK2, mec=SURFACE, mew=0.9)
             xmax = max(xmax, gap + float(f["share"].max()))
 
     # axis: symmetric, ticks in absolute percent, a central gutter for the age labels
-    half = xmax * (1.75 if show_names else 1.12)
+    half = xmax * (names_room if show_names else 1.12)
     ax.set_xlim(-half, half)
     ax.set_ylim(-0.7, n + 0.45)
     step = 5 if xmax - gap > 8 else 2
     vals = list(range(step, int(math.ceil(xmax - gap)) + step, step))
     ticks = [-(gap + v) for v in vals[::-1]] + [(gap + v) for v in vals]
     ax.set_xticks(ticks)
-    ax.set_xticklabels([f"{v}%" for v in vals[::-1]] + [f"{v}%" for v in vals], fontsize=6.5)
+    ax.set_xticklabels([f"{v}%" for v in vals[::-1]] + [f"{v}%" for v in vals], fontsize=tick_size)
     for t in ticks:
         ax.axvline(t, color=GRID, lw=0.6, zorder=0)
     ax.set_yticks([])
@@ -142,9 +150,9 @@ def pyramid(ax, file: str = "registry.csv", show_names: bool = True, show_fcds: 
     for yi, g in enumerate(groups):
         ax.text(0, yi, g, ha="center", va="center", fontsize=label_size, color=INK2, zorder=4)
     for sex, sign in (("Male", -1), ("Female", 1)):
-        ax.text(sign * (gap + (xmax - gap) / 2), n - 0.2, sex, ha="center", va="bottom", fontsize=7.5,
+        ax.text(sign * (gap + (xmax - gap) / 2), n - 0.2, sex, ha="center", va="bottom", fontsize=header_size,
                 color=INK, weight="bold")
-    ax.set_xlabel(f"Share of records in {file.replace('.csv', '')}, by age group", fontsize=6.8, color=INK2, labelpad=3)
+    ax.set_xlabel(f"Share of records in {file.replace('.csv', '')}, by age group", fontsize=xlabel_size, color=INK2, labelpad=3)
 
     if names is not None:
         for sex, x, ha in (("Male", 0.004, "left"), ("Female", 0.996, "right")):
@@ -161,7 +169,7 @@ def pyramid(ax, file: str = "registry.csv", show_names: bool = True, show_fcds: 
                               label="Cases reported by FCDS, share by age and sex"))
     if legend:
         ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.09), ncol=6, frameon=False,
-                  fontsize=6.4, handlelength=1.2, handletextpad=0.5, columnspacing=1.2)
+                  fontsize=legend_size, handlelength=1.2, handletextpad=0.5, columnspacing=1.2)
     return handles
 
 
