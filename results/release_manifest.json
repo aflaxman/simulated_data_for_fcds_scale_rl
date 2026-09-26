@@ -22,7 +22,7 @@
     "ssn"
   ],
   "created_utc": "2026-09-25T01:31:32+00:00",
-  "dataset": "sim_cancer_registry_linkage_benchmark",
+  "dataset": "sim_fcds_benchmark",
   "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
   "files": {
     "finder_100k.csv": {
@@ -82,12 +82,18 @@
   ],
   "registry_duplicate_rows": 2,
   "registry_pool": "last_seen",
-  "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_cancer_registry_linkage_benchmark_0.3",
+  "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_fcds_benchmark_0.3",
   "version": "0.3",
   "zip": {
-    "md5": "f05136aaee6e346501c51b86e13a43b1",
-    "name": "sim_cancer_registry_linkage_benchmark_0.3.zip",
-    "sha256": "2d0551cee0c51bcf6a952e0e8fe21a98841d1a1c420e5bdb710ed46e012f8a3e",
-    "size_bytes": 234496656
+    "name": "sim_fcds_benchmark_0.3.zip",
+    "size_bytes": 234496542,
+    "md5": "03fc7ff83ae5bedd3f71b73d667a463f",
+    "sha256": "bce56db33c6e80036009a7b5733cb1a33f4d756ebae1b467c70b459e18ddcfa2"
+  },
+  "renamed": {
+    "date": "2026-09-25",
+    "from": "sim_cancer_registry_linkage_benchmark_0.3",
+    "to": "sim_fcds_benchmark_0.3",
+    "note": "Dataset renamed in config.yaml; CSVs unchanged (digests verified), zip rebuilt with the new archive prefix by write_deterministic_zip."
   }
 }
