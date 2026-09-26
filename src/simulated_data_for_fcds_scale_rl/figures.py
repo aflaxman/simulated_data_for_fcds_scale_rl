@@ -193,7 +193,8 @@ def _fmt(rec: pd.Series, fields: list[str]) -> str:
     if fields[0] == "street_number":
         s = " ".join(v for v in vals[:2] if v)
         if vals[2]:
-            s += f", unit {vals[2]}"
+            unit = vals[2]
+            s += f", {unit}" if any(ch.isalpha() for ch in unit) else f", unit {unit}"
         return s or "(blank)"
     if fields[0] == "city":
         city, state, zipc = vals
@@ -208,6 +209,8 @@ COMPACT_LABELS = ["First name", "Middle init.", "Last name", "Birth date", "Sex"
                   "Street", "City, ST ZIP", "SSN", "Dx date"]
 SHORT_NOTES = {"nickname or different name": "nickname/other name", "adjacent digits swapped": "digits swapped",
                "month and day swapped": "month/day swapped"}
+# Display wording for the classifier's labels in the full-size card (the classifier's own words are the data).
+NOTE_DISPLAY = {"different category": "wrong category", "different value": "different value"}
 
 
 def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = True, compact: bool = False) -> None:
@@ -223,7 +226,7 @@ def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = T
             f, lab = item.split(": ", 1)
             notes[f] = SHORT_NOTES.get(lab, lab) if compact else lab
     xs = ({"label": 0.0, "reg": 0.14, "fin": 0.44, "note": 0.745} if compact
-          else {"label": 0.0, "reg": 0.175, "fin": 0.475, "note": 0.775})
+          else {"label": 0.0, "reg": 0.16, "fin": 0.47, "note": 0.78})
     labels = COMPACT_LABELS if compact else [lab for lab, _ in DISPLAY_ROWS]
     value_size = size - 0.2 if compact else size
     n = len(DISPLAY_ROWS)
@@ -247,13 +250,18 @@ def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = T
         if hit:
             ax.add_patch(Rectangle((xs["reg"] - 0.012, y - row_h * 0.46), (xs["note"] - 0.02) - (xs["reg"] - 0.012),
                                    row_h * 0.92, facecolor=WASH, edgecolor="none", zorder=0))
-            ax.text(xs["note"], y, "; ".join(dict.fromkeys(notes[f] for f in hit)), fontsize=size - 0.5,
-                    color=INK2, style="italic", va="center")
+            parts = list(dict.fromkeys(NOTE_DISPLAY.get(notes[f], notes[f]) for f in hit))
+            note_text, note_size = "; ".join(parts), size - 1.0
+            if len(parts) > 1 and len(note_text) > 22:  # at most two lines, so a row never overflows
+                cut = (len(parts) + 1) // 2
+                note_text, note_size = "; ".join(parts[:cut]) + "\n" + "; ".join(parts[cut:]), size - 2.0
+            ax.text(xs["note"], y, note_text, fontsize=note_size, color=INK2, style="italic",
+                    va="center", linespacing=0.9)
         if i:
             ax.plot([0, 1], [y + row_h / 2] * 2, color=GRID, lw=0.5, zorder=0)
         ax.text(xs["label"], y, label, fontsize=size - 0.4, color=MUTED, va="center")
         for key, v in (("reg", a), ("fin", b)):
-            ax.text(xs[key], y, v, fontsize=value_size, family="DejaVu Sans Mono", va="center",
+            ax.text(xs[key], y, v, fontsize=value_size - 0.8, family="DejaVu Sans Mono", va="center",
                     color=MUTED if v == "(blank)" else INK)
 
 
