@@ -8,8 +8,11 @@ adjacent-digit swap), not which pseudopeople noise function produced it.
 
 from __future__ import annotations
 
+import csv
 import math
 from datetime import date
+from functools import lru_cache
+from pathlib import Path
 
 NAME_FIELDS = {"first_name", "middle_initial", "last_name", "street_name", "city"}
 CATEGORY_FIELDS = {"sex", "race_ethnicity", "state"}
@@ -51,12 +54,38 @@ def parse_mdy(s: str) -> date | None:
         return None
 
 
+@lru_cache(maxsize=1)
+def nickname_pairs() -> frozenset[tuple[str, str]]:
+    """Unordered (name, nickname) pairs from pseudopeople's own nickname table, lower-cased."""
+    try:
+        import pseudopeople
+    except ImportError:  # pragma: no cover - the classifier still works, just without verified nicknames
+        return frozenset()
+    path = Path(pseudopeople.__file__).parent / "data" / "nicknames.csv"
+    if not path.exists():
+        return frozenset()
+    pairs = set()
+    with open(path, newline="") as fh:
+        for row in csv.reader(fh):
+            names = [c.strip().lower() for c in row if c.strip()]
+            if len(names) < 2 or names[0] == "name":
+                continue
+            for nick in names[1:]:
+                pairs.add(tuple(sorted((names[0], nick))))
+    return frozenset(pairs)
+
+
+def is_nickname_pair(a: str, b: str) -> bool:
+    return tuple(sorted((a.lower(), b.lower()))) in nickname_pairs()
+
+
 def classify(field: str, registry_value, finder_value) -> str | None:
     """Return a short label for how the two values differ, or ``None`` when they agree.
 
     Labels: ``blank``, ``month and day swapped``, ``adjacent digits swapped``,
-    ``digits changed``, ``typo``, ``nickname or different name``,
-    ``different category``, ``different value``.
+    ``digits changed``, ``typo``, ``nickname`` (a pair in pseudopeople's nickname table),
+    ``different name`` (any other first-name change, usually pseudopeople's fake-name
+    noise), ``different category``, ``different value``.
     """
     a, b = _clean(registry_value), _clean(finder_value)
     if a == b:
@@ -74,9 +103,11 @@ def classify(field: str, registry_value, finder_value) -> str | None:
     if field in NAME_FIELDS:
         if a.lower() == b.lower():
             return "case changed"
+        if field == "first_name" and is_nickname_pair(a, b):
+            return "nickname"
         if levenshtein(a.lower(), b.lower()) <= 2:
             return "typo"
-        return "nickname or different name" if field == "first_name" else "different value"
+        return "different name" if field == "first_name" else "different value"
     if field in CATEGORY_FIELDS:
         return "different category"
     if field in DIGIT_FIELDS:

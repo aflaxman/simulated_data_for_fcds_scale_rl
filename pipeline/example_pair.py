@@ -6,10 +6,14 @@ per chosen simulant (source = registry / finder_500k) over the released
 columns, plus a ``discrepancies`` column naming each differing field and the
 mechanism it looks like (``record_diff.classify``).
 
-Selection is deterministic (ordered by simulant_id) and greedy: it takes the
-fewest pairs, each with at most ``MAX_DIFFS`` differing fields so the panel
-stays readable, that together show every mechanism in ``WANTED``. Pass
-``--ids`` to pin simulants chosen earlier so Table 2 stays stable.
+Selection is deterministic and profile-driven (author's spec, 2026-09-25): one
+pair where the first name is a verified nickname of the other, one where two or
+more address fields differ, and one with a month/day swap and an SSN digit swap
+together; within each profile the pair showing the most distinct mechanisms wins,
+ties broken by simulant_id, and no pair may have more than ``MAX_DIFFS``
+differing fields so the panel stays readable. A true pair's two records are the
+same census record noised twice, so an address "change" here is noise on the
+address fields, never a move. Pass ``--ids`` to pin simulants instead.
 
     uv run python pipeline/example_pair.py [--ids ID ...]
 """
@@ -32,15 +36,24 @@ RESULTS = ROOT / CFG["paths"]["results"]
 READ_OPTS = "header=true, all_varchar=true, quote='\"'"
 FIELDS = ["first_name", "middle_initial", "last_name", "date_of_birth", "sex", "race_ethnicity",
           "street_number", "street_name", "unit_number", "city", "state", "zipcode", "ssn"]
-WANTED = [
-    ("first_name", "nickname or different name"),
-    ("*", "typo"),
-    ("date_of_birth", "month and day swapped"),
-    ("ssn", "adjacent digits swapped"),
-    ("*", "blank"),
+ADDRESS_FIELDS = {"street_number", "street_name", "city", "zipcode"}
+CHANGED = {"typo", "digits changed", "different value"}
+MAX_DIFFS = 5
+
+
+def has(d, field, label):
+    return any(f == field and lab == label for f, lab in d)
+
+
+def address_changes(d):
+    return sum(1 for f, lab in d if f in ADDRESS_FIELDS and lab in CHANGED)
+
+
+PROFILES = [
+    ("nickname", lambda d: has(d, "first_name", "nickname") and len(d) >= 2),
+    ("address", lambda d: address_changes(d) >= 2),
+    ("dates and digits", lambda d: has(d, "date_of_birth", "month and day swapped") and has(d, "ssn", "adjacent digits swapped")),
 ]
-MAX_DIFFS = 4
-MAX_PAIRS = 3
 
 
 def matched_pairs(con: duckdb.DuckDBPyConnection) -> pd.DataFrame:
@@ -67,9 +80,9 @@ def diffs(row: pd.Series) -> list[tuple[str, str]]:
     return out
 
 
-def covers(d: list[tuple[str, str]], want: tuple[str, str]) -> bool:
-    field, label = want
-    return any(lab == label and (field == "*" or fld == field) for fld, lab in d)
+def richness(d: list[tuple[str, str]]) -> int:
+    """How many distinct mechanisms a pair shows (blanks count once)."""
+    return len({lab for _, lab in d})
 
 
 def choose(pairs: pd.DataFrame) -> list[tuple[str, list[tuple[str, str]]]]:
@@ -78,17 +91,17 @@ def choose(pairs: pd.DataFrame) -> list[tuple[str, list[tuple[str, str]]]]:
         d = diffs(row)
         if 1 <= len(d) <= MAX_DIFFS:
             cands.append((row["simulant_id"], d))
-    chosen, uncovered = [], list(WANTED)
-    while uncovered and len(chosen) < MAX_PAIRS:
-        best = max(cands, key=lambda c: (sum(covers(c[1], w) for w in uncovered), -len(c[1]), c[0] * -1 if False else 0))
-        gain = sum(covers(best[1], w) for w in uncovered)
-        if gain == 0:
-            break
+    chosen, used = [], set()
+    for name, fits in PROFILES:
+        pool = [c for c in cands if c[0] not in used and fits(c[1])]
+        if not pool:
+            print(f"no readable pair fits profile '{name}'")
+            continue
+        best = max(pool, key=lambda c: (richness(c[1]), len(c[1]), c[0] and -1 * 0))  # richest, then most fields
+        best = sorted([c for c in pool if (richness(c[1]), len(c[1])) == (richness(best[1]), len(best[1]))], key=lambda c: c[0])[0]
         chosen.append(best)
-        uncovered = [w for w in uncovered if not covers(best[1], w)]
-        cands = [c for c in cands if c[0] != best[0]]
-    if uncovered:
-        print("not all mechanisms found in readable pairs; missing:", uncovered)
+        used.add(best[0])
+        print(f"profile '{name}': {len(pool):,} candidates")
     return chosen
 
 

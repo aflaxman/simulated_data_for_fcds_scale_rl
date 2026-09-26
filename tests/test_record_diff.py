@@ -26,7 +26,8 @@ def test_dob_swap_and_typo():
 def test_names():
     assert levenshtein("kitten", "sitting") == 3
     assert classify("first_name", "Katherine", "Kathrine") == "typo"
-    assert classify("first_name", "William", "Bill") == "nickname or different name"
+    assert classify("first_name", "William", "Bill") == "nickname"        # in pseudopeople's table
+    assert classify("first_name", "William", "Xerxes") == "different name"
     assert classify("last_name", "Patel", "Smith") == "different value"
     assert classify("street_name", "caribou ct", "Caribou Ct") == "case changed"
 
