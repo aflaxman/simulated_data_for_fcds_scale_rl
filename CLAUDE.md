@@ -72,7 +72,10 @@ Introduction section). Structured abstract ≤300 words with four headings
 bullets on the journal's roster; figures/tables inline; Vancouver references with
 DOIs (via `ijpds.csl`). Lingo per the FCDS Procedure Guide: *finder file* = the
 researcher-submitted cohort (the released 500k/100k files); the 5M file is the
-*simulated registry*, never a finder file. The registry alone carries `diagnosis_date`. The submission is the rendered `.docx`
+*simulated registry*, never a finder file. The registry alone carries `diagnosis_date`. "Simulant" is
+pseudopeople's word for a simulated person: introduce it once, in quotes, where `simulant_id` is first
+explained, then write "people" or "simulated people" in prose, keeping "simulant" for the identifier
+and for reminders that no real person is involved. The submission is the rendered `.docx`
 (styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
 as a supplement.
 
