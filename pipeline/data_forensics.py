@@ -13,7 +13,10 @@ Pipeline tier, light (DuckDB over the released CSVs; a minute or two). Writes
   keeps (pairs completeness);
 * ``sentinels`` — per file: dates of birth blank and unparseable, "John/Jane Doe"
   names, repeated-digit SSNs and SSNs the SSA could not have issued;
-* ``top_names`` — the ten commonest first and last names in the registry.
+* ``top_names`` — the ten commonest first and last names in the registry;
+* ``ssn_blank_by_race`` — per file, the share of records with a blank SSN by race/ethnicity group;
+* ``ssn_blank_by_age_band`` — for the registry, the same by age at diagnosis (under 40, 40–64, 65–79, 80+),
+  which is what puts the registry's structural SSN blankness above the pool's.
 
     uv run python pipeline/data_forensics.py
 """
@@ -35,7 +38,8 @@ NORMALISE = """
     simulant_id,
     lower(trim(first_name)) AS fn, lower(trim(last_name)) AS ln, date_of_birth AS dob,
     lower(trim(sex)) AS sex, lower(trim(zipcode)) AS zip,
-    nullif(replace(ssn, '-', ''), '') AS ssn, substr(date_of_birth, 7, 4) AS yob, substr(last_name, 1, 1) AS ln1
+    nullif(replace(ssn, '-', ''), '') AS ssn, substr(date_of_birth, 7, 4) AS yob, substr(last_name, 1, 1) AS ln1,
+    CASE WHEN race_ethnicity IN ('White', 'Latino', 'Black', 'Asian') THEN race_ethnicity ELSE 'Other or unknown' END AS race_group
 """
 FILES = ["registry.csv", "finder_500k.csv", "finder_100k.csv"]
 
@@ -105,6 +109,23 @@ def sentinels(con, table) -> dict:
             "doe_names": row[3], "ssn_repeated_digit": row[4], "ssn_not_issuable": row[5], "ssn_present": row[6]}
 
 
+def ssn_blank_by_race(con, table) -> dict:
+    rows = con.execute(f"SELECT race_group, avg((ssn IS NULL)::INT) FROM {table} GROUP BY 1").fetchall()
+    return {g: float(v) for g, v in rows}
+
+
+def ssn_blank_by_age_band(csv) -> dict:
+    rows = duckdb.sql(f"""
+        SELECT CASE WHEN age < 40 THEN 'under_40' WHEN age < 65 THEN '40_64' WHEN age < 80 THEN '65_79' ELSE '80_plus' END AS band,
+               avg((ssn IS NULL)::INT) AS blank_share, count(*) AS rows
+        FROM (SELECT nullif(replace(ssn, '-', ''), '') AS ssn,
+                     date_diff('year', try_strptime(date_of_birth, '%m/%d/%Y'), try_strptime(diagnosis_date, '%m/%d/%Y')) AS age
+              FROM read_csv('{csv}', {READ_OPTS}))
+        WHERE age IS NOT NULL GROUP BY 1
+    """).fetchall()
+    return {band: {"blank_share": float(v), "rows": int(c)} for band, v, c in rows}
+
+
 def top_names(con) -> dict:
     out = {}
     for col, key in (("fn", "first"), ("ln", "last")):
@@ -119,10 +140,13 @@ def main() -> None:
     load(con, "R1", RELEASE / "registry.csv", one_per_simulant=True)
     out = {"uniqueness": uniqueness(con), "top_names_registry": top_names(con), "blocking": {}, "sentinels": {}}
     out["sentinels"]["registry.csv"] = sentinels(con, "R")
+    out["ssn_blank_by_race"] = {"registry.csv": ssn_blank_by_race(con, "R")}
+    out["ssn_blank_by_age_band"] = {"registry.csv": ssn_blank_by_age_band(RELEASE / "registry.csv")}
     for finder in ("finder_500k.csv", "finder_100k.csv"):
         load(con, "F", RELEASE / finder)
         out["blocking"][finder] = blocking(con)
         out["sentinels"][finder] = sentinels(con, "F")
+        out["ssn_blank_by_race"][finder] = ssn_blank_by_race(con, "F")
         print(finder, "blocking:", {k: (v if not isinstance(v, dict) else {kk: round(vv, 4) if isinstance(vv, float) else vv for kk, vv in v.items()}) for k, v in out["blocking"][finder].items()})
     print("uniqueness:", {k: round(v, 4) if isinstance(v, float) else v for k, v in out["uniqueness"].items()})
     print("sentinels registry:", out["sentinels"]["registry.csv"])

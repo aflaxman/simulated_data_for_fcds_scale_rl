@@ -51,7 +51,7 @@ def address_changes(d):
 
 PROFILES = [
     ("nickname", lambda d: has(d, "first_name", "nickname") and len(d) >= 2),
-    ("address", lambda d: address_changes(d) >= 2),
+    ("address", lambda d: address_changes(d) >= 2 and not any(f in ("first_name", "last_name", "date_of_birth") for f, _ in d)),
     ("dates and digits", lambda d: has(d, "date_of_birth", "month and day swapped") and has(d, "ssn", "adjacent digits swapped")),
 ]
 

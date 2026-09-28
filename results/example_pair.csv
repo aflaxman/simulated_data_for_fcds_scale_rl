@@ -1,7 +1,7 @@
 pair,simulant_id,source,first_name,middle_initial,last_name,date_of_birth,sex,race_ethnicity,street_number,street_name,unit_number,city,state,zipcode,ssn,diagnosis_date,discrepancies
 1,2284_912718,registry,Nettie,S,Biggs,10/05/1967,Female,White,1922,eastgate dr,,palm bay,NC,33437,418-71-2356,11/26/2040,first_name: nickname; city: typo; state: different category; zipcode: digits changed; ssn: blank
 1,2284_912718,finder_500k,Jeanette,S,Biggs,10/05/1967,Female,White,1922,eastgate dr,,pa|m bay,FL,33837,,,first_name: nickname; city: typo; state: different category; zipcode: digits changed; ssn: blank
-2,3793_114288,registry,Mike,T,N,04/09/1958,Male,White,2O919,212th ave se,,st. petersburg,FL,33703,438-96-6645,02/13/2040,first_name: nickname; last_name: different value; race_ethnicity: blank; street_number: digits changed; zipcode: digits changed
-2,3793_114288,finder_500k,Michael,T,Luchetti,04/09/1958,Male,,20919,212th ave se,,st. petersburg,FL,33705,438-96-6645,,first_name: nickname; last_name: different value; race_ethnicity: blank; street_number: digits changed; zipcode: digits changed
+2,2448_211514,registry,Julie,B,Tikalsky,04/16/1962,Female,AIAN,927,atlantic ave n,,plantation,FL,38655,516-85-8369,01/21/2040,race_ethnicity: different category; street_name: typo; zipcode: digits changed; ssn: blank
+2,2448_211514,finder_500k,Julie,B,Tikalsky,04/16/1962,Female,White,927,ahlantic acve n,,plantation,FL,34655,,,race_ethnicity: different category; street_name: typo; zipcode: digits changed; ssn: blank
 3,1299_239472,registry,Jeffrey,P,Gavin,06/04/1998,Male,White,206,dunthorpe ln,apt # 4027,sarasota,FL,33762,069-46-7675,05/27/2040,date_of_birth: month and day swapped; zipcode: blank; ssn: adjacent digits swapped
 3,1299_239472,finder_500k,Jeffrey,P,Gavin,04/06/1998,Male,White,206,dunthorpe ln,apt # 4027,sarasota,FL,,609-46-7675,,date_of_birth: month and day swapped; zipcode: blank; ssn: adjacent digits swapped
