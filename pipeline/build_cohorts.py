@@ -1,8 +1,9 @@
 """Build the released cohorts: registry stand-in plus two finder files.
 
-Heavy pipeline tier — the v0.3 build entry point, ported from the working
-notebook ``2026_02_11b_duckdb_psp_reproducible_randomness.ipynb`` and
-redesigned 2026-09-24:
+Heavy pipeline tier — the build entry point, ported from the working
+notebook ``2026_02_11b_duckdb_psp_reproducible_randomness.ipynb``,
+redesigned 2026-09-24 (v0.3) and bumped to v0.4 on 2026-10-01, when pseudopeople's
+row duplication was switched off and the data dictionary joined the archive:
 
 * the registry stand-in is drawn from the *last-seen pool*: every simulant ever
   recorded in Florida in the configured censuses (2020, 2030, 2040), once, at
@@ -33,18 +34,18 @@ the script twice and compare checksums for the run-twice identity test.
 Run on a compute node, never a login/dev node (``sbatch --wrap``, not ``srun``
 from inside an interactive allocation):
 
-    sbatch --mem=120G -c 8 --wrap "uv run python pipeline/build_cohorts.py --force"
+    sbatch --mem=120G -c 8 --wrap "uv run python pipeline/build_cohorts.py"
 
-``--force`` rebuilds a version in place, which is the plan for the FCDS-weighted
-v0.3: nothing was released, so the number stays and ``config.yaml`` needs no
-bump. If the version does change, bump ``dataset.version`` and
-``paths.release_dir`` in ``config.yaml``. Either way, re-run
+The version comes from ``--version`` (default: the current one) and must match
+``dataset.version`` and ``paths.release_dir`` in ``config.yaml``, which the light
+scripts read. ``--force`` rebuilds a version in place. Either way, re-run
 ``pipeline/linkage_baseline.py`` and re-render the paper once afterwards.
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -79,6 +80,9 @@ RELEASE_COLUMNS = [
 ]
 ADDRESS_FIELDS = ["street_number", "street_name", "unit_number", "city", "state", "zipcode"]
 RELEASE_FILES = ["registry.csv", "finder_500k.csv", "finder_100k.csv"]
+# Documentation shipped inside the archive beside the data files (copied verbatim).
+DATA_DICTIONARY = ROOT / "reference" / "data_dictionary.csv"
+DOC_FILES = ["data_dictionary.csv"]
 # The registry alone carries a diagnosis date; a finder file is a cohort roster.
 REGISTRY_EXTRA_COLUMNS = ["diagnosis_date"]
 
@@ -289,9 +293,17 @@ def stage_for_psp(con: duckdb.DuckDBPyConnection, table_name: str, dataset_name:
     return str(root_out)
 
 
-def noise_config(addr_missing: float) -> dict:
+def noise_config(addr_missing: float, duplicate_with_guardian: float) -> dict:
+    """pseudopeople configuration for one file: address blanking at the file's rate, and
+    the duplicate-with-guardian row probability (0 means exactly one row per person)."""
     return {
         "decennial_census": {
+            "row_noise": {
+                "duplicate_with_guardian": {
+                    "row_probability_in_households_under_18": duplicate_with_guardian,
+                    "row_probability_in_college_group_quarters_under_24": duplicate_with_guardian,
+                }
+            },
             "column_noise": {
                 field: {"leave_blank": {"cell_probability": addr_missing}}
                 for field in ADDRESS_FIELDS
@@ -426,7 +438,7 @@ def checksums(path: Path) -> dict:
 def write_deterministic_zip(zip_path: Path, release_dir: Path, arc_prefix: str) -> None:
     """Fixed timestamps and permissions so archive metadata is identical across runs."""
     with ZipFile(zip_path, "w", compression=ZIP_DEFLATED) as zf:
-        for fname in sorted(RELEASE_FILES):
+        for fname in sorted(RELEASE_FILES + DOC_FILES):
             zi = ZipInfo(f"{arc_prefix}/{fname}", date_time=(2020, 1, 1, 0, 0, 0))
             zi.compress_type = ZIP_DEFLATED
             zi.external_attr = 0o644 << 16
@@ -436,9 +448,8 @@ def write_deterministic_zip(zip_path: Path, release_dir: Path, arc_prefix: str) 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--version", default="0.3",
-                        help="dataset version to build (default: 0.3; the FCDS-weighted rebuild "
-                             "keeps the number because nothing was released, so pass --force)")
+    parser.add_argument("--version", default="0.4",
+                        help="dataset version to build (default: 0.4; must match config.yaml)")
     parser.add_argument("--config", default=str(ROOT / "config.yaml"))
     parser.add_argument("--force", action="store_true",
                         help="overwrite an existing non-empty release directory")
@@ -497,15 +508,15 @@ def main() -> None:
     log("Running pseudopeople generation (registry)...")
     df_2 = psp.generate_decennial_census(
         source=path_2, seed=seeds["psp_registry"], year=None,
-        config=noise_config(noise["registry"]["address_missing"]))
+        config=noise_config(noise["registry"]["address_missing"], noise["duplicate_with_guardian"]))
     log("Running pseudopeople generation (finder_500k)...")
     df_1a = psp.generate_decennial_census(
         source=path_1a, seed=seeds["psp_finder"], year=None,
-        config=noise_config(noise["finder"]["address_missing"]))
+        config=noise_config(noise["finder"]["address_missing"], noise["duplicate_with_guardian"]))
     log("Running pseudopeople generation (finder_100k)...")
     df_1b = psp.generate_decennial_census(
         source=path_1b, seed=seeds["psp_finder"], year=None,
-        config=noise_config(noise["finder"]["address_missing"]))
+        config=noise_config(noise["finder"]["address_missing"], noise["duplicate_with_guardian"]))
 
     # --- 5. Stratified trim to exact targets (the v0.3 fix) ---------------
     log("Trimming to exact targets with stratified_trim...")
@@ -554,6 +565,9 @@ def main() -> None:
         frame.to_csv(out)
         os.utime(out, (fixed_mtime, fixed_mtime))
 
+    for fname in DOC_FILES:
+        shutil.copyfile(DATA_DICTIONARY, release_dir / fname)
+        os.utime(release_dir / fname, (fixed_mtime, fixed_mtime))
     log("Writing deterministic zip...")
     write_deterministic_zip(zip_path, release_dir, release_name)
 
@@ -570,6 +584,10 @@ def main() -> None:
         "overlap registry∩finder_100k": (len(reg_ids & fb_ids), c["overlap_100k_target"]),
         "overlap finder∩finder": (len(fa_ids & fb_ids), c["overlap_finder_finder_target"]),
     }
+    if noise["duplicate_with_guardian"] == 0:
+        # row duplication is switched off, so every file must be exactly one row per person
+        for fname, frame in frames.items():
+            targets[f"{fname} rows = people"] = (len(frame), int(frame.index.nunique()))
     failed = {k: v for k, v in targets.items() if v[0] != v[1]}
     for name, (realised, target) in targets.items():
         status = "PASS" if realised == target else "FAIL"
@@ -617,6 +635,11 @@ def main() -> None:
             "distinct_simulants": int(frame.index.nunique()),
             **checksums(release_dir / fname),
         }
+
+    for fname in DOC_FILES:
+        with open(release_dir / fname, newline="") as f:
+            n_rows = sum(1 for _ in csv.reader(f)) - 1
+        manifest["files"][fname] = {"rows": n_rows, **checksums(release_dir / fname)}
 
     error_rates = {"targets": noise, "realised": {}}
     for fname, frame, stats in [

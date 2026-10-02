@@ -1,4 +1,4 @@
-"""Generate and execute notebooks/v03_acceptance_checks.ipynb against the current release.
+"""Generate and execute notebooks/v<version>_acceptance_checks.ipynb against the current release.
 
 The notebook is built from the cell sources below (so the checks live in reviewable
 Python, not in JSON), then executed with nbclient from the repository root and written
@@ -16,7 +16,7 @@ def md(s): cells.append(nbf.v4.new_markdown_cell(s.strip()))
 def code(s): cells.append(nbf.v4.new_code_cell(s.strip()))
 
 md("""
-# v0.3 acceptance checks: do the released files match what Anders asked for?
+# Acceptance checks: do the released files match what Anders asked for?
 
 This notebook plays the role of the second author receiving the three CSVs and checking them against
 what he specified and what FCDS requires. Each check prints **PASS**, **FAIL** or **NOTE** and, where a
@@ -424,7 +424,9 @@ assert n.get("FAIL", 0) == 0, "some checks failed; see above"
 """)
 
 nb = nbf.v4.new_notebook(cells=cells, metadata={"kernelspec": {"name": "python3", "display_name": "Python 3", "language": "python"}, "language_info": {"name": "python"}})
-out = Path(__file__).resolve().parent / "v03_acceptance_checks.ipynb"
+import yaml as _yaml
+_version = _yaml.safe_load((Path(__file__).resolve().parent.parent / "config.yaml").read_text())["dataset"]["version"]
+out = Path(__file__).resolve().parent / f"v{_version.replace('.', '')}_acceptance_checks.ipynb"
 nbf.write(nb, out)
 client = NotebookClient(nb, timeout=1800, kernel_name="python3", resources={"metadata": {"path": str(Path(__file__).resolve().parent.parent)}}, allow_errors=True)
 client.execute()

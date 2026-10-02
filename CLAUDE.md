@@ -24,7 +24,7 @@ Quarto project, analysis in Python.
 - `uv run pytest` — tests (see tests/). `make test` / `make lint` wrap pytest and ruff.
 - Run renders and previews on a cluster worker node, not the submit node (see README,
   "Working in VS Code"); the paper tier is cheap enough for a dev node.
-- Rebuild (cluster only, via `sbatch`, never a login node): `pipeline/build_cohorts.py --force`
+- Rebuild (cluster only, via `sbatch`, never a login node): `pipeline/build_cohorts.py` (the version comes from `--version`, whose default must match `config.yaml`; `--force` rebuilds in place)
   (~10 min, 8 CPUs, 120G), then `linkage_baseline.py`, `example_pair.py`, `pair_agreement.py`
   (seconds each), then `make checks`, `make figures` and a render; commit `results/`, `_freeze/`,
   the notebook and the renders together. README gives the exact commands.
@@ -43,7 +43,7 @@ Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic share
 `pipeline/` = heavy scripts · `results/` = small committed summaries the paper reads ·
 `notebooks/` = the receiver's acceptance checks (generated and executed by `notebooks/make_acceptance_checks.py`) ·
 `figures/` = figure renders, gitignored ·
-`reference/` = small committed reference data · `paper.qmd` = the Data Resource Profile.
+`reference/` = small committed reference data, including `data_dictionary.csv`, which the build ships inside the zip · `paper.qmd` = the Data Resource Profile.
 
 ## Conventions
 - **Never hard-code a computed number in prose.** Every computed value is an inline
