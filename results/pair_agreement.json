@@ -3,51 +3,51 @@
     "pairs": 100000,
     "fields": {
       "first_name": {
-        "agree_when_both_present": 0.9403530624955331,
-        "blank_on_either_side": 0.02057
+        "agree_when_both_present": 0.9391275941975724,
+        "blank_on_either_side": 0.02041
       },
       "middle_initial": {
-        "agree_when_both_present": 0.9974186044138803,
-        "blank_on_either_side": 0.01991
+        "agree_when_both_present": 0.9974384618524718,
+        "blank_on_either_side": 0.02012
       },
       "last_name": {
-        "agree_when_both_present": 0.958717001163764,
-        "blank_on_either_side": 0.02042
+        "agree_when_both_present": 0.9599799899949975,
+        "blank_on_either_side": 0.02049
       },
       "date_of_birth": {
-        "agree_when_both_present": 0.9355342222584956,
-        "blank_on_either_side": 0.01979
+        "agree_when_both_present": 0.9343230282624222,
+        "blank_on_either_side": 0.0199
       },
       "sex": {
-        "agree_when_both_present": 0.9799638675961745,
-        "blank_on_either_side": 0.02027
+        "agree_when_both_present": 0.9798436479425212,
+        "blank_on_either_side": 0.02016
       },
       "race_ethnicity": {
-        "agree_when_both_present": 0.9798401502546776,
-        "blank_on_either_side": 0.02033
+        "agree_when_both_present": 0.97973890232824,
+        "blank_on_either_side": 0.02029
       },
       "street_number": {
-        "agree_when_both_present": 0.9832980501392757,
-        "blank_on_either_side": 0.1025
+        "agree_when_both_present": 0.9831975843741991,
+        "blank_on_either_side": 0.10251
       },
       "street_name": {
-        "agree_when_both_present": 0.9701600391065015,
-        "blank_on_either_side": 0.05898
+        "agree_when_both_present": 0.9706113685642618,
+        "blank_on_either_side": 0.05916
       },
       "unit_number": {
         "agree_when_both_present": 0.9822946175637394,
         "blank_on_either_side": 0.94352
       },
       "city": {
-        "agree_when_both_present": 0.9718120948254756,
-        "blank_on_either_side": 0.06059
+        "agree_when_both_present": 0.9715146418572964,
+        "blank_on_either_side": 0.06057
       },
       "state": {
-        "agree_when_both_present": 0.9805268699416125,
-        "blank_on_either_side": 0.05973
+        "agree_when_both_present": 0.9804209339671803,
+        "blank_on_either_side": 0.05971
       },
       "zipcode": {
-        "agree_when_both_present": 0.9746462702909566,
+        "agree_when_both_present": 0.9752415779906239,
         "blank_on_either_side": 0.05931
       },
       "ssn": {
@@ -55,83 +55,83 @@
         "blank_on_either_side": 0.21406
       }
     },
-    "name_dob_all_agree": 0.79311,
+    "name_dob_all_agree": 0.79206,
     "ssn_usable_and_agree": 0.77923
   },
   "finder_100k.csv": {
     "pairs": 20000,
     "fields": {
       "first_name": {
-        "agree_when_both_present": 0.9404598052709384,
-        "blank_on_either_side": 0.01915
+        "agree_when_both_present": 0.9434019987762594,
+        "blank_on_either_side": 0.0194
       },
       "middle_initial": {
-        "agree_when_both_present": 0.997397162396652,
-        "blank_on_either_side": 0.0203
+        "agree_when_both_present": 0.997040212288222,
+        "blank_on_either_side": 0.0202
       },
       "last_name": {
-        "agree_when_both_present": 0.9582865884752677,
-        "blank_on_either_side": 0.0195
+        "agree_when_both_present": 0.9579172610556348,
+        "blank_on_either_side": 0.0186
       },
       "date_of_birth": {
-        "agree_when_both_present": 0.9377134410520414,
-        "blank_on_either_side": 0.01905
+        "agree_when_both_present": 0.9360921414738559,
+        "blank_on_either_side": 0.0189
       },
       "sex": {
-        "agree_when_both_present": 0.9797324892791505,
-        "blank_on_either_side": 0.0206
+        "agree_when_both_present": 0.9801449571253573,
+        "blank_on_either_side": 0.0204
       },
       "race_ethnicity": {
-        "agree_when_both_present": 0.9805582487115375,
-        "blank_on_either_side": 0.02015
+        "agree_when_both_present": 0.9799877476005717,
+        "blank_on_either_side": 0.0206
       },
       "street_number": {
-        "agree_when_both_present": 0.9833798103736754,
-        "blank_on_either_side": 0.1035
+        "agree_when_both_present": 0.98515542161951,
+        "blank_on_either_side": 0.10405
       },
       "street_name": {
-        "agree_when_both_present": 0.9710291303423347,
-        "blank_on_either_side": 0.0594
+        "agree_when_both_present": 0.9697082228116711,
+        "blank_on_either_side": 0.0575
       },
       "unit_number": {
         "agree_when_both_present": 0.9743589743589743,
         "blank_on_either_side": 0.9454
       },
       "city": {
-        "agree_when_both_present": 0.9711176002123706,
+        "agree_when_both_present": 0.9708521369790284,
         "blank_on_either_side": 0.05825
       },
       "state": {
-        "agree_when_both_present": 0.9808315191419317,
-        "blank_on_either_side": 0.05835
+        "agree_when_both_present": 0.9803026280860101,
+        "blank_on_either_side": 0.05825
       },
       "zipcode": {
-        "agree_when_both_present": 0.9755332163182809,
-        "blank_on_either_side": 0.05995
+        "agree_when_both_present": 0.9730664821419066,
+        "blank_on_either_side": 0.06065
       },
       "ssn": {
         "agree_when_both_present": 0.9901104546622143,
         "blank_on_either_side": 0.2214
       }
     },
-    "name_dob_all_agree": 0.79695,
+    "name_dob_all_agree": 0.79775,
     "ssn_usable_and_agree": 0.7709
   },
   "blank_share_by_file": {
     "registry.csv": {
-      "first_name": 0.010040195983921606,
-      "middle_initial": 0.009982796006881598,
-      "last_name": 0.009964996014001594,
-      "date_of_birth": 0.009956996017201594,
-      "sex": 0.010007595996961601,
-      "race_ethnicity": 0.010020395991841603,
-      "street_number": 0.056035577585768964,
-      "street_name": 0.010027995988801604,
-      "unit_number": 0.9423174230730308,
-      "city": 0.009983796006481598,
-      "state": 0.009988596004561598,
-      "zipcode": 0.010007795996881601,
-      "ssn": 0.0568475772609691
+      "first_name": 0.0100268,
+      "middle_initial": 0.0099858,
+      "last_name": 0.0099676,
+      "date_of_birth": 0.0099628,
+      "sex": 0.0100088,
+      "race_ethnicity": 0.0100196,
+      "street_number": 0.056035,
+      "street_name": 0.0100194,
+      "unit_number": 0.9423174,
+      "city": 0.0099826,
+      "state": 0.0099938,
+      "zipcode": 0.0100092,
+      "ssn": 0.0568476
     },
     "finder_500k.csv": {
       "first_name": 0.009876,
@@ -149,19 +149,19 @@
       "ssn": 0.2
     },
     "finder_100k.csv": {
-      "first_name": 0.00982990170098299,
-      "middle_initial": 0.01041989580104199,
-      "last_name": 0.010129898701012989,
-      "date_of_birth": 0.01002989970100299,
-      "sex": 0.00990990090099099,
-      "race_ethnicity": 0.01005989940100599,
-      "street_number": 0.0943990560094399,
-      "street_name": 0.04958950410495895,
-      "unit_number": 0.944340556594434,
-      "city": 0.04975950240497595,
-      "state": 0.04988950110498895,
-      "zipcode": 0.049769502304976954,
-      "ssn": 0.1999980000199998
+      "first_name": 0.00979,
+      "middle_initial": 0.01059,
+      "last_name": 0.01024,
+      "date_of_birth": 0.0101,
+      "sex": 0.00997,
+      "race_ethnicity": 0.01002,
+      "street_number": 0.09447,
+      "street_name": 0.0494,
+      "unit_number": 0.94434,
+      "city": 0.04988,
+      "state": 0.04994,
+      "zipcode": 0.04933,
+      "ssn": 0.2
     }
   }
 }

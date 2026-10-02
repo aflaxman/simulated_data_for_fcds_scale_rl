@@ -21,16 +21,22 @@
     "zipcode",
     "ssn"
   ],
-  "created_utc": "2026-09-25T01:31:32+00:00",
+  "created_utc": "2026-10-02T04:22:09+00:00",
   "dataset": "sim_fcds_benchmark",
   "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
   "files": {
+    "data_dictionary.csv": {
+      "md5": "5807608b54bb9b1a72cc65f6b1477c91",
+      "rows": 15,
+      "sha256": "e95ac64b1aa1ed6416494aaf20b2ca360f8f83879d5d1731380e4a523694d018",
+      "size_bytes": 4646
+    },
     "finder_100k.csv": {
       "distinct_simulants": 100000,
-      "md5": "ffbc3a53f3b34e0d69854b07139b322d",
-      "rows": 100001,
-      "sha256": "088faf03ecb317e649390dc2082cb8cf0605c8e92ba430dd2ad6c606f2952a75",
-      "size_bytes": 9976935
+      "md5": "c7411f89e300d097726616632bd4ef79",
+      "rows": 100000,
+      "sha256": "5fc80ece9896abf55209cafb23e0a034806d70625b48affadd97c11ba7a09ab0",
+      "size_bytes": 9976970
     },
     "finder_500k.csv": {
       "distinct_simulants": 500000,
@@ -41,16 +47,16 @@
     },
     "registry.csv": {
       "distinct_simulants": 5000000,
-      "md5": "0dd8e15bf7582324bbd1a713918617a1",
-      "rows": 5000002,
-      "sha256": "aae46990cd1d10d13675d05ba30dbc2953a4fc9d3a7a548016a215342d567254",
-      "size_bytes": 564834423
+      "md5": "5828e720d951f0403342de62201cd8aa",
+      "rows": 5000000,
+      "sha256": "9d09e42cc4a9b182216bcd0f4d42c02e0ea2c8c3f2c1ae9e298dbd84cbb172e5",
+      "size_bytes": 564836721
     }
   },
   "finder_year": 2040,
   "overlaps": {
     "finder_100k": {
-      "match_prevalence": 0.1999980000199998,
+      "match_prevalence": 0.2,
       "overlap_simulants": 20000,
       "overlap_target": 20000,
       "true_pairs": 20000
@@ -80,20 +86,14 @@
     "ssn",
     "diagnosis_date"
   ],
-  "registry_duplicate_rows": 2,
+  "registry_duplicate_rows": 0,
   "registry_pool": "last_seen",
-  "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_fcds_benchmark_0.3",
-  "version": "0.3",
+  "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_fcds_benchmark_0.4",
+  "version": "0.4",
   "zip": {
-    "name": "sim_fcds_benchmark_0.3.zip",
-    "size_bytes": 234496542,
-    "md5": "03fc7ff83ae5bedd3f71b73d667a463f",
-    "sha256": "bce56db33c6e80036009a7b5733cb1a33f4d756ebae1b467c70b459e18ddcfa2"
-  },
-  "renamed": {
-    "date": "2026-09-25",
-    "from": "sim_cancer_registry_linkage_benchmark_0.3",
-    "to": "sim_fcds_benchmark_0.3",
-    "note": "Dataset renamed in config.yaml; CSVs unchanged (digests verified), zip rebuilt with the new archive prefix by write_deterministic_zip."
+    "md5": "a6f2fd6a75dd8877fbfbb1f79e1f2b83",
+    "name": "sim_fcds_benchmark_0.4.zip",
+    "sha256": "a7b695b979e9ff3e417f6db93a3ec1dc93307764cfe0388b3ce4ec0a3c93023d",
+    "size_bytes": 234502495
   }
 }

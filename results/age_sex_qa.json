@@ -1,13 +1,13 @@
 {
   "registry.csv": {
-    "rows": 5000002,
-    "rows_binned": 5000002,
+    "rows": 5000000,
+    "rows_binned": 5000000,
     "rows_by_census_year": {
       "2020": 1329059,
-      "2030": 1376079,
-      "2040": 2294864
+      "2030": 1376078,
+      "2040": 2294863
     },
-    "max_abs_share_deviation_pct": 0.0409941177829682,
+    "max_abs_share_deviation_pct": 0.040993475591225015,
     "max_abs_share_deviation_stratum": "Male 45"
   },
   "finder_500k.csv": {
@@ -18,10 +18,10 @@
     }
   },
   "finder_100k.csv": {
-    "rows": 100001,
-    "rows_binned": 100001,
+    "rows": 100000,
+    "rows_binned": 100000,
     "rows_by_census_year": {
-      "2040": 100001
+      "2040": 100000
     }
   }
 }

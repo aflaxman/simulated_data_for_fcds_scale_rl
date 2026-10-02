@@ -148,11 +148,11 @@ registry.csv,Male,10–14,10,NHOPI,11
 registry.csv,Male,10–14,10,White,1908
 registry.csv,Male,15–19,15,AIAN,28
 registry.csv,Male,15–19,15,Asian,320
-registry.csv,Male,15–19,15,Black,884
+registry.csv,Male,15–19,15,Black,883
 registry.csv,Male,15–19,15,Latino,1469
 registry.csv,Male,15–19,15,Multiracial or Other,287
 registry.csv,Male,15–19,15,NHOPI,9
-registry.csv,Male,15–19,15,White,3037
+registry.csv,Male,15–19,15,White,3036
 registry.csv,Male,20–24,20,AIAN,46
 registry.csv,Male,20–24,20,Asian,499
 registry.csv,Male,20–24,20,Black,1189
@@ -649,7 +649,7 @@ finder_100k.csv,Male,10–14,10,Black,317
 finder_100k.csv,Male,10–14,10,Latino,612
 finder_100k.csv,Male,10–14,10,Multiracial or Other,106
 finder_100k.csv,Male,10–14,10,NHOPI,11
-finder_100k.csv,Male,10–14,10,White,1398
+finder_100k.csv,Male,10–14,10,White,1397
 finder_100k.csv,Male,15–19,15,AIAN,11
 finder_100k.csv,Male,15–19,15,Asian,200
 finder_100k.csv,Male,15–19,15,Black,359

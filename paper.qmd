@@ -100,6 +100,11 @@ def pct(x, d=1):
 files, ov = manifest["files"], manifest["overlaps"]
 registry_simulants     = n(files["registry.csv"]["distinct_simulants"])
 registry_dupe_rows     = manifest["registry_duplicate_rows"]
+assert registry_dupe_rows == 0, "Table 1 says each data file has exactly one row per person"
+for _f in ("registry.csv", "finder_500k.csv", "finder_100k.csv"):
+    assert files[_f]["rows"] == files[_f]["distinct_simulants"], f"{_f} has more rows than people"
+dict_fields  = files["data_dictionary.csv"]["rows"]   # one row per released field
+md5_dict     = files["data_dictionary.csv"]["md5"]
 finder_500k_simulants  = n(files["finder_500k.csv"]["distinct_simulants"])
 finder_100k_simulants  = n(files["finder_100k.csv"]["distinct_simulants"])
 overlap_500k_simulants = n(ov["finder_500k"]["overlap_simulants"])
@@ -222,25 +227,26 @@ We describe the released files first (@sec-structure), then the people in them (
 
 ## Structure, contents, and where the data are held {#sec-structure}
 
-This data resource is a zip archive containing three comma-separated files, to be deposited on Zenodo under a DOI that will be minted before publication<!-- OUTLINE run-list item 10 -->. The high-level characteristics of the files are described in @tbl-release: a simulated registry of `{python} registry_simulants` people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulated people.  The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same `{python} pct(match_prevalence_100k, 0)` share; the two finder files share no people with each other, matching the overlap design described above.
+This data resource is a zip archive containing three comma-separated data files and a data dictionary, to be deposited on Zenodo under a DOI that will be minted before publication<!-- OUTLINE run-list item 10 -->. The high-level characteristics of the files are described in @tbl-release: a simulated registry of `{python} registry_simulants` people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulated people.  The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same `{python} pct(match_prevalence_100k, 0)` share; the two finder files share no people with each other, matching the overlap design described above.
 
-The archive also includes a manifest of MD5 and SHA-256 digests (@tbl-release gives the MD5) and a configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI<!-- OUTLINE run-list item 10: code DOI -->. A second build from the same configuration and the same source population, which is available on request (@sec-access), reproduced all three files byte for byte.
+The data dictionary inside the archive gives each field's type, format, blank convention, source and the noise mechanisms that touch it. The deposit also carries a manifest of MD5 and SHA-256 digests (@tbl-release gives the MD5) and the configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI<!-- OUTLINE run-list item 10: code DOI -->. A second build from the same configuration and the same source population, which is available on request (@sec-access), reproduced all three files byte for byte.
 
 ```{python}
 #| label: tbl-release
-#| tbl-cap: "The released files: rows, people, people shared with the registry, size and MD5 digest. SHA-256 digests are in the manifest deposited with the files."
+#| tbl-cap: "The released files: rows, people shared with the registry, size and MD5 digest. Each data file has exactly one row per person. SHA-256 digests are in the manifest deposited with the files."
 #| output: asis
 rows = [
-    (manifest["zip"]["name"], "", "", "", size_zip_mb, md5_zip),
-    ("registry.csv", registry_rows, registry_simulants, "—", size_registry_mb, md5_registry),
-    ("finder_500k.csv", n(files["finder_500k.csv"]["rows"]), finder_500k_simulants, overlap_500k_simulants, size_finder500k_mb, md5_finder500k),
-    ("finder_100k.csv", n(files["finder_100k.csv"]["rows"]), finder_100k_simulants, overlap_100k_simulants, size_finder100k_mb, md5_finder100k),
+    (manifest["zip"]["name"], "", "", size_zip_mb, md5_zip),
+    ("registry.csv", registry_rows, "—", size_registry_mb, md5_registry),
+    ("finder_500k.csv", finder_500k_rows, overlap_500k_simulants, size_finder500k_mb, md5_finder500k),
+    ("finder_100k.csv", finder_100k_rows, overlap_100k_simulants, size_finder100k_mb, md5_finder100k),
+    ("data_dictionary.csv", f"{dict_fields} fields", "", "<1", md5_dict),
 ]
-header = ["File", "Rows", "People", "Shared with registry", "MB", "MD5"]
+header = ["File", "Rows", "Shared with registry", "MB", "MD5"]
 print("| " + " | ".join(header) + " |")
 print("|" + "|".join(["---"] * len(header)) + "|")
 for r in rows:
-    print("| " + " | ".join(f"`{c}`" if i in (0, 5) and c else str(c) for i, c in enumerate(r)) + " |")
+    print("| " + " | ".join(f"`{c}`" if i in (0, 4) and c else str(c) for i, c in enumerate(r)) + " |")
 ```
 
 ## Population characteristics {#sec-population}
@@ -299,7 +305,7 @@ F.pyramid(ax, scale=1.45, names_room=2.05, gap=1.6)
 plt.show()
 ```
 
-@fig-example-pair shows `{python} n_example_pairs_word` of the `{python} overlap_500k_simulants` people who appear in both the registry and the larger finder file, chosen to show three kinds of error, with every field that differs between their two records marked: a first name recorded as a nickname, an address altered in two fields with a wrong race/ethnicity category and a blank SSN, and a swapped month and day of birth beside a swapped pair of SSN digits. The two records of a pair are one census record noised twice, so every difference in the figure is an injected error and not a move or a change of name, a simplification weighed in @sec-discussion.
+@fig-example-pair shows `{python} n_example_pairs_word` of the `{python} overlap_500k_simulants` people who appear in both the registry and the larger finder file, chosen to show three kinds of error, with every field that differs between their two records marked: a first name recorded as a nickname, with a swapped month and day of birth and errors in three further fields; an address altered in three fields beside a blank SSN; and a swapped month and day of birth beside a swapped pair of SSN digits. The two records of a pair are one census record noised twice, so every difference in the figure is an injected error and not a move or a change of name, a simplification weighed in @sec-discussion.
 
 ```{python}
 #| label: fig-example-pair
