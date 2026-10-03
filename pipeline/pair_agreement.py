@@ -1,7 +1,7 @@
-"""Field-level agreement between the two records of each true pair: the difficulty portrait's core.
+"""Field-level agreement between the two records of each true match: the difficulty portrait's core.
 
 Pipeline tier, light (one DuckDB join per finder file, seconds). For every
-released field, the share of true pairs (registry row and finder row of the
+released field, the share of true matches (registry row and finder row of the
 same simulant) whose values agree exactly when both are present, and the share
 with a blank on either side; plus the two summaries the deterministic ladder
 turns on — exact agreement on first name, last name and date of birth together
@@ -60,7 +60,7 @@ def main() -> None:
             "name_dob_all_agree": float(row["name_dob_all_agree"]),
             "ssn_usable_and_agree": float(row["ssn_usable_and_agree"]),
         }
-        print(f"{finder}: {int(row['pairs']):,} true pairs; name+DOB all agree {row['name_dob_all_agree']:.3f}; "
+        print(f"{finder}: {int(row['pairs']):,} true matches; name+DOB all agree {row['name_dob_all_agree']:.3f}; "
               f"SSN usable and agreeing {row['ssn_usable_and_agree']:.3f}")
         for f in ("first_name", "last_name", "date_of_birth", "street_name", "ssn"):
             print(f"  {f:14} agree {row[f'agree_{f}']:.3f}  blank {row[f'blank_{f}']:.3f}")

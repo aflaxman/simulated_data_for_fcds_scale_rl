@@ -177,7 +177,7 @@ for ax, t in zip(axes, miss.columns):
 axes[0].set_ylabel("share blank"); fig.suptitle("Blank shares: bars realised, dashes = Anders's targets", x=0.01, ha="left"); plt.tight_layout()
 """)
 
-md("### 4b. SSN transposition: 1% in the finder files, none in the registry\nThe released files do not carry the clean SSN, but the true pairs do the job: the registry has no SSN noise, so when a finder SSN differs from its registry twin, the difference is the finder's error. An adjacent-digit swap is the only error requested.")
+md("### 4b. SSN transposition: 1% in the finder files, none in the registry\nThe released files do not carry the clean SSN, but the true matches do the job: the registry has no SSN noise, so when a finder SSN differs from its registry twin, the difference is the finder's error. An adjacent-digit swap is the only error requested.")
 code("""
 import sys; sys.path.insert(0, str(ROOT / "src"))
 from simulated_data_for_fcds_scale_rl.record_diff import is_adjacent_transposition
@@ -359,7 +359,7 @@ ax.set_title("Race/ethnicity composition by file (registry is older, so its mix 
 note("race/ethnicity is inherited from the population through age, not designed", "no race-specific cancer rates are modelled")
 """)
 
-md("## 10. What a true pair looks like\nThe ground truth is exact: the same `simulant_id` in two files is the same simulated person. The pipeline picks two worked examples deterministically (`results/example_pair.csv`).")
+md("## 10. What a true match looks like\nThe ground truth is exact: the same `simulant_id` in two files is the same simulated person. The pipeline picks two worked examples deterministically (`results/example_pair.csv`).")
 code("""
 ex = pd.read_csv(RESULTS / "example_pair.csv", dtype=str, keep_default_na=False)
 for k, g in ex.groupby("pair"):
@@ -372,7 +372,7 @@ md("""
 
 Exact agreement on first name, last name and date of birth, scored against the key. This is recomputed here from
 the files, then compared with the published baseline. Real-data deterministic rules of this kind link 88 to 93% of
-true pairs (Li et al. 2006); the simulated files are harder on recall because the noise is on both sides.
+true matches (Li et al. 2006); the simulated files are harder on recall because the noise is on both sides.
 """)
 code("""
 def score(rule_sql, t="finder_500k"):

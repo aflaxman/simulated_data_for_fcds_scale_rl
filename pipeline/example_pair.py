@@ -11,7 +11,7 @@ pair where the first name is a verified nickname of the other, one where two or
 more address fields differ, and one with a month/day swap and an SSN digit swap
 together; within each profile the pair showing the most distinct mechanisms wins,
 ties broken by simulant_id, and no pair may have more than ``MAX_DIFFS``
-differing fields so the panel stays readable. A true pair's two records are the
+differing fields so the panel stays readable. A true match's two records are the
 same census record noised twice, so an address "change" here is noise on the
 address fields, never a move. Pass ``--ids`` to pin simulants instead.
 

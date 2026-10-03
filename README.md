@@ -89,7 +89,7 @@ and lands in `results/`. In order:
    composition, top names and environment record.
 2. `uv run python pipeline/linkage_baseline.py && uv run python pipeline/example_pair.py && uv run python pipeline/pair_agreement.py`
    scores the deterministic ladder, picks the worked example pairs, and measures
-   agreement among true pairs (seconds each; chain them after the build with
+   agreement among true matches (seconds each; chain them after the build with
    `--dependency=afterok:<jobid>`).
 3. `make checks`, `make figures`, then `uv run quarto render paper.qmd` to refresh
    `_freeze/` and the renders.

@@ -9,7 +9,7 @@ Pipeline tier, light (DuckDB over the released CSVs; a minute or two). Writes
   full name is shared with at least one other person;
 * ``blocking`` — for each finder file against the registry, the naive comparison
   space, and for two blocking keys (full date of birth; last-name initial + year
-  of birth) the number of candidate pairs and the share of true pairs the block
+  of birth) the number of candidate pairs and the share of true matches the block
   keeps (pairs completeness);
 * ``sentinels`` — per file: dates of birth blank and unparseable, "John/Jane Doe"
   names, repeated-digit SSNs and SSNs the SSA could not have issued;
