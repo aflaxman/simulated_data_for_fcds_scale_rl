@@ -244,25 +244,29 @@ def sample_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
     if n_reg_fy < overlap_a_sample + overlap_b_sample:
         raise SystemExit("CRITICAL: too few registry members in the finder year to supply the overlaps.")
 
-    for table, overlap_salt, rest_salt, overlap_n, total_n in [
-        ("df_1a_ids", "df1a_overlap", "df1a_rest", overlap_a_sample, n1a_sample),
-        ("df_1b_ids", "df1b_overlap", "df1b_rest", overlap_b_sample, n1b_sample),
+    # The finder files must share no people (cohorts.overlap_finder_finder_target is 0),
+    # so the second file's draws exclude everyone the first file took; with row noise
+    # off nothing is trimmed afterwards, so the draw itself has to be disjoint.
+    for table, overlap_salt, rest_salt, overlap_n, total_n, exclude in [
+        ("df_1a_ids", "df1a_overlap", "df1a_rest", overlap_a_sample, n1a_sample, ""),
+        ("df_1b_ids", "df1b_overlap", "df1b_rest", overlap_b_sample, n1b_sample,
+         "AND simulant_id NOT IN (SELECT simulant_id FROM df_1a_ids)"),
     ]:
         con.execute(f"""
             CREATE OR REPLACE TABLE {table} AS
             SELECT * FROM (
                 SELECT simulant_id, year
                 FROM df_2_ids
-                WHERE year = {finder_year}
+                WHERE year = {finder_year} {exclude}
                 ORDER BY md5_number_lower(CAST(simulant_id AS VARCHAR) || ':{overlap_salt}:{seed}')
                 LIMIT {overlap_n}
             )
             UNION ALL
             SELECT * FROM (
-                SELECT p.simulant_id, p.year
-                FROM pool_finder p
-                WHERE p.simulant_id NOT IN (SELECT simulant_id FROM df_2_ids)
-                ORDER BY md5_number_lower(CAST(p.simulant_id AS VARCHAR) || ':{rest_salt}:{seed}')
+                SELECT simulant_id, year
+                FROM pool_finder
+                WHERE simulant_id NOT IN (SELECT simulant_id FROM df_2_ids) {exclude}
+                ORDER BY md5_number_lower(CAST(simulant_id AS VARCHAR) || ':{rest_salt}:{seed}')
                 LIMIT {total_n - overlap_n}
             )
         """)
