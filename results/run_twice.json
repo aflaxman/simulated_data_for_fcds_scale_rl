@@ -1,18 +1,18 @@
 {
-  "test": "run-twice checksum identity: the release rebuilt from the same config.yaml and seeds on a different node (duplication-off configuration)",
-  "date": "2026-10-01",
+  "test": "run-twice checksum identity: the release rebuilt from the same config.yaml and seeds on a different node (row noise off, exact-target draw, no trim)",
+  "date": "2026-10-04",
   "first_build": {
-    "created_utc": "2026-10-02T04:06:59+00:00",
-    "slurm_job": 50423230,
-    "built_as_version": "0.3"
+    "created_utc": "2026-10-04T23:21:25+00:00",
+    "slurm_job": 52997428,
+    "built_as_version": "0.4rc"
   },
   "second_build": {
-    "created_utc": "2026-10-02T04:22:09+00:00",
-    "slurm_job": 50430271,
+    "created_utc": "2026-10-04T23:35:31+00:00",
+    "slurm_job": 52997429,
     "built_as_version": "0.4",
-    "hostname": "long-slurm-sarchive-p0009",
-    "build_wall_seconds": 634.6,
-    "peak_rss_mb": 24359.9
+    "hostname": "long-slurm-sarchive-p0070",
+    "build_wall_seconds": 824.9,
+    "peak_rss_mb": 22024.9
   },
   "files_identical": true,
   "files_compared": [
@@ -22,22 +22,21 @@
   ],
   "files": {
     "registry.csv": {
-      "md5": "5828e720d951f0403342de62201cd8aa",
-      "second_build_md5": "5828e720d951f0403342de62201cd8aa"
+      "md5": "f6a975720ac29e0623bbbc81c1b0284e",
+      "second_build_md5": "f6a975720ac29e0623bbbc81c1b0284e"
     },
     "finder_500k.csv": {
-      "md5": "6025e4065d9616864fc0519d31da211a",
-      "second_build_md5": "6025e4065d9616864fc0519d31da211a"
+      "md5": "015de24f1d791b686a46457fa15d5171",
+      "second_build_md5": "015de24f1d791b686a46457fa15d5171"
     },
     "finder_100k.csv": {
-      "md5": "c7411f89e300d097726616632bd4ef79",
-      "second_build_md5": "c7411f89e300d097726616632bd4ef79"
+      "md5": "81bc46a0e7530bf1215cf17da3811e73",
+      "second_build_md5": "81bc46a0e7530bf1215cf17da3811e73"
     },
     "data_dictionary.csv": {
-      "md5": "df4fac76a0e428ea94cc06d65360e473",
-      "second_build_md5": "5807608b54bb9b1a72cc65f6b1477c91",
-      "note": "documentation, not data: edited between the two builds (blank rates spelled out per file), so it differs by construction"
+      "md5": "5807608b54bb9b1a72cc65f6b1477c91",
+      "second_build_md5": "5807608b54bb9b1a72cc65f6b1477c91"
     }
   },
-  "note": "The zip differs by construction because its archive prefix carries the version name; the CSVs inside are the same bytes."
+  "note": "The zip differs by construction because its archive prefix carries the version name; the CSVs inside are the same bytes. The data dictionary is documentation and is compared for completeness."
 }

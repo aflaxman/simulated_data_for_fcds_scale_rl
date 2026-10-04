@@ -21,7 +21,7 @@
     "zipcode",
     "ssn"
   ],
-  "created_utc": "2026-10-02T04:22:09+00:00",
+  "created_utc": "2026-10-04T23:35:31+00:00",
   "dataset": "sim_fcds_benchmark",
   "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
   "files": {
@@ -33,24 +33,24 @@
     },
     "finder_100k.csv": {
       "distinct_simulants": 100000,
-      "md5": "c7411f89e300d097726616632bd4ef79",
+      "md5": "81bc46a0e7530bf1215cf17da3811e73",
       "rows": 100000,
-      "sha256": "5fc80ece9896abf55209cafb23e0a034806d70625b48affadd97c11ba7a09ab0",
-      "size_bytes": 9976970
+      "sha256": "5cb8dec9bbbe4a00ac924ed85452717ebef57f8f3b70f3565a96a662fdef78ce",
+      "size_bytes": 9979347
     },
     "finder_500k.csv": {
       "distinct_simulants": 500000,
-      "md5": "6025e4065d9616864fc0519d31da211a",
+      "md5": "015de24f1d791b686a46457fa15d5171",
       "rows": 500000,
-      "sha256": "4079ecb86a7617422a538b17f71290d84113a164c20b0133a56c12ac1ec75830",
-      "size_bytes": 49890377
+      "sha256": "625ad6b67cd77c3faad60e968d8e310137ecf4a6c9e7aae73880c1b9f1ebab53",
+      "size_bytes": 49903647
     },
     "registry.csv": {
       "distinct_simulants": 5000000,
-      "md5": "5828e720d951f0403342de62201cd8aa",
+      "md5": "f6a975720ac29e0623bbbc81c1b0284e",
       "rows": 5000000,
-      "sha256": "9d09e42cc4a9b182216bcd0f4d42c02e0ea2c8c3f2c1ae9e298dbd84cbb172e5",
-      "size_bytes": 564836721
+      "sha256": "0d54cc182fcb6ca0942288503868e9df9a1836ca56f85af6dd7359d84c0d05ab",
+      "size_bytes": 564875175
     }
   },
   "finder_year": 2040,
@@ -91,9 +91,9 @@
   "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_fcds_benchmark_0.4",
   "version": "0.4",
   "zip": {
-    "md5": "a6f2fd6a75dd8877fbfbb1f79e1f2b83",
+    "md5": "885359838869a98f3238cc79db66b3e0",
     "name": "sim_fcds_benchmark_0.4.zip",
-    "sha256": "a7b695b979e9ff3e417f6db93a3ec1dc93307764cfe0388b3ce4ec0a3c93023d",
-    "size_bytes": 234502495
+    "sha256": "a04ddc8d263c52ac7b4069c5f8f2b655776d4ab76d9fe771336652604c5052d3",
+    "size_bytes": 234508979
   }
 }

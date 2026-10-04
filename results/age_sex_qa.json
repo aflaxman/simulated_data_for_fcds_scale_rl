@@ -3,12 +3,12 @@
     "rows": 5000000,
     "rows_binned": 5000000,
     "rows_by_census_year": {
-      "2020": 1329059,
-      "2030": 1376078,
-      "2040": 2294863
+      "2020": 1329470,
+      "2030": 1375374,
+      "2040": 2295156
     },
-    "max_abs_share_deviation_pct": 0.040993475591225015,
-    "max_abs_share_deviation_stratum": "Male 45"
+    "max_abs_share_deviation_pct": 1.0569049050811359e-05,
+    "max_abs_share_deviation_stratum": "Female 5"
   },
   "finder_500k.csv": {
     "rows": 500000,

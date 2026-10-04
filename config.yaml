@@ -31,9 +31,6 @@ seeds:
   # pseudopeople noise seeds, one per output file.
   psp_registry: 42
   psp_finder: 1
-  # RETIRED 2026-10-04 (row noise is off, so nothing is trimmed); unused by the build and
-  # kept only until paper.qmd's load chunk stops reading it. SSN noise uses the psp seeds.
-  postprocess: 999
   # Keyed hash placing each registry record's diagnosis date within its census year.
   diagnosis_date: 2026
 
@@ -48,11 +45,6 @@ cohorts:
   census_years: [2020, 2030, 2040]
   registry_pool: last_seen
   finder_year: 2040
-  # RETIRED 2026-10-04: with pseudopeople's row noise off (noise.row_noise) each
-  # file holds exactly the people drawn, so cohorts are no longer oversampled and
-  # trimmed; the build ignores this key, which stays only until paper.qmd's load
-  # chunk stops reading it.
-  oversample: 1.15
   registry_target: 5_000_000
   finder_500k_target: 500_000
   finder_100k_target: 100_000

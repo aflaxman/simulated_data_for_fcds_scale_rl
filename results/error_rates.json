@@ -1,44 +1,43 @@
 {
   "realised": {
     "finder_100k.csv": {
-      "city_missing": 0.04988,
-      "ssn_blanked": 16068,
+      "city_missing": 0.05,
+      "ssn_blanked": 16052,
       "ssn_missing": 0.2,
-      "ssn_structural_missing": 0.03932,
+      "ssn_structural_missing": 0.03948,
       "ssn_transposed": 822,
-      "state_missing": 0.04994,
-      "street_name_missing": 0.0494,
-      "street_number_missing": 0.09447,
-      "unit_number_missing": 0.94434,
-      "zipcode_missing": 0.04933
+      "state_missing": 0.05026,
+      "street_name_missing": 0.04988,
+      "street_number_missing": 0.09444,
+      "unit_number_missing": 0.94393,
+      "zipcode_missing": 0.04972
     },
     "finder_500k.csv": {
-      "city_missing": 0.050074,
-      "ssn_blanked": 80555,
+      "city_missing": 0.05,
+      "ssn_blanked": 80230,
       "ssn_missing": 0.2,
-      "ssn_structural_missing": 0.03889,
-      "ssn_transposed": 4001,
-      "state_missing": 0.050026,
-      "street_name_missing": 0.049846,
-      "street_number_missing": 0.095308,
-      "unit_number_missing": 0.942936,
-      "zipcode_missing": 0.049944
+      "ssn_structural_missing": 0.03954,
+      "ssn_transposed": 4000,
+      "state_missing": 0.050114,
+      "street_name_missing": 0.049944,
+      "street_number_missing": 0.095428,
+      "unit_number_missing": 0.94311,
+      "zipcode_missing": 0.049872
     },
     "registry.csv": {
-      "city_missing": 0.0099826,
+      "city_missing": 0.0099884,
       "ssn_blanked": 0,
-      "ssn_missing": 0.0568476,
-      "ssn_structural_missing": 0.0568476,
+      "ssn_missing": 0.0573548,
+      "ssn_structural_missing": 0.0573548,
       "ssn_transposed": 0,
-      "state_missing": 0.0099938,
-      "street_name_missing": 0.0100192,
-      "street_number_missing": 0.056035,
-      "unit_number_missing": 0.9423174,
-      "zipcode_missing": 0.0100092
+      "state_missing": 0.0100124,
+      "street_name_missing": 0.010024,
+      "street_number_missing": 0.056015,
+      "unit_number_missing": 0.9423512,
+      "zipcode_missing": 0.0100014
     }
   },
   "targets": {
-    "duplicate_with_guardian": 0.0,
     "finder": {
       "address_missing": 0.05,
       "ssn_missing": 0.2,
@@ -48,6 +47,11 @@
       "address_missing": 0.01,
       "ssn_missing": 0.05,
       "ssn_transposed": 0.0
+    },
+    "row_noise": {
+      "do_not_respond": 0.0,
+      "duplicate_with_guardian": 0.0,
+      "omit_row": 0.0
     }
   }
 }

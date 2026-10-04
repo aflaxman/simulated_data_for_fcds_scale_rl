@@ -1,33 +1,33 @@
 {
   "uniqueness": {
-    "unique_name_dob": 0.9696332,
-    "unique_lastname_dob": 0.8883146,
-    "unique_zip_dob_sex": 0.8155852,
-    "people_sharing_full_name": 2331572,
-    "share_sharing_full_name": 0.4663144,
+    "unique_name_dob": 0.9696122,
+    "unique_lastname_dob": 0.8880562,
+    "unique_zip_dob_sex": 0.815792,
+    "people_sharing_full_name": 2332805,
+    "share_sharing_full_name": 0.466561,
     "registry_people": 5000000
   },
   "top_names_registry": {
     "first": [
       {
         "name": "james",
-        "count": 95391
+        "count": 95463
       },
       {
         "name": "michael",
-        "count": 94281
+        "count": 94243
       },
       {
         "name": "robert",
-        "count": 90328
+        "count": 90388
       },
       {
         "name": "john",
-        "count": 89807
+        "count": 90154
       },
       {
         "name": "david",
-        "count": 80406
+        "count": 80426
       },
       {
         "name": "william",
@@ -35,61 +35,61 @@
       },
       {
         "name": "mary",
-        "count": 55331
+        "count": 55270
       },
       {
         "name": "richard",
-        "count": 53285
+        "count": 53191
       },
       {
         "name": "thomas",
-        "count": 44343
+        "count": 44634
       },
       {
         "name": "joseph",
-        "count": 39295
+        "count": 39350
       }
     ],
     "last": [
       {
         "name": "smith",
-        "count": 43174
+        "count": 42991
       },
       {
         "name": "johnson",
-        "count": 33933
+        "count": 33997
       },
       {
         "name": "williams",
-        "count": 28175
+        "count": 28194
       },
       {
         "name": "brown",
-        "count": 25028
+        "count": 24976
       },
       {
         "name": "jones",
-        "count": 24832
+        "count": 24859
       },
       {
         "name": "miller",
-        "count": 20630
+        "count": 20481
       },
       {
         "name": "davis",
-        "count": 19875
+        "count": 19992
       },
       {
         "name": "garcia",
-        "count": 17976
+        "count": 18372
       },
       {
         "name": "rodriguez",
-        "count": 17535
+        "count": 18101
       },
       {
         "name": "hernandez",
-        "count": 16361
+        "count": 16727
       }
     ]
   },
@@ -97,99 +97,99 @@
     "finder_500k.csv": {
       "naive_pairs": 2500000000000,
       "block_dob": {
-        "candidate_pairs": 58076019,
-        "pairs_completeness": 0.91573,
-        "reduction_ratio": 0.9999767695924
+        "candidate_pairs": 58644646,
+        "pairs_completeness": 0.91548,
+        "reduction_ratio": 0.9999765421416
       },
       "block_lastname_initial_yob": {
-        "candidate_pairs": 1230357127,
-        "pairs_completeness": 0.90737,
-        "reduction_ratio": 0.9995078571492
+        "candidate_pairs": 1239384092,
+        "pairs_completeness": 0.90726,
+        "reduction_ratio": 0.9995042463632
       }
     },
     "finder_100k.csv": {
       "naive_pairs": 500000000000,
       "block_dob": {
-        "candidate_pairs": 11560876,
-        "pairs_completeness": 0.9184,
-        "reduction_ratio": 0.999976878248
+        "candidate_pairs": 11701152,
+        "pairs_completeness": 0.91685,
+        "reduction_ratio": 0.999976597696
       },
       "block_lastname_initial_yob": {
-        "candidate_pairs": 245006048,
-        "pairs_completeness": 0.90865,
-        "reduction_ratio": 0.999509987904
+        "candidate_pairs": 247650410,
+        "pairs_completeness": 0.9075,
+        "reduction_ratio": 0.99950469918
       }
     }
   },
   "sentinels": {
     "registry.csv": {
       "rows": 5000000,
-      "dob_blank_share": 0.0099628,
-      "dob_unparseable_share_of_present": 0.014137044547417005,
-      "doe_names": 13,
+      "dob_blank_share": 0.0099524,
+      "dob_unparseable_share_of_present": 0.014109018596681615,
+      "doe_names": 12,
       "ssn_repeated_digit": 0,
       "ssn_not_issuable": 0,
-      "ssn_present": 4715762
+      "ssn_present": 4713226
     },
     "finder_500k.csv": {
       "rows": 500000,
-      "dob_blank_share": 0.009938,
-      "dob_unparseable_share_of_present": 0.014172849781124819,
-      "doe_names": 0,
+      "dob_blank_share": 0.009958,
+      "dob_unparseable_share_of_present": 0.014098391785399003,
+      "doe_names": 1,
       "ssn_repeated_digit": 0,
-      "ssn_not_issuable": 52,
+      "ssn_not_issuable": 63,
       "ssn_present": 400000
     },
     "finder_100k.csv": {
       "rows": 100000,
-      "dob_blank_share": 0.0101,
-      "dob_unparseable_share_of_present": 0.014142842711384988,
+      "dob_blank_share": 0.00993,
+      "dob_unparseable_share_of_present": 0.01359499833345117,
       "doe_names": 0,
       "ssn_repeated_digit": 0,
-      "ssn_not_issuable": 15,
+      "ssn_not_issuable": 10,
       "ssn_present": 80000
     }
   },
   "ssn_blank_by_race": {
     "registry.csv": {
-      "Asian": 0.2152635850902204,
-      "Latino": 0.1524485450674237,
-      "White": 0.01915982874976506,
-      "Black": 0.05370201057246406,
-      "Other or unknown": 0.053314932266470036
+      "Asian": 0.2150782014711875,
+      "Latino": 0.15199421660753723,
+      "White": 0.019197533098414946,
+      "Other or unknown": 0.0532630457723906,
+      "Black": 0.053641110195108546
     },
     "finder_500k.csv": {
-      "Latino": 0.23536656947932605,
-      "Asian": 0.2894430202749942,
-      "White": 0.17791001633318218,
-      "Other or unknown": 0.18894892801115565,
-      "Black": 0.1929265650015363
+      "Asian": 0.2890428398022323,
+      "Latino": 0.23431906324582338,
+      "Black": 0.19102308122354444,
+      "White": 0.17821348806410703,
+      "Other or unknown": 0.18956318199029293
     },
     "finder_100k.csv": {
-      "White": 0.17824112379796642,
-      "Black": 0.19296539427830456,
-      "Other or unknown": 0.18836664865838285,
-      "Asian": 0.28680463819169233,
-      "Latino": 0.23555576812703272
+      "White": 0.1767218864263861,
+      "Black": 0.18975951584647238,
+      "Other or unknown": 0.19400352733686066,
+      "Asian": 0.2841079460269865,
+      "Latino": 0.23951065215368872
     }
   },
   "ssn_blank_by_age_band": {
     "registry.csv": {
-      "80_plus": {
-        "blank_share": 0.04662909335904563,
-        "rows": 991484
-      },
       "65_79": {
-        "blank_share": 0.05824574692754948,
-        "rows": 2117528
+        "blank_share": 0.05879397032479202,
+        "rows": 2113414
       },
       "40_64": {
-        "blank_share": 0.06408366483831766,
-        "rows": 1552767
+        "blank_share": 0.06475955822499095,
+        "rows": 1557716
+      },
+      "80_plus": {
+        "blank_share": 0.046950514574724184,
+        "rows": 987806
       },
       "under_40": {
-        "blank_share": 0.03840659994689277,
-        "rows": 218426
+        "blank_share": 0.03831408974121621,
+        "rows": 221459
       }
     }
   }

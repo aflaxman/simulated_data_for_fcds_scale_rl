@@ -1,757 +1,757 @@
 file,sex,age_group,age_start,race_ethnicity,count
-registry.csv,Female,0–4,0,AIAN,27
+registry.csv,Female,0–4,0,AIAN,26
 registry.csv,Female,0–4,0,Asian,324
-registry.csv,Female,0–4,0,Black,681
-registry.csv,Female,0–4,0,Latino,1222
-registry.csv,Female,0–4,0,Multiracial or Other,238
+registry.csv,Female,0–4,0,Black,677
+registry.csv,Female,0–4,0,Latino,1324
+registry.csv,Female,0–4,0,Multiracial or Other,253
 registry.csv,Female,0–4,0,NHOPI,12
-registry.csv,Female,0–4,0,White,2381
-registry.csv,Female,5–9,5,AIAN,22
-registry.csv,Female,5–9,5,Asian,179
-registry.csv,Female,5–9,5,Black,395
-registry.csv,Female,5–9,5,Latino,737
-registry.csv,Female,5–9,5,Multiracial or Other,120
-registry.csv,Female,5–9,5,NHOPI,7
-registry.csv,Female,5–9,5,White,1393
-registry.csv,Female,10–14,10,AIAN,14
-registry.csv,Female,10–14,10,Asian,193
-registry.csv,Female,10–14,10,Black,469
-registry.csv,Female,10–14,10,Latino,819
-registry.csv,Female,10–14,10,Multiracial or Other,173
-registry.csv,Female,10–14,10,NHOPI,12
-registry.csv,Female,10–14,10,White,1600
-registry.csv,Female,15–19,15,AIAN,33
-registry.csv,Female,15–19,15,Asian,313
-registry.csv,Female,15–19,15,Black,829
-registry.csv,Female,15–19,15,Latino,1342
-registry.csv,Female,15–19,15,Multiracial or Other,248
+registry.csv,Female,0–4,0,White,2407
+registry.csv,Female,5–9,5,AIAN,21
+registry.csv,Female,5–9,5,Asian,176
+registry.csv,Female,5–9,5,Black,417
+registry.csv,Female,5–9,5,Latino,763
+registry.csv,Female,5–9,5,Multiracial or Other,123
+registry.csv,Female,5–9,5,NHOPI,8
+registry.csv,Female,5–9,5,White,1384
+registry.csv,Female,10–14,10,AIAN,13
+registry.csv,Female,10–14,10,Asian,199
+registry.csv,Female,10–14,10,Black,502
+registry.csv,Female,10–14,10,Latino,828
+registry.csv,Female,10–14,10,Multiracial or Other,177
+registry.csv,Female,10–14,10,NHOPI,10
+registry.csv,Female,10–14,10,White,1558
+registry.csv,Female,15–19,15,AIAN,32
+registry.csv,Female,15–19,15,Asian,307
+registry.csv,Female,15–19,15,Black,857
+registry.csv,Female,15–19,15,Latino,1404
+registry.csv,Female,15–19,15,Multiracial or Other,271
 registry.csv,Female,15–19,15,NHOPI,11
-registry.csv,Female,15–19,15,White,2641
-registry.csv,Female,20–24,20,AIAN,66
-registry.csv,Female,20–24,20,Asian,590
-registry.csv,Female,20–24,20,Black,1339
-registry.csv,Female,20–24,20,Latino,2129
-registry.csv,Female,20–24,20,Multiracial or Other,417
+registry.csv,Female,15–19,15,White,2607
+registry.csv,Female,20–24,20,AIAN,71
+registry.csv,Female,20–24,20,Asian,584
+registry.csv,Female,20–24,20,Black,1361
+registry.csv,Female,20–24,20,Latino,2238
+registry.csv,Female,20–24,20,Multiracial or Other,471
 registry.csv,Female,20–24,20,NHOPI,11
-registry.csv,Female,20–24,20,White,4693
-registry.csv,Female,25–29,25,AIAN,119
-registry.csv,Female,25–29,25,Asian,1073
-registry.csv,Female,25–29,25,Black,2458
-registry.csv,Female,25–29,25,Latino,3940
-registry.csv,Female,25–29,25,Multiracial or Other,819
-registry.csv,Female,25–29,25,NHOPI,33
-registry.csv,Female,25–29,25,White,8617
-registry.csv,Female,30–34,30,AIAN,178
-registry.csv,Female,30–34,30,Asian,2133
-registry.csv,Female,30–34,30,Black,4381
-registry.csv,Female,30–34,30,Latino,7693
-registry.csv,Female,30–34,30,Multiracial or Other,1319
-registry.csv,Female,30–34,30,NHOPI,61
-registry.csv,Female,30–34,30,White,15625
+registry.csv,Female,20–24,20,White,4696
+registry.csv,Female,25–29,25,AIAN,118
+registry.csv,Female,25–29,25,Asian,1059
+registry.csv,Female,25–29,25,Black,2533
+registry.csv,Female,25–29,25,Latino,4145
+registry.csv,Female,25–29,25,Multiracial or Other,856
+registry.csv,Female,25–29,25,NHOPI,29
+registry.csv,Female,25–29,25,White,8555
+registry.csv,Female,30–34,30,AIAN,171
+registry.csv,Female,30–34,30,Asian,2138
+registry.csv,Female,30–34,30,Black,4419
+registry.csv,Female,30–34,30,Latino,7966
+registry.csv,Female,30–34,30,Multiracial or Other,1370
+registry.csv,Female,30–34,30,NHOPI,67
+registry.csv,Female,30–34,30,White,15435
 registry.csv,Female,35–39,35,AIAN,269
-registry.csv,Female,35–39,35,Asian,3605
-registry.csv,Female,35–39,35,Black,7328
-registry.csv,Female,35–39,35,Latino,12316
-registry.csv,Female,35–39,35,Multiracial or Other,1985
-registry.csv,Female,35–39,35,NHOPI,104
-registry.csv,Female,35–39,35,White,25945
-registry.csv,Female,40–44,40,AIAN,458
-registry.csv,Female,40–44,40,Asian,5785
-registry.csv,Female,40–44,40,Black,12399
-registry.csv,Female,40–44,40,Latino,20489
-registry.csv,Female,40–44,40,Multiracial or Other,2898
-registry.csv,Female,40–44,40,NHOPI,152
-registry.csv,Female,40–44,40,White,42148
-registry.csv,Female,45–49,45,AIAN,691
-registry.csv,Female,45–49,45,Asian,8435
-registry.csv,Female,45–49,45,Black,17810
-registry.csv,Female,45–49,45,Latino,29352
-registry.csv,Female,45–49,45,Multiracial or Other,3892
-registry.csv,Female,45–49,45,NHOPI,219
-registry.csv,Female,45–49,45,White,64226
-registry.csv,Female,50–54,50,AIAN,846
-registry.csv,Female,50–54,50,Asian,10763
-registry.csv,Female,50–54,50,Black,24859
-registry.csv,Female,50–54,50,Latino,39506
+registry.csv,Female,35–39,35,Asian,3572
+registry.csv,Female,35–39,35,Black,7476
+registry.csv,Female,35–39,35,Latino,12929
+registry.csv,Female,35–39,35,Multiracial or Other,2026
+registry.csv,Female,35–39,35,NHOPI,98
+registry.csv,Female,35–39,35,White,25714
+registry.csv,Female,40–44,40,AIAN,453
+registry.csv,Female,40–44,40,Asian,5738
+registry.csv,Female,40–44,40,Black,12713
+registry.csv,Female,40–44,40,Latino,21211
+registry.csv,Female,40–44,40,Multiracial or Other,2987
+registry.csv,Female,40–44,40,NHOPI,157
+registry.csv,Female,40–44,40,White,41641
+registry.csv,Female,45–49,45,AIAN,712
+registry.csv,Female,45–49,45,Asian,8381
+registry.csv,Female,45–49,45,Black,18224
+registry.csv,Female,45–49,45,Latino,30554
+registry.csv,Female,45–49,45,Multiracial or Other,3964
+registry.csv,Female,45–49,45,NHOPI,214
+registry.csv,Female,45–49,45,White,63376
+registry.csv,Female,50–54,50,AIAN,849
+registry.csv,Female,50–54,50,Asian,10705
+registry.csv,Female,50–54,50,Black,24777
+registry.csv,Female,50–54,50,Latino,39946
 registry.csv,Female,50–54,50,Multiracial or Other,4881
-registry.csv,Female,50–54,50,NHOPI,258
-registry.csv,Female,50–54,50,White,89684
+registry.csv,Female,50–54,50,NHOPI,253
+registry.csv,Female,50–54,50,White,88864
 registry.csv,Female,55–59,55,AIAN,1090
-registry.csv,Female,55–59,55,Asian,13220
-registry.csv,Female,55–59,55,Black,29922
-registry.csv,Female,55–59,55,Latino,47754
-registry.csv,Female,55–59,55,Multiracial or Other,5449
-registry.csv,Female,55–59,55,NHOPI,333
-registry.csv,Female,55–59,55,White,117841
-registry.csv,Female,60–64,60,AIAN,1348
-registry.csv,Female,60–64,60,Asian,15111
-registry.csv,Female,60–64,60,Black,35921
-registry.csv,Female,60–64,60,Latino,54842
-registry.csv,Female,60–64,60,Multiracial or Other,5681
-registry.csv,Female,60–64,60,NHOPI,373
-registry.csv,Female,60–64,60,White,150462
-registry.csv,Female,65–69,65,AIAN,1517
-registry.csv,Female,65–69,65,Asian,17841
-registry.csv,Female,65–69,65,Black,40811
-registry.csv,Female,65–69,65,Latino,59102
-registry.csv,Female,65–69,65,Multiracial or Other,6329
-registry.csv,Female,65–69,65,NHOPI,389
-registry.csv,Female,65–69,65,White,195499
-registry.csv,Female,70–74,70,AIAN,1476
-registry.csv,Female,70–74,70,Asian,15387
-registry.csv,Female,70–74,70,Black,38164
-registry.csv,Female,70–74,70,Latino,52413
-registry.csv,Female,70–74,70,Multiracial or Other,5828
-registry.csv,Female,70–74,70,NHOPI,319
-registry.csv,Female,70–74,70,White,217339
-registry.csv,Female,75–79,75,AIAN,1238
-registry.csv,Female,75–79,75,Asian,12556
-registry.csv,Female,75–79,75,Black,32635
-registry.csv,Female,75–79,75,Latino,42319
-registry.csv,Female,75–79,75,Multiracial or Other,4439
-registry.csv,Female,75–79,75,NHOPI,314
-registry.csv,Female,75–79,75,White,209812
-registry.csv,Female,80–84,80,AIAN,889
-registry.csv,Female,80–84,80,Asian,8223
-registry.csv,Female,80–84,80,Black,23966
-registry.csv,Female,80–84,80,Latino,29769
-registry.csv,Female,80–84,80,Multiracial or Other,3271
-registry.csv,Female,80–84,80,NHOPI,204
-registry.csv,Female,80–84,80,White,167271
-registry.csv,Female,85+,85,AIAN,630
-registry.csv,Female,85+,85,Asian,6721
-registry.csv,Female,85+,85,Black,19993
-registry.csv,Female,85+,85,Latino,26896
-registry.csv,Female,85+,85,Multiracial or Other,2481
-registry.csv,Female,85+,85,NHOPI,145
-registry.csv,Female,85+,85,White,162781
-registry.csv,Male,0–4,0,AIAN,30
-registry.csv,Male,0–4,0,Asian,380
-registry.csv,Male,0–4,0,Black,791
-registry.csv,Male,0–4,0,Latino,1416
-registry.csv,Male,0–4,0,Multiracial or Other,266
+registry.csv,Female,55–59,55,Asian,13046
+registry.csv,Female,55–59,55,Black,29746
+registry.csv,Female,55–59,55,Latino,48531
+registry.csv,Female,55–59,55,Multiracial or Other,5370
+registry.csv,Female,55–59,55,NHOPI,326
+registry.csv,Female,55–59,55,White,116691
+registry.csv,Female,60–64,60,AIAN,1360
+registry.csv,Female,60–64,60,Asian,14980
+registry.csv,Female,60–64,60,Black,35818
+registry.csv,Female,60–64,60,Latino,55436
+registry.csv,Female,60–64,60,Multiracial or Other,5675
+registry.csv,Female,60–64,60,NHOPI,366
+registry.csv,Female,60–64,60,White,148912
+registry.csv,Female,65–69,65,AIAN,1538
+registry.csv,Female,65–69,65,Asian,17584
+registry.csv,Female,65–69,65,Black,40596
+registry.csv,Female,65–69,65,Latino,59667
+registry.csv,Female,65–69,65,Multiracial or Other,6437
+registry.csv,Female,65–69,65,NHOPI,372
+registry.csv,Female,65–69,65,White,193933
+registry.csv,Female,70–74,70,AIAN,1467
+registry.csv,Female,70–74,70,Asian,15184
+registry.csv,Female,70–74,70,Black,38194
+registry.csv,Female,70–74,70,Latino,53016
+registry.csv,Female,70–74,70,Multiracial or Other,5819
+registry.csv,Female,70–74,70,NHOPI,313
+registry.csv,Female,70–74,70,White,215524
+registry.csv,Female,75–79,75,AIAN,1219
+registry.csv,Female,75–79,75,Asian,12470
+registry.csv,Female,75–79,75,Black,32497
+registry.csv,Female,75–79,75,Latino,42800
+registry.csv,Female,75–79,75,Multiracial or Other,4492
+registry.csv,Female,75–79,75,NHOPI,311
+registry.csv,Female,75–79,75,White,207927
+registry.csv,Female,80–84,80,AIAN,873
+registry.csv,Female,80–84,80,Asian,8121
+registry.csv,Female,80–84,80,Black,23825
+registry.csv,Female,80–84,80,Latino,29945
+registry.csv,Female,80–84,80,Multiracial or Other,3282
+registry.csv,Female,80–84,80,NHOPI,203
+registry.csv,Female,80–84,80,White,165864
+registry.csv,Female,85+,85,AIAN,641
+registry.csv,Female,85+,85,Asian,6730
+registry.csv,Female,85+,85,Black,19928
+registry.csv,Female,85+,85,Latino,27163
+registry.csv,Female,85+,85,Multiracial or Other,2508
+registry.csv,Female,85+,85,NHOPI,147
+registry.csv,Female,85+,85,White,161248
+registry.csv,Male,0–4,0,AIAN,32
+registry.csv,Male,0–4,0,Asian,378
+registry.csv,Male,0–4,0,Black,840
+registry.csv,Male,0–4,0,Latino,1507
+registry.csv,Male,0–4,0,Multiracial or Other,272
 registry.csv,Male,0–4,0,NHOPI,6
-registry.csv,Male,0–4,0,White,2893
-registry.csv,Male,5–9,5,AIAN,22
-registry.csv,Male,5–9,5,Asian,219
+registry.csv,Male,0–4,0,White,2914
+registry.csv,Male,5–9,5,AIAN,23
+registry.csv,Male,5–9,5,Asian,214
 registry.csv,Male,5–9,5,Black,485
-registry.csv,Male,5–9,5,Latino,811
+registry.csv,Male,5–9,5,Latino,857
 registry.csv,Male,5–9,5,Multiracial or Other,160
 registry.csv,Male,5–9,5,NHOPI,2
-registry.csv,Male,5–9,5,White,1767
-registry.csv,Male,10–14,10,AIAN,18
-registry.csv,Male,10–14,10,Asian,217
-registry.csv,Male,10–14,10,Black,557
-registry.csv,Male,10–14,10,Latino,932
-registry.csv,Male,10–14,10,Multiracial or Other,174
-registry.csv,Male,10–14,10,NHOPI,11
-registry.csv,Male,10–14,10,White,1908
-registry.csv,Male,15–19,15,AIAN,28
-registry.csv,Male,15–19,15,Asian,320
-registry.csv,Male,15–19,15,Black,883
-registry.csv,Male,15–19,15,Latino,1469
-registry.csv,Male,15–19,15,Multiracial or Other,287
-registry.csv,Male,15–19,15,NHOPI,9
-registry.csv,Male,15–19,15,White,3036
-registry.csv,Male,20–24,20,AIAN,46
-registry.csv,Male,20–24,20,Asian,499
-registry.csv,Male,20–24,20,Black,1189
-registry.csv,Male,20–24,20,Latino,2110
-registry.csv,Male,20–24,20,Multiracial or Other,413
-registry.csv,Male,20–24,20,NHOPI,21
-registry.csv,Male,20–24,20,White,4425
-registry.csv,Male,25–29,25,AIAN,71
-registry.csv,Male,25–29,25,Asian,771
-registry.csv,Male,25–29,25,Black,1770
-registry.csv,Male,25–29,25,Latino,3081
-registry.csv,Male,25–29,25,Multiracial or Other,620
-registry.csv,Male,25–29,25,NHOPI,20
-registry.csv,Male,25–29,25,White,6519
-registry.csv,Male,30–34,30,AIAN,111
-registry.csv,Male,30–34,30,Asian,1170
-registry.csv,Male,30–34,30,Black,2536
-registry.csv,Male,30–34,30,Latino,4559
-registry.csv,Male,30–34,30,Multiracial or Other,728
-registry.csv,Male,30–34,30,NHOPI,39
+registry.csv,Male,5–9,5,White,1739
+registry.csv,Male,10–14,10,AIAN,17
+registry.csv,Male,10–14,10,Asian,211
+registry.csv,Male,10–14,10,Black,558
+registry.csv,Male,10–14,10,Latino,966
+registry.csv,Male,10–14,10,Multiracial or Other,177
+registry.csv,Male,10–14,10,NHOPI,10
+registry.csv,Male,10–14,10,White,1887
+registry.csv,Male,15–19,15,AIAN,24
+registry.csv,Male,15–19,15,Asian,322
+registry.csv,Male,15–19,15,Black,917
+registry.csv,Male,15–19,15,Latino,1545
+registry.csv,Male,15–19,15,Multiracial or Other,307
+registry.csv,Male,15–19,15,NHOPI,5
+registry.csv,Male,15–19,15,White,2992
+registry.csv,Male,20–24,20,AIAN,50
+registry.csv,Male,20–24,20,Asian,506
+registry.csv,Male,20–24,20,Black,1244
+registry.csv,Male,20–24,20,Latino,2210
+registry.csv,Male,20–24,20,Multiracial or Other,429
+registry.csv,Male,20–24,20,NHOPI,29
+registry.csv,Male,20–24,20,White,4401
+registry.csv,Male,25–29,25,AIAN,75
+registry.csv,Male,25–29,25,Asian,755
+registry.csv,Male,25–29,25,Black,1835
+registry.csv,Male,25–29,25,Latino,3312
+registry.csv,Male,25–29,25,Multiracial or Other,643
+registry.csv,Male,25–29,25,NHOPI,18
+registry.csv,Male,25–29,25,White,6541
+registry.csv,Male,30–34,30,AIAN,116
+registry.csv,Male,30–34,30,Asian,1174
+registry.csv,Male,30–34,30,Black,2654
+registry.csv,Male,30–34,30,Latino,4895
+registry.csv,Male,30–34,30,Multiracial or Other,777
+registry.csv,Male,30–34,30,NHOPI,32
 registry.csv,Male,30–34,30,White,9244
-registry.csv,Male,35–39,35,AIAN,163
-registry.csv,Male,35–39,35,Asian,1711
-registry.csv,Male,35–39,35,Black,3639
-registry.csv,Male,35–39,35,Latino,6550
-registry.csv,Male,35–39,35,Multiracial or Other,987
-registry.csv,Male,35–39,35,NHOPI,52
-registry.csv,Male,35–39,35,White,13770
-registry.csv,Male,40–44,40,AIAN,235
-registry.csv,Male,40–44,40,Asian,2870
-registry.csv,Male,40–44,40,Black,6121
-registry.csv,Male,40–44,40,Latino,10591
-registry.csv,Male,40–44,40,Multiracial or Other,1427
-registry.csv,Male,40–44,40,NHOPI,78
-registry.csv,Male,40–44,40,White,22870
-registry.csv,Male,45–49,45,AIAN,479
-registry.csv,Male,45–49,45,Asian,4982
-registry.csv,Male,45–49,45,Black,10790
-registry.csv,Male,45–49,45,Latino,18673
-registry.csv,Male,45–49,45,Multiracial or Other,2434
-registry.csv,Male,45–49,45,NHOPI,150
-registry.csv,Male,45–49,45,White,42766
-registry.csv,Male,50–54,50,AIAN,840
-registry.csv,Male,50–54,50,Asian,8272
-registry.csv,Male,50–54,50,Black,19892
-registry.csv,Male,50–54,50,Latino,32875
-registry.csv,Male,50–54,50,Multiracial or Other,3860
+registry.csv,Male,35–39,35,AIAN,174
+registry.csv,Male,35–39,35,Asian,1682
+registry.csv,Male,35–39,35,Black,3796
+registry.csv,Male,35–39,35,Latino,7043
+registry.csv,Male,35–39,35,Multiracial or Other,1062
+registry.csv,Male,35–39,35,NHOPI,48
+registry.csv,Male,35–39,35,White,13817
+registry.csv,Male,40–44,40,AIAN,246
+registry.csv,Male,40–44,40,Asian,2896
+registry.csv,Male,40–44,40,Black,6447
+registry.csv,Male,40–44,40,Latino,11280
+registry.csv,Male,40–44,40,Multiracial or Other,1531
+registry.csv,Male,40–44,40,NHOPI,75
+registry.csv,Male,40–44,40,White,22810
+registry.csv,Male,45–49,45,AIAN,489
+registry.csv,Male,45–49,45,Asian,4960
+registry.csv,Male,45–49,45,Black,11268
+registry.csv,Male,45–49,45,Latino,20090
+registry.csv,Male,45–49,45,Multiracial or Other,2542
+registry.csv,Male,45–49,45,NHOPI,163
+registry.csv,Male,45–49,45,White,42812
+registry.csv,Male,50–54,50,AIAN,838
+registry.csv,Male,50–54,50,Asian,8207
+registry.csv,Male,50–54,50,Black,20140
+registry.csv,Male,50–54,50,Latino,34073
+registry.csv,Male,50–54,50,Multiracial or Other,3966
 registry.csv,Male,50–54,50,NHOPI,285
-registry.csv,Male,50–54,50,White,80169
-registry.csv,Male,55–59,55,AIAN,1238
-registry.csv,Male,55–59,55,Asian,11941
-registry.csv,Male,55–59,55,Black,29192
-registry.csv,Male,55–59,55,Latino,49162
-registry.csv,Male,55–59,55,Multiracial or Other,5275
-registry.csv,Male,55–59,55,NHOPI,386
-registry.csv,Male,55–59,55,White,131793
-registry.csv,Male,60–64,60,AIAN,1694
-registry.csv,Male,60–64,60,Asian,15856
-registry.csv,Male,60–64,60,Black,39696
-registry.csv,Male,60–64,60,Latino,63374
-registry.csv,Male,60–64,60,Multiracial or Other,6572
-registry.csv,Male,60–64,60,NHOPI,430
-registry.csv,Male,60–64,60,White,188252
-registry.csv,Male,65–69,65,AIAN,2080
-registry.csv,Male,65–69,65,Asian,19755
-registry.csv,Male,65–69,65,Black,48702
-registry.csv,Male,65–69,65,Latino,75051
-registry.csv,Male,65–69,65,Multiracial or Other,7800
-registry.csv,Male,65–69,65,NHOPI,471
-registry.csv,Male,65–69,65,White,273269
-registry.csv,Male,70–74,70,AIAN,2004
-registry.csv,Male,70–74,70,Asian,17860
-registry.csv,Male,70–74,70,Black,45940
-registry.csv,Male,70–74,70,Latino,66513
-registry.csv,Male,70–74,70,Multiracial or Other,6800
-registry.csv,Male,70–74,70,NHOPI,403
-registry.csv,Male,70–74,70,White,298529
-registry.csv,Male,75–79,75,AIAN,1595
-registry.csv,Male,75–79,75,Asian,13880
-registry.csv,Male,75–79,75,Black,36238
-registry.csv,Male,75–79,75,Latino,49060
-registry.csv,Male,75–79,75,Multiracial or Other,5380
-registry.csv,Male,75–79,75,NHOPI,313
-registry.csv,Male,75–79,75,White,273011
-registry.csv,Male,80–84,80,AIAN,986
-registry.csv,Male,80–84,80,Asian,8327
-registry.csv,Male,80–84,80,Black,23376
-registry.csv,Male,80–84,80,Latino,29453
-registry.csv,Male,80–84,80,Multiracial or Other,3349
-registry.csv,Male,80–84,80,NHOPI,162
-registry.csv,Male,80–84,80,White,195240
-registry.csv,Male,85+,85,AIAN,587
-registry.csv,Male,85+,85,Asian,5649
-registry.csv,Male,85+,85,Black,14671
-registry.csv,Male,85+,85,Latino,21588
-registry.csv,Male,85+,85,Multiracial or Other,2350
-registry.csv,Male,85+,85,NHOPI,92
-registry.csv,Male,85+,85,White,154339
-finder_500k.csv,Female,0–4,0,AIAN,85
-finder_500k.csv,Female,0–4,0,Asian,891
-finder_500k.csv,Female,0–4,0,Black,1569
-finder_500k.csv,Female,0–4,0,Latino,2930
-finder_500k.csv,Female,0–4,0,Multiracial or Other,618
-finder_500k.csv,Female,0–4,0,NHOPI,24
-finder_500k.csv,Female,0–4,0,White,6195
-finder_500k.csv,Female,5–9,5,AIAN,88
-finder_500k.csv,Female,5–9,5,Asian,965
-finder_500k.csv,Female,5–9,5,Black,1613
-finder_500k.csv,Female,5–9,5,Latino,3043
-finder_500k.csv,Female,5–9,5,Multiracial or Other,635
-finder_500k.csv,Female,5–9,5,NHOPI,21
-finder_500k.csv,Female,5–9,5,White,6545
+registry.csv,Male,50–54,50,White,79242
+registry.csv,Male,55–59,55,AIAN,1253
+registry.csv,Male,55–59,55,Asian,11857
+registry.csv,Male,55–59,55,Black,29695
+registry.csv,Male,55–59,55,Latino,51063
+registry.csv,Male,55–59,55,Multiracial or Other,5367
+registry.csv,Male,55–59,55,NHOPI,367
+registry.csv,Male,55–59,55,White,130504
+registry.csv,Male,60–64,60,AIAN,1691
+registry.csv,Male,60–64,60,Asian,15646
+registry.csv,Male,60–64,60,Black,40437
+registry.csv,Male,60–64,60,Latino,65548
+registry.csv,Male,60–64,60,Multiracial or Other,6790
+registry.csv,Male,60–64,60,NHOPI,428
+registry.csv,Male,60–64,60,White,186426
+registry.csv,Male,65–69,65,AIAN,2062
+registry.csv,Male,65–69,65,Asian,19547
+registry.csv,Male,65–69,65,Black,49662
+registry.csv,Male,65–69,65,Latino,77277
+registry.csv,Male,65–69,65,Multiracial or Other,8091
+registry.csv,Male,65–69,65,NHOPI,484
+registry.csv,Male,65–69,65,White,270542
+registry.csv,Male,70–74,70,AIAN,2008
+registry.csv,Male,70–74,70,Asian,17699
+registry.csv,Male,70–74,70,Black,46762
+registry.csv,Male,70–74,70,Latino,68644
+registry.csv,Male,70–74,70,Multiracial or Other,6954
+registry.csv,Male,70–74,70,NHOPI,390
+registry.csv,Male,70–74,70,White,295412
+registry.csv,Male,75–79,75,AIAN,1597
+registry.csv,Male,75–79,75,Asian,13739
+registry.csv,Male,75–79,75,Black,36740
+registry.csv,Male,75–79,75,Latino,50850
+registry.csv,Male,75–79,75,Multiracial or Other,5502
+registry.csv,Male,75–79,75,NHOPI,312
+registry.csv,Male,75–79,75,White,270249
+registry.csv,Male,80–84,80,AIAN,969
+registry.csv,Male,80–84,80,Asian,8285
+registry.csv,Male,80–84,80,Black,23750
+registry.csv,Male,80–84,80,Latino,30384
+registry.csv,Male,80–84,80,Multiracial or Other,3448
+registry.csv,Male,80–84,80,NHOPI,159
+registry.csv,Male,80–84,80,White,193325
+registry.csv,Male,85+,85,AIAN,574
+registry.csv,Male,85+,85,Asian,5630
+registry.csv,Male,85+,85,Black,14982
+registry.csv,Male,85+,85,Latino,22258
+registry.csv,Male,85+,85,Multiracial or Other,2407
+registry.csv,Male,85+,85,NHOPI,94
+registry.csv,Male,85+,85,White,152998
+finder_500k.csv,Female,0–4,0,AIAN,87
+finder_500k.csv,Female,0–4,0,Asian,887
+finder_500k.csv,Female,0–4,0,Black,1586
+finder_500k.csv,Female,0–4,0,Latino,3073
+finder_500k.csv,Female,0–4,0,Multiracial or Other,644
+finder_500k.csv,Female,0–4,0,NHOPI,23
+finder_500k.csv,Female,0–4,0,White,6049
+finder_500k.csv,Female,5–9,5,AIAN,92
+finder_500k.csv,Female,5–9,5,Asian,921
+finder_500k.csv,Female,5–9,5,Black,1632
+finder_500k.csv,Female,5–9,5,Latino,3109
+finder_500k.csv,Female,5–9,5,Multiracial or Other,654
+finder_500k.csv,Female,5–9,5,NHOPI,24
+finder_500k.csv,Female,5–9,5,White,6369
 finder_500k.csv,Female,10–14,10,AIAN,79
-finder_500k.csv,Female,10–14,10,Asian,949
-finder_500k.csv,Female,10–14,10,Black,1727
-finder_500k.csv,Female,10–14,10,Latino,3035
-finder_500k.csv,Female,10–14,10,Multiracial or Other,504
+finder_500k.csv,Female,10–14,10,Asian,946
+finder_500k.csv,Female,10–14,10,Black,1694
+finder_500k.csv,Female,10–14,10,Latino,3095
+finder_500k.csv,Female,10–14,10,Multiracial or Other,528
 finder_500k.csv,Female,10–14,10,NHOPI,20
-finder_500k.csv,Female,10–14,10,White,6679
-finder_500k.csv,Female,15–19,15,AIAN,65
-finder_500k.csv,Female,15–19,15,Asian,957
-finder_500k.csv,Female,15–19,15,Black,1719
-finder_500k.csv,Female,15–19,15,Latino,2964
-finder_500k.csv,Female,15–19,15,Multiracial or Other,487
-finder_500k.csv,Female,15–19,15,NHOPI,25
-finder_500k.csv,Female,15–19,15,White,6869
-finder_500k.csv,Female,20–24,20,AIAN,84
-finder_500k.csv,Female,20–24,20,Asian,893
-finder_500k.csv,Female,20–24,20,Black,1641
-finder_500k.csv,Female,20–24,20,Latino,3063
-finder_500k.csv,Female,20–24,20,Multiracial or Other,721
-finder_500k.csv,Female,20–24,20,NHOPI,31
-finder_500k.csv,Female,20–24,20,White,6403
-finder_500k.csv,Female,25–29,25,AIAN,102
-finder_500k.csv,Female,25–29,25,Asian,984
-finder_500k.csv,Female,25–29,25,Black,1759
-finder_500k.csv,Female,25–29,25,Latino,3252
-finder_500k.csv,Female,25–29,25,Multiracial or Other,773
-finder_500k.csv,Female,25–29,25,NHOPI,26
-finder_500k.csv,Female,25–29,25,White,6762
-finder_500k.csv,Female,30–34,30,AIAN,112
-finder_500k.csv,Female,30–34,30,Asian,1096
-finder_500k.csv,Female,30–34,30,Black,1950
-finder_500k.csv,Female,30–34,30,Latino,3768
-finder_500k.csv,Female,30–34,30,Multiracial or Other,742
-finder_500k.csv,Female,30–34,30,NHOPI,44
-finder_500k.csv,Female,30–34,30,White,7425
-finder_500k.csv,Female,35–39,35,AIAN,100
-finder_500k.csv,Female,35–39,35,Asian,1178
-finder_500k.csv,Female,35–39,35,Black,1920
-finder_500k.csv,Female,35–39,35,Latino,3642
-finder_500k.csv,Female,35–39,35,Multiracial or Other,716
-finder_500k.csv,Female,35–39,35,NHOPI,45
-finder_500k.csv,Female,35–39,35,White,7727
-finder_500k.csv,Female,40–44,40,AIAN,104
-finder_500k.csv,Female,40–44,40,Asian,1221
-finder_500k.csv,Female,40–44,40,Black,1900
-finder_500k.csv,Female,40–44,40,Latino,3531
-finder_500k.csv,Female,40–44,40,Multiracial or Other,570
-finder_500k.csv,Female,40–44,40,NHOPI,32
-finder_500k.csv,Female,40–44,40,White,7773
-finder_500k.csv,Female,45–49,45,AIAN,90
-finder_500k.csv,Female,45–49,45,Asian,1287
-finder_500k.csv,Female,45–49,45,Black,2101
-finder_500k.csv,Female,45–49,45,Latino,3540
-finder_500k.csv,Female,45–49,45,Multiracial or Other,545
-finder_500k.csv,Female,45–49,45,NHOPI,36
-finder_500k.csv,Female,45–49,45,White,8055
-finder_500k.csv,Female,50–54,50,AIAN,101
-finder_500k.csv,Female,50–54,50,Asian,1318
-finder_500k.csv,Female,50–54,50,Black,2237
-finder_500k.csv,Female,50–54,50,Latino,3415
-finder_500k.csv,Female,50–54,50,Multiracial or Other,527
-finder_500k.csv,Female,50–54,50,NHOPI,27
-finder_500k.csv,Female,50–54,50,White,8754
-finder_500k.csv,Female,55–59,55,AIAN,99
-finder_500k.csv,Female,55–59,55,Asian,1261
-finder_500k.csv,Female,55–59,55,Black,2154
-finder_500k.csv,Female,55–59,55,Latino,3396
-finder_500k.csv,Female,55–59,55,Multiracial or Other,455
-finder_500k.csv,Female,55–59,55,NHOPI,36
-finder_500k.csv,Female,55–59,55,White,8817
-finder_500k.csv,Female,60–64,60,AIAN,101
-finder_500k.csv,Female,60–64,60,Asian,1181
-finder_500k.csv,Female,60–64,60,Black,2140
-finder_500k.csv,Female,60–64,60,Latino,3423
+finder_500k.csv,Female,10–14,10,White,6482
+finder_500k.csv,Female,15–19,15,AIAN,61
+finder_500k.csv,Female,15–19,15,Asian,943
+finder_500k.csv,Female,15–19,15,Black,1722
+finder_500k.csv,Female,15–19,15,Latino,3011
+finder_500k.csv,Female,15–19,15,Multiracial or Other,507
+finder_500k.csv,Female,15–19,15,NHOPI,22
+finder_500k.csv,Female,15–19,15,White,6668
+finder_500k.csv,Female,20–24,20,AIAN,82
+finder_500k.csv,Female,20–24,20,Asian,866
+finder_500k.csv,Female,20–24,20,Black,1646
+finder_500k.csv,Female,20–24,20,Latino,3169
+finder_500k.csv,Female,20–24,20,Multiracial or Other,763
+finder_500k.csv,Female,20–24,20,NHOPI,29
+finder_500k.csv,Female,20–24,20,White,6173
+finder_500k.csv,Female,25–29,25,AIAN,100
+finder_500k.csv,Female,25–29,25,Asian,926
+finder_500k.csv,Female,25–29,25,Black,1749
+finder_500k.csv,Female,25–29,25,Latino,3352
+finder_500k.csv,Female,25–29,25,Multiracial or Other,783
+finder_500k.csv,Female,25–29,25,NHOPI,28
+finder_500k.csv,Female,25–29,25,White,6466
+finder_500k.csv,Female,30–34,30,AIAN,106
+finder_500k.csv,Female,30–34,30,Asian,1072
+finder_500k.csv,Female,30–34,30,Black,1907
+finder_500k.csv,Female,30–34,30,Latino,3821
+finder_500k.csv,Female,30–34,30,Multiracial or Other,747
+finder_500k.csv,Female,30–34,30,NHOPI,50
+finder_500k.csv,Female,30–34,30,White,7230
+finder_500k.csv,Female,35–39,35,AIAN,90
+finder_500k.csv,Female,35–39,35,Asian,1158
+finder_500k.csv,Female,35–39,35,Black,1898
+finder_500k.csv,Female,35–39,35,Latino,3715
+finder_500k.csv,Female,35–39,35,Multiracial or Other,723
+finder_500k.csv,Female,35–39,35,NHOPI,46
+finder_500k.csv,Female,35–39,35,White,7558
+finder_500k.csv,Female,40–44,40,AIAN,102
+finder_500k.csv,Female,40–44,40,Asian,1210
+finder_500k.csv,Female,40–44,40,Black,1917
+finder_500k.csv,Female,40–44,40,Latino,3616
+finder_500k.csv,Female,40–44,40,Multiracial or Other,581
+finder_500k.csv,Female,40–44,40,NHOPI,35
+finder_500k.csv,Female,40–44,40,White,7574
+finder_500k.csv,Female,45–49,45,AIAN,94
+finder_500k.csv,Female,45–49,45,Asian,1268
+finder_500k.csv,Female,45–49,45,Black,2124
+finder_500k.csv,Female,45–49,45,Latino,3606
+finder_500k.csv,Female,45–49,45,Multiracial or Other,548
+finder_500k.csv,Female,45–49,45,NHOPI,32
+finder_500k.csv,Female,45–49,45,White,7924
+finder_500k.csv,Female,50–54,50,AIAN,99
+finder_500k.csv,Female,50–54,50,Asian,1265
+finder_500k.csv,Female,50–54,50,Black,2220
+finder_500k.csv,Female,50–54,50,Latino,3398
+finder_500k.csv,Female,50–54,50,Multiracial or Other,522
+finder_500k.csv,Female,50–54,50,NHOPI,28
+finder_500k.csv,Female,50–54,50,White,8605
+finder_500k.csv,Female,55–59,55,AIAN,94
+finder_500k.csv,Female,55–59,55,Asian,1264
+finder_500k.csv,Female,55–59,55,Black,2142
+finder_500k.csv,Female,55–59,55,Latino,3522
+finder_500k.csv,Female,55–59,55,Multiracial or Other,460
+finder_500k.csv,Female,55–59,55,NHOPI,38
+finder_500k.csv,Female,55–59,55,White,8734
+finder_500k.csv,Female,60–64,60,AIAN,106
+finder_500k.csv,Female,60–64,60,Asian,1153
+finder_500k.csv,Female,60–64,60,Black,2190
+finder_500k.csv,Female,60–64,60,Latino,3489
 finder_500k.csv,Female,60–64,60,Multiracial or Other,394
-finder_500k.csv,Female,60–64,60,NHOPI,37
-finder_500k.csv,Female,60–64,60,White,8314
-finder_500k.csv,Female,65–69,65,AIAN,90
-finder_500k.csv,Female,65–69,65,Asian,1126
-finder_500k.csv,Female,65–69,65,Black,2029
-finder_500k.csv,Female,65–69,65,Latino,3177
-finder_500k.csv,Female,65–69,65,Multiracial or Other,369
-finder_500k.csv,Female,65–69,65,NHOPI,27
-finder_500k.csv,Female,65–69,65,White,8515
+finder_500k.csv,Female,60–64,60,NHOPI,43
+finder_500k.csv,Female,60–64,60,White,8288
+finder_500k.csv,Female,65–69,65,AIAN,87
+finder_500k.csv,Female,65–69,65,Asian,1122
+finder_500k.csv,Female,65–69,65,Black,2059
+finder_500k.csv,Female,65–69,65,Latino,3170
+finder_500k.csv,Female,65–69,65,Multiracial or Other,352
+finder_500k.csv,Female,65–69,65,NHOPI,28
+finder_500k.csv,Female,65–69,65,White,8563
 finder_500k.csv,Female,70–74,70,AIAN,89
-finder_500k.csv,Female,70–74,70,Asian,896
-finder_500k.csv,Female,70–74,70,Black,1957
-finder_500k.csv,Female,70–74,70,Latino,2715
-finder_500k.csv,Female,70–74,70,Multiracial or Other,323
-finder_500k.csv,Female,70–74,70,NHOPI,27
-finder_500k.csv,Female,70–74,70,White,9214
+finder_500k.csv,Female,70–74,70,Asian,907
+finder_500k.csv,Female,70–74,70,Black,1985
+finder_500k.csv,Female,70–74,70,Latino,2708
+finder_500k.csv,Female,70–74,70,Multiracial or Other,333
+finder_500k.csv,Female,70–74,70,NHOPI,28
+finder_500k.csv,Female,70–74,70,White,9245
 finder_500k.csv,Female,75–79,75,AIAN,76
-finder_500k.csv,Female,75–79,75,Asian,759
-finder_500k.csv,Female,75–79,75,Black,1781
-finder_500k.csv,Female,75–79,75,Latino,2359
-finder_500k.csv,Female,75–79,75,Multiracial or Other,257
+finder_500k.csv,Female,75–79,75,Asian,751
+finder_500k.csv,Female,75–79,75,Black,1816
+finder_500k.csv,Female,75–79,75,Latino,2438
+finder_500k.csv,Female,75–79,75,Multiracial or Other,253
 finder_500k.csv,Female,75–79,75,NHOPI,23
-finder_500k.csv,Female,75–79,75,White,9573
-finder_500k.csv,Female,80–84,80,AIAN,70
-finder_500k.csv,Female,80–84,80,Asian,538
-finder_500k.csv,Female,80–84,80,Black,1475
+finder_500k.csv,Female,75–79,75,White,9512
+finder_500k.csv,Female,80–84,80,AIAN,72
+finder_500k.csv,Female,80–84,80,Asian,523
+finder_500k.csv,Female,80–84,80,Black,1479
 finder_500k.csv,Female,80–84,80,Latino,1507
-finder_500k.csv,Female,80–84,80,Multiracial or Other,182
+finder_500k.csv,Female,80–84,80,Multiracial or Other,172
 finder_500k.csv,Female,80–84,80,NHOPI,17
-finder_500k.csv,Female,80–84,80,White,7989
-finder_500k.csv,Female,85+,85,AIAN,58
-finder_500k.csv,Female,85+,85,Asian,565
-finder_500k.csv,Female,85+,85,Black,1374
-finder_500k.csv,Female,85+,85,Latino,1487
-finder_500k.csv,Female,85+,85,Multiracial or Other,199
-finder_500k.csv,Female,85+,85,NHOPI,11
-finder_500k.csv,Female,85+,85,White,9214
-finder_500k.csv,Male,0–4,0,AIAN,98
-finder_500k.csv,Male,0–4,0,Asian,911
-finder_500k.csv,Male,0–4,0,Black,1555
-finder_500k.csv,Male,0–4,0,Latino,2952
-finder_500k.csv,Male,0–4,0,Multiracial or Other,632
-finder_500k.csv,Male,0–4,0,NHOPI,32
-finder_500k.csv,Male,0–4,0,White,6192
-finder_500k.csv,Male,5–9,5,AIAN,92
-finder_500k.csv,Male,5–9,5,Asian,931
-finder_500k.csv,Male,5–9,5,Black,1631
-finder_500k.csv,Male,5–9,5,Latino,3058
-finder_500k.csv,Male,5–9,5,Multiracial or Other,621
-finder_500k.csv,Male,5–9,5,NHOPI,21
-finder_500k.csv,Male,5–9,5,White,6665
-finder_500k.csv,Male,10–14,10,AIAN,69
-finder_500k.csv,Male,10–14,10,Asian,947
-finder_500k.csv,Male,10–14,10,Black,1718
-finder_500k.csv,Male,10–14,10,Latino,2951
-finder_500k.csv,Male,10–14,10,Multiracial or Other,558
-finder_500k.csv,Male,10–14,10,NHOPI,24
-finder_500k.csv,Male,10–14,10,White,6650
-finder_500k.csv,Male,15–19,15,AIAN,70
-finder_500k.csv,Male,15–19,15,Asian,988
-finder_500k.csv,Male,15–19,15,Black,1705
-finder_500k.csv,Male,15–19,15,Latino,2872
-finder_500k.csv,Male,15–19,15,Multiracial or Other,495
-finder_500k.csv,Male,15–19,15,NHOPI,25
-finder_500k.csv,Male,15–19,15,White,6862
-finder_500k.csv,Male,20–24,20,AIAN,75
-finder_500k.csv,Male,20–24,20,Asian,942
-finder_500k.csv,Male,20–24,20,Black,1594
-finder_500k.csv,Male,20–24,20,Latino,2974
-finder_500k.csv,Male,20–24,20,Multiracial or Other,710
-finder_500k.csv,Male,20–24,20,NHOPI,27
-finder_500k.csv,Male,20–24,20,White,6688
-finder_500k.csv,Male,25–29,25,AIAN,105
-finder_500k.csv,Male,25–29,25,Asian,938
-finder_500k.csv,Male,25–29,25,Black,1677
-finder_500k.csv,Male,25–29,25,Latino,3348
-finder_500k.csv,Male,25–29,25,Multiracial or Other,787
-finder_500k.csv,Male,25–29,25,NHOPI,18
-finder_500k.csv,Male,25–29,25,White,6876
-finder_500k.csv,Male,30–34,30,AIAN,117
-finder_500k.csv,Male,30–34,30,Asian,1037
-finder_500k.csv,Male,30–34,30,Black,1820
-finder_500k.csv,Male,30–34,30,Latino,3654
-finder_500k.csv,Male,30–34,30,Multiracial or Other,792
-finder_500k.csv,Male,30–34,30,NHOPI,37
-finder_500k.csv,Male,30–34,30,White,7310
-finder_500k.csv,Male,35–39,35,AIAN,120
-finder_500k.csv,Male,35–39,35,Asian,1077
-finder_500k.csv,Male,35–39,35,Black,1847
-finder_500k.csv,Male,35–39,35,Latino,3680
-finder_500k.csv,Male,35–39,35,Multiracial or Other,703
-finder_500k.csv,Male,35–39,35,NHOPI,40
-finder_500k.csv,Male,35–39,35,White,7716
-finder_500k.csv,Male,40–44,40,AIAN,82
-finder_500k.csv,Male,40–44,40,Asian,1074
-finder_500k.csv,Male,40–44,40,Black,1867
-finder_500k.csv,Male,40–44,40,Latino,3364
-finder_500k.csv,Male,40–44,40,Multiracial or Other,538
-finder_500k.csv,Male,40–44,40,NHOPI,34
-finder_500k.csv,Male,40–44,40,White,7624
-finder_500k.csv,Male,45–49,45,AIAN,102
-finder_500k.csv,Male,45–49,45,Asian,1093
-finder_500k.csv,Male,45–49,45,Black,1885
-finder_500k.csv,Male,45–49,45,Latino,3134
-finder_500k.csv,Male,45–49,45,Multiracial or Other,464
+finder_500k.csv,Female,80–84,80,White,7957
+finder_500k.csv,Female,85+,85,AIAN,55
+finder_500k.csv,Female,85+,85,Asian,556
+finder_500k.csv,Female,85+,85,Black,1372
+finder_500k.csv,Female,85+,85,Latino,1509
+finder_500k.csv,Female,85+,85,Multiracial or Other,210
+finder_500k.csv,Female,85+,85,NHOPI,8
+finder_500k.csv,Female,85+,85,White,9149
+finder_500k.csv,Male,0–4,0,AIAN,96
+finder_500k.csv,Male,0–4,0,Asian,893
+finder_500k.csv,Male,0–4,0,Black,1602
+finder_500k.csv,Male,0–4,0,Latino,3129
+finder_500k.csv,Male,0–4,0,Multiracial or Other,646
+finder_500k.csv,Male,0–4,0,NHOPI,31
+finder_500k.csv,Male,0–4,0,White,5999
+finder_500k.csv,Male,5–9,5,AIAN,83
+finder_500k.csv,Male,5–9,5,Asian,930
+finder_500k.csv,Male,5–9,5,Black,1591
+finder_500k.csv,Male,5–9,5,Latino,3193
+finder_500k.csv,Male,5–9,5,Multiracial or Other,635
+finder_500k.csv,Male,5–9,5,NHOPI,18
+finder_500k.csv,Male,5–9,5,White,6438
+finder_500k.csv,Male,10–14,10,AIAN,67
+finder_500k.csv,Male,10–14,10,Asian,905
+finder_500k.csv,Male,10–14,10,Black,1703
+finder_500k.csv,Male,10–14,10,Latino,3008
+finder_500k.csv,Male,10–14,10,Multiracial or Other,573
+finder_500k.csv,Male,10–14,10,NHOPI,21
+finder_500k.csv,Male,10–14,10,White,6349
+finder_500k.csv,Male,15–19,15,AIAN,74
+finder_500k.csv,Male,15–19,15,Asian,946
+finder_500k.csv,Male,15–19,15,Black,1730
+finder_500k.csv,Male,15–19,15,Latino,3017
+finder_500k.csv,Male,15–19,15,Multiracial or Other,497
+finder_500k.csv,Male,15–19,15,NHOPI,19
+finder_500k.csv,Male,15–19,15,White,6666
+finder_500k.csv,Male,20–24,20,AIAN,70
+finder_500k.csv,Male,20–24,20,Asian,921
+finder_500k.csv,Male,20–24,20,Black,1635
+finder_500k.csv,Male,20–24,20,Latino,3112
+finder_500k.csv,Male,20–24,20,Multiracial or Other,731
+finder_500k.csv,Male,20–24,20,NHOPI,24
+finder_500k.csv,Male,20–24,20,White,6497
+finder_500k.csv,Male,25–29,25,AIAN,106
+finder_500k.csv,Male,25–29,25,Asian,914
+finder_500k.csv,Male,25–29,25,Black,1744
+finder_500k.csv,Male,25–29,25,Latino,3460
+finder_500k.csv,Male,25–29,25,Multiracial or Other,793
+finder_500k.csv,Male,25–29,25,NHOPI,22
+finder_500k.csv,Male,25–29,25,White,6641
+finder_500k.csv,Male,30–34,30,AIAN,126
+finder_500k.csv,Male,30–34,30,Asian,1008
+finder_500k.csv,Male,30–34,30,Black,1921
+finder_500k.csv,Male,30–34,30,Latino,3864
+finder_500k.csv,Male,30–34,30,Multiracial or Other,811
+finder_500k.csv,Male,30–34,30,NHOPI,39
+finder_500k.csv,Male,30–34,30,White,7088
+finder_500k.csv,Male,35–39,35,AIAN,116
+finder_500k.csv,Male,35–39,35,Asian,1053
+finder_500k.csv,Male,35–39,35,Black,1911
+finder_500k.csv,Male,35–39,35,Latino,3890
+finder_500k.csv,Male,35–39,35,Multiracial or Other,719
+finder_500k.csv,Male,35–39,35,NHOPI,38
+finder_500k.csv,Male,35–39,35,White,7550
+finder_500k.csv,Male,40–44,40,AIAN,84
+finder_500k.csv,Male,40–44,40,Asian,1062
+finder_500k.csv,Male,40–44,40,Black,1876
+finder_500k.csv,Male,40–44,40,Latino,3507
+finder_500k.csv,Male,40–44,40,Multiracial or Other,562
+finder_500k.csv,Male,40–44,40,NHOPI,32
+finder_500k.csv,Male,40–44,40,White,7540
+finder_500k.csv,Male,45–49,45,AIAN,98
+finder_500k.csv,Male,45–49,45,Asian,1057
+finder_500k.csv,Male,45–49,45,Black,1955
+finder_500k.csv,Male,45–49,45,Latino,3373
+finder_500k.csv,Male,45–49,45,Multiracial or Other,496
 finder_500k.csv,Male,45–49,45,NHOPI,25
-finder_500k.csv,Male,45–49,45,White,7830
-finder_500k.csv,Male,50–54,50,AIAN,92
-finder_500k.csv,Male,50–54,50,Asian,1077
-finder_500k.csv,Male,50–54,50,Black,1836
-finder_500k.csv,Male,50–54,50,Latino,3210
-finder_500k.csv,Male,50–54,50,Multiracial or Other,443
-finder_500k.csv,Male,50–54,50,NHOPI,34
-finder_500k.csv,Male,50–54,50,White,8612
+finder_500k.csv,Male,45–49,45,White,7723
+finder_500k.csv,Male,50–54,50,AIAN,90
+finder_500k.csv,Male,50–54,50,Asian,1060
+finder_500k.csv,Male,50–54,50,Black,1858
+finder_500k.csv,Male,50–54,50,Latino,3302
+finder_500k.csv,Male,50–54,50,Multiracial or Other,446
+finder_500k.csv,Male,50–54,50,NHOPI,31
+finder_500k.csv,Male,50–54,50,White,8481
 finder_500k.csv,Male,55–59,55,AIAN,118
-finder_500k.csv,Male,55–59,55,Asian,1010
-finder_500k.csv,Male,55–59,55,Black,1838
-finder_500k.csv,Male,55–59,55,Latino,3259
-finder_500k.csv,Male,55–59,55,Multiracial or Other,451
-finder_500k.csv,Male,55–59,55,NHOPI,31
-finder_500k.csv,Male,55–59,55,White,8628
-finder_500k.csv,Male,60–64,60,AIAN,108
-finder_500k.csv,Male,60–64,60,Asian,975
-finder_500k.csv,Male,60–64,60,Black,1721
-finder_500k.csv,Male,60–64,60,Latino,3181
-finder_500k.csv,Male,60–64,60,Multiracial or Other,367
-finder_500k.csv,Male,60–64,60,NHOPI,26
-finder_500k.csv,Male,60–64,60,White,8397
+finder_500k.csv,Male,55–59,55,Asian,1035
+finder_500k.csv,Male,55–59,55,Black,1886
+finder_500k.csv,Male,55–59,55,Latino,3393
+finder_500k.csv,Male,55–59,55,Multiracial or Other,453
+finder_500k.csv,Male,55–59,55,NHOPI,30
+finder_500k.csv,Male,55–59,55,White,8538
+finder_500k.csv,Male,60–64,60,AIAN,100
+finder_500k.csv,Male,60–64,60,Asian,955
+finder_500k.csv,Male,60–64,60,Black,1760
+finder_500k.csv,Male,60–64,60,Latino,3365
+finder_500k.csv,Male,60–64,60,Multiracial or Other,377
+finder_500k.csv,Male,60–64,60,NHOPI,25
+finder_500k.csv,Male,60–64,60,White,8435
 finder_500k.csv,Male,65–69,65,AIAN,75
-finder_500k.csv,Male,65–69,65,Asian,936
-finder_500k.csv,Male,65–69,65,Black,1764
-finder_500k.csv,Male,65–69,65,Latino,2997
-finder_500k.csv,Male,65–69,65,Multiracial or Other,294
-finder_500k.csv,Male,65–69,65,NHOPI,27
-finder_500k.csv,Male,65–69,65,White,8953
-finder_500k.csv,Male,70–74,70,AIAN,82
-finder_500k.csv,Male,70–74,70,Asian,788
-finder_500k.csv,Male,70–74,70,Black,1609
-finder_500k.csv,Male,70–74,70,Latino,2517
-finder_500k.csv,Male,70–74,70,Multiracial or Other,233
-finder_500k.csv,Male,70–74,70,NHOPI,21
-finder_500k.csv,Male,70–74,70,White,9133
-finder_500k.csv,Male,75–79,75,AIAN,80
-finder_500k.csv,Male,75–79,75,Asian,626
-finder_500k.csv,Male,75–79,75,Black,1448
-finder_500k.csv,Male,75–79,75,Latino,1903
-finder_500k.csv,Male,75–79,75,Multiracial or Other,215
-finder_500k.csv,Male,75–79,75,NHOPI,18
-finder_500k.csv,Male,75–79,75,White,8364
-finder_500k.csv,Male,80–84,80,AIAN,51
-finder_500k.csv,Male,80–84,80,Asian,450
-finder_500k.csv,Male,80–84,80,Black,1022
-finder_500k.csv,Male,80–84,80,Latino,1172
-finder_500k.csv,Male,80–84,80,Multiracial or Other,148
-finder_500k.csv,Male,80–84,80,NHOPI,10
-finder_500k.csv,Male,80–84,80,White,6669
-finder_500k.csv,Male,85+,85,AIAN,54
-finder_500k.csv,Male,85+,85,Asian,373
-finder_500k.csv,Male,85+,85,Black,784
-finder_500k.csv,Male,85+,85,Latino,846
-finder_500k.csv,Male,85+,85,Multiracial or Other,131
-finder_500k.csv,Male,85+,85,NHOPI,3
-finder_500k.csv,Male,85+,85,White,6340
-finder_100k.csv,Female,0–4,0,AIAN,9
-finder_100k.csv,Female,0–4,0,Asian,193
-finder_100k.csv,Female,0–4,0,Black,330
-finder_100k.csv,Female,0–4,0,Latino,644
-finder_100k.csv,Female,0–4,0,Multiracial or Other,134
-finder_100k.csv,Female,0–4,0,NHOPI,5
-finder_100k.csv,Female,0–4,0,White,1269
+finder_500k.csv,Male,65–69,65,Asian,928
+finder_500k.csv,Male,65–69,65,Black,1817
+finder_500k.csv,Male,65–69,65,Latino,3110
+finder_500k.csv,Male,65–69,65,Multiracial or Other,296
+finder_500k.csv,Male,65–69,65,NHOPI,26
+finder_500k.csv,Male,65–69,65,White,9002
+finder_500k.csv,Male,70–74,70,AIAN,90
+finder_500k.csv,Male,70–74,70,Asian,811
+finder_500k.csv,Male,70–74,70,Black,1702
+finder_500k.csv,Male,70–74,70,Latino,2638
+finder_500k.csv,Male,70–74,70,Multiracial or Other,243
+finder_500k.csv,Male,70–74,70,NHOPI,23
+finder_500k.csv,Male,70–74,70,White,9277
+finder_500k.csv,Male,75–79,75,AIAN,82
+finder_500k.csv,Male,75–79,75,Asian,620
+finder_500k.csv,Male,75–79,75,Black,1495
+finder_500k.csv,Male,75–79,75,Latino,2026
+finder_500k.csv,Male,75–79,75,Multiracial or Other,213
+finder_500k.csv,Male,75–79,75,NHOPI,20
+finder_500k.csv,Male,75–79,75,White,8489
+finder_500k.csv,Male,80–84,80,AIAN,59
+finder_500k.csv,Male,80–84,80,Asian,445
+finder_500k.csv,Male,80–84,80,Black,1068
+finder_500k.csv,Male,80–84,80,Latino,1210
+finder_500k.csv,Male,80–84,80,Multiracial or Other,144
+finder_500k.csv,Male,80–84,80,NHOPI,9
+finder_500k.csv,Male,80–84,80,White,6733
+finder_500k.csv,Male,85+,85,AIAN,57
+finder_500k.csv,Male,85+,85,Asian,383
+finder_500k.csv,Male,85+,85,Black,786
+finder_500k.csv,Male,85+,85,Latino,873
+finder_500k.csv,Male,85+,85,Multiracial or Other,130
+finder_500k.csv,Male,85+,85,NHOPI,4
+finder_500k.csv,Male,85+,85,White,6328
+finder_100k.csv,Female,0–4,0,AIAN,8
+finder_100k.csv,Female,0–4,0,Asian,192
+finder_100k.csv,Female,0–4,0,Black,325
+finder_100k.csv,Female,0–4,0,Latino,658
+finder_100k.csv,Female,0–4,0,Multiracial or Other,152
+finder_100k.csv,Female,0–4,0,NHOPI,4
+finder_100k.csv,Female,0–4,0,White,1219
 finder_100k.csv,Female,5–9,5,AIAN,14
-finder_100k.csv,Female,5–9,5,Asian,176
-finder_100k.csv,Female,5–9,5,Black,309
-finder_100k.csv,Female,5–9,5,Latino,659
-finder_100k.csv,Female,5–9,5,Multiracial or Other,123
-finder_100k.csv,Female,5–9,5,NHOPI,9
-finder_100k.csv,Female,5–9,5,White,1287
-finder_100k.csv,Female,10–14,10,AIAN,12
-finder_100k.csv,Female,10–14,10,Asian,160
-finder_100k.csv,Female,10–14,10,Black,334
-finder_100k.csv,Female,10–14,10,Latino,626
-finder_100k.csv,Female,10–14,10,Multiracial or Other,118
+finder_100k.csv,Female,5–9,5,Asian,160
+finder_100k.csv,Female,5–9,5,Black,301
+finder_100k.csv,Female,5–9,5,Latino,692
+finder_100k.csv,Female,5–9,5,Multiracial or Other,125
+finder_100k.csv,Female,5–9,5,NHOPI,8
+finder_100k.csv,Female,5–9,5,White,1250
+finder_100k.csv,Female,10–14,10,AIAN,14
+finder_100k.csv,Female,10–14,10,Asian,158
+finder_100k.csv,Female,10–14,10,Black,322
+finder_100k.csv,Female,10–14,10,Latino,641
+finder_100k.csv,Female,10–14,10,Multiracial or Other,117
 finder_100k.csv,Female,10–14,10,NHOPI,6
-finder_100k.csv,Female,10–14,10,White,1342
-finder_100k.csv,Female,15–19,15,AIAN,10
-finder_100k.csv,Female,15–19,15,Asian,194
-finder_100k.csv,Female,15–19,15,Black,362
-finder_100k.csv,Female,15–19,15,Latino,587
+finder_100k.csv,Female,10–14,10,White,1299
+finder_100k.csv,Female,15–19,15,AIAN,8
+finder_100k.csv,Female,15–19,15,Asian,190
+finder_100k.csv,Female,15–19,15,Black,358
+finder_100k.csv,Female,15–19,15,Latino,598
 finder_100k.csv,Female,15–19,15,Multiracial or Other,84
-finder_100k.csv,Female,15–19,15,NHOPI,3
-finder_100k.csv,Female,15–19,15,White,1403
+finder_100k.csv,Female,15–19,15,NHOPI,2
+finder_100k.csv,Female,15–19,15,White,1371
 finder_100k.csv,Female,20–24,20,AIAN,14
-finder_100k.csv,Female,20–24,20,Asian,167
-finder_100k.csv,Female,20–24,20,Black,342
-finder_100k.csv,Female,20–24,20,Latino,537
-finder_100k.csv,Female,20–24,20,Multiracial or Other,146
+finder_100k.csv,Female,20–24,20,Asian,165
+finder_100k.csv,Female,20–24,20,Black,325
+finder_100k.csv,Female,20–24,20,Latino,556
+finder_100k.csv,Female,20–24,20,Multiracial or Other,141
 finder_100k.csv,Female,20–24,20,NHOPI,4
-finder_100k.csv,Female,20–24,20,White,1330
-finder_100k.csv,Female,25–29,25,AIAN,20
-finder_100k.csv,Female,25–29,25,Asian,218
-finder_100k.csv,Female,25–29,25,Black,335
-finder_100k.csv,Female,25–29,25,Latino,674
-finder_100k.csv,Female,25–29,25,Multiracial or Other,178
-finder_100k.csv,Female,25–29,25,NHOPI,12
-finder_100k.csv,Female,25–29,25,White,1321
-finder_100k.csv,Female,30–34,30,AIAN,21
-finder_100k.csv,Female,30–34,30,Asian,226
-finder_100k.csv,Female,30–34,30,Black,410
-finder_100k.csv,Female,30–34,30,Latino,702
-finder_100k.csv,Female,30–34,30,Multiracial or Other,124
-finder_100k.csv,Female,30–34,30,NHOPI,4
-finder_100k.csv,Female,30–34,30,White,1477
-finder_100k.csv,Female,35–39,35,AIAN,14
-finder_100k.csv,Female,35–39,35,Asian,234
-finder_100k.csv,Female,35–39,35,Black,418
-finder_100k.csv,Female,35–39,35,Latino,715
-finder_100k.csv,Female,35–39,35,Multiracial or Other,146
-finder_100k.csv,Female,35–39,35,NHOPI,8
-finder_100k.csv,Female,35–39,35,White,1593
-finder_100k.csv,Female,40–44,40,AIAN,15
-finder_100k.csv,Female,40–44,40,Asian,244
-finder_100k.csv,Female,40–44,40,Black,432
-finder_100k.csv,Female,40–44,40,Latino,634
-finder_100k.csv,Female,40–44,40,Multiracial or Other,106
-finder_100k.csv,Female,40–44,40,NHOPI,6
-finder_100k.csv,Female,40–44,40,White,1537
-finder_100k.csv,Female,45–49,45,AIAN,16
-finder_100k.csv,Female,45–49,45,Asian,270
-finder_100k.csv,Female,45–49,45,Black,408
-finder_100k.csv,Female,45–49,45,Latino,686
-finder_100k.csv,Female,45–49,45,Multiracial or Other,110
-finder_100k.csv,Female,45–49,45,NHOPI,5
-finder_100k.csv,Female,45–49,45,White,1647
-finder_100k.csv,Female,50–54,50,AIAN,22
-finder_100k.csv,Female,50–54,50,Asian,233
-finder_100k.csv,Female,50–54,50,Black,422
-finder_100k.csv,Female,50–54,50,Latino,703
-finder_100k.csv,Female,50–54,50,Multiracial or Other,103
-finder_100k.csv,Female,50–54,50,NHOPI,5
-finder_100k.csv,Female,50–54,50,White,1709
-finder_100k.csv,Female,55–59,55,AIAN,18
-finder_100k.csv,Female,55–59,55,Asian,257
-finder_100k.csv,Female,55–59,55,Black,409
-finder_100k.csv,Female,55–59,55,Latino,655
-finder_100k.csv,Female,55–59,55,Multiracial or Other,77
-finder_100k.csv,Female,55–59,55,NHOPI,4
-finder_100k.csv,Female,55–59,55,White,1721
-finder_100k.csv,Female,60–64,60,AIAN,16
-finder_100k.csv,Female,60–64,60,Asian,232
-finder_100k.csv,Female,60–64,60,Black,370
-finder_100k.csv,Female,60–64,60,Latino,774
-finder_100k.csv,Female,60–64,60,Multiracial or Other,63
+finder_100k.csv,Female,20–24,20,White,1280
+finder_100k.csv,Female,25–29,25,AIAN,21
+finder_100k.csv,Female,25–29,25,Asian,202
+finder_100k.csv,Female,25–29,25,Black,342
+finder_100k.csv,Female,25–29,25,Latino,675
+finder_100k.csv,Female,25–29,25,Multiracial or Other,185
+finder_100k.csv,Female,25–29,25,NHOPI,13
+finder_100k.csv,Female,25–29,25,White,1296
+finder_100k.csv,Female,30–34,30,AIAN,23
+finder_100k.csv,Female,30–34,30,Asian,217
+finder_100k.csv,Female,30–34,30,Black,419
+finder_100k.csv,Female,30–34,30,Latino,719
+finder_100k.csv,Female,30–34,30,Multiracial or Other,134
+finder_100k.csv,Female,30–34,30,NHOPI,5
+finder_100k.csv,Female,30–34,30,White,1438
+finder_100k.csv,Female,35–39,35,AIAN,11
+finder_100k.csv,Female,35–39,35,Asian,242
+finder_100k.csv,Female,35–39,35,Black,420
+finder_100k.csv,Female,35–39,35,Latino,727
+finder_100k.csv,Female,35–39,35,Multiracial or Other,149
+finder_100k.csv,Female,35–39,35,NHOPI,5
+finder_100k.csv,Female,35–39,35,White,1534
+finder_100k.csv,Female,40–44,40,AIAN,20
+finder_100k.csv,Female,40–44,40,Asian,234
+finder_100k.csv,Female,40–44,40,Black,442
+finder_100k.csv,Female,40–44,40,Latino,661
+finder_100k.csv,Female,40–44,40,Multiracial or Other,112
+finder_100k.csv,Female,40–44,40,NHOPI,4
+finder_100k.csv,Female,40–44,40,White,1485
+finder_100k.csv,Female,45–49,45,AIAN,17
+finder_100k.csv,Female,45–49,45,Asian,257
+finder_100k.csv,Female,45–49,45,Black,419
+finder_100k.csv,Female,45–49,45,Latino,704
+finder_100k.csv,Female,45–49,45,Multiracial or Other,115
+finder_100k.csv,Female,45–49,45,NHOPI,6
+finder_100k.csv,Female,45–49,45,White,1592
+finder_100k.csv,Female,50–54,50,AIAN,18
+finder_100k.csv,Female,50–54,50,Asian,217
+finder_100k.csv,Female,50–54,50,Black,425
+finder_100k.csv,Female,50–54,50,Latino,711
+finder_100k.csv,Female,50–54,50,Multiracial or Other,106
+finder_100k.csv,Female,50–54,50,NHOPI,6
+finder_100k.csv,Female,50–54,50,White,1669
+finder_100k.csv,Female,55–59,55,AIAN,17
+finder_100k.csv,Female,55–59,55,Asian,250
+finder_100k.csv,Female,55–59,55,Black,418
+finder_100k.csv,Female,55–59,55,Latino,660
+finder_100k.csv,Female,55–59,55,Multiracial or Other,75
+finder_100k.csv,Female,55–59,55,NHOPI,5
+finder_100k.csv,Female,55–59,55,White,1704
+finder_100k.csv,Female,60–64,60,AIAN,19
+finder_100k.csv,Female,60–64,60,Asian,223
+finder_100k.csv,Female,60–64,60,Black,361
+finder_100k.csv,Female,60–64,60,Latino,766
+finder_100k.csv,Female,60–64,60,Multiracial or Other,66
 finder_100k.csv,Female,60–64,60,NHOPI,5
-finder_100k.csv,Female,60–64,60,White,1603
-finder_100k.csv,Female,65–69,65,AIAN,15
-finder_100k.csv,Female,65–69,65,Asian,219
-finder_100k.csv,Female,65–69,65,Black,388
-finder_100k.csv,Female,65–69,65,Latino,650
-finder_100k.csv,Female,65–69,65,Multiracial or Other,75
+finder_100k.csv,Female,60–64,60,White,1586
+finder_100k.csv,Female,65–69,65,AIAN,11
+finder_100k.csv,Female,65–69,65,Asian,223
+finder_100k.csv,Female,65–69,65,Black,387
+finder_100k.csv,Female,65–69,65,Latino,655
+finder_100k.csv,Female,65–69,65,Multiracial or Other,83
 finder_100k.csv,Female,65–69,65,NHOPI,5
-finder_100k.csv,Female,65–69,65,White,1813
-finder_100k.csv,Female,70–74,70,AIAN,16
-finder_100k.csv,Female,70–74,70,Asian,199
-finder_100k.csv,Female,70–74,70,Black,412
-finder_100k.csv,Female,70–74,70,Latino,590
-finder_100k.csv,Female,70–74,70,Multiracial or Other,67
-finder_100k.csv,Female,70–74,70,NHOPI,8
-finder_100k.csv,Female,70–74,70,White,1821
+finder_100k.csv,Female,65–69,65,White,1825
+finder_100k.csv,Female,70–74,70,AIAN,15
+finder_100k.csv,Female,70–74,70,Asian,205
+finder_100k.csv,Female,70–74,70,Black,427
+finder_100k.csv,Female,70–74,70,Latino,627
+finder_100k.csv,Female,70–74,70,Multiracial or Other,69
+finder_100k.csv,Female,70–74,70,NHOPI,9
+finder_100k.csv,Female,70–74,70,White,1820
 finder_100k.csv,Female,75–79,75,AIAN,14
-finder_100k.csv,Female,75–79,75,Asian,137
-finder_100k.csv,Female,75–79,75,Black,365
-finder_100k.csv,Female,75–79,75,Latino,443
-finder_100k.csv,Female,75–79,75,Multiracial or Other,48
-finder_100k.csv,Female,75–79,75,NHOPI,6
-finder_100k.csv,Female,75–79,75,White,1888
-finder_100k.csv,Female,80–84,80,AIAN,12
-finder_100k.csv,Female,80–84,80,Asian,111
-finder_100k.csv,Female,80–84,80,Black,277
-finder_100k.csv,Female,80–84,80,Latino,295
-finder_100k.csv,Female,80–84,80,Multiracial or Other,38
-finder_100k.csv,Female,80–84,80,NHOPI,2
-finder_100k.csv,Female,80–84,80,White,1634
-finder_100k.csv,Female,85+,85,AIAN,9
-finder_100k.csv,Female,85+,85,Asian,106
-finder_100k.csv,Female,85+,85,Black,272
-finder_100k.csv,Female,85+,85,Latino,277
-finder_100k.csv,Female,85+,85,Multiracial or Other,39
+finder_100k.csv,Female,75–79,75,Asian,133
+finder_100k.csv,Female,75–79,75,Black,375
+finder_100k.csv,Female,75–79,75,Latino,433
+finder_100k.csv,Female,75–79,75,Multiracial or Other,52
+finder_100k.csv,Female,75–79,75,NHOPI,7
+finder_100k.csv,Female,75–79,75,White,1882
+finder_100k.csv,Female,80–84,80,AIAN,8
+finder_100k.csv,Female,80–84,80,Asian,115
+finder_100k.csv,Female,80–84,80,Black,270
+finder_100k.csv,Female,80–84,80,Latino,316
+finder_100k.csv,Female,80–84,80,Multiracial or Other,43
+finder_100k.csv,Female,80–84,80,NHOPI,1
+finder_100k.csv,Female,80–84,80,White,1618
+finder_100k.csv,Female,85+,85,AIAN,8
+finder_100k.csv,Female,85+,85,Asian,98
+finder_100k.csv,Female,85+,85,Black,271
+finder_100k.csv,Female,85+,85,Latino,274
+finder_100k.csv,Female,85+,85,Multiracial or Other,41
 finder_100k.csv,Female,85+,85,NHOPI,1
-finder_100k.csv,Female,85+,85,White,1837
+finder_100k.csv,Female,85+,85,White,1844
 finder_100k.csv,Male,0–4,0,AIAN,15
-finder_100k.csv,Male,0–4,0,Asian,186
-finder_100k.csv,Male,0–4,0,Black,303
-finder_100k.csv,Male,0–4,0,Latino,584
-finder_100k.csv,Male,0–4,0,Multiracial or Other,134
-finder_100k.csv,Male,0–4,0,NHOPI,10
-finder_100k.csv,Male,0–4,0,White,1292
-finder_100k.csv,Male,5–9,5,AIAN,15
-finder_100k.csv,Male,5–9,5,Asian,171
-finder_100k.csv,Male,5–9,5,Black,374
-finder_100k.csv,Male,5–9,5,Latino,643
-finder_100k.csv,Male,5–9,5,Multiracial or Other,117
+finder_100k.csv,Male,0–4,0,Asian,182
+finder_100k.csv,Male,0–4,0,Black,305
+finder_100k.csv,Male,0–4,0,Latino,609
+finder_100k.csv,Male,0–4,0,Multiracial or Other,139
+finder_100k.csv,Male,0–4,0,NHOPI,7
+finder_100k.csv,Male,0–4,0,White,1268
+finder_100k.csv,Male,5–9,5,AIAN,19
+finder_100k.csv,Male,5–9,5,Asian,164
+finder_100k.csv,Male,5–9,5,Black,373
+finder_100k.csv,Male,5–9,5,Latino,649
+finder_100k.csv,Male,5–9,5,Multiracial or Other,122
 finder_100k.csv,Male,5–9,5,NHOPI,8
-finder_100k.csv,Male,5–9,5,White,1233
-finder_100k.csv,Male,10–14,10,AIAN,10
-finder_100k.csv,Male,10–14,10,Asian,185
-finder_100k.csv,Male,10–14,10,Black,317
-finder_100k.csv,Male,10–14,10,Latino,612
-finder_100k.csv,Male,10–14,10,Multiracial or Other,106
+finder_100k.csv,Male,5–9,5,White,1184
+finder_100k.csv,Male,10–14,10,AIAN,11
+finder_100k.csv,Male,10–14,10,Asian,179
+finder_100k.csv,Male,10–14,10,Black,318
+finder_100k.csv,Male,10–14,10,Latino,616
+finder_100k.csv,Male,10–14,10,Multiracial or Other,98
 finder_100k.csv,Male,10–14,10,NHOPI,11
-finder_100k.csv,Male,10–14,10,White,1397
-finder_100k.csv,Male,15–19,15,AIAN,11
-finder_100k.csv,Male,15–19,15,Asian,200
-finder_100k.csv,Male,15–19,15,Black,359
-finder_100k.csv,Male,15–19,15,Latino,617
-finder_100k.csv,Male,15–19,15,Multiracial or Other,96
-finder_100k.csv,Male,15–19,15,NHOPI,8
-finder_100k.csv,Male,15–19,15,White,1385
-finder_100k.csv,Male,20–24,20,AIAN,10
-finder_100k.csv,Male,20–24,20,Asian,179
-finder_100k.csv,Male,20–24,20,Black,320
-finder_100k.csv,Male,20–24,20,Latino,618
-finder_100k.csv,Male,20–24,20,Multiracial or Other,130
+finder_100k.csv,Male,10–14,10,White,1315
+finder_100k.csv,Male,15–19,15,AIAN,12
+finder_100k.csv,Male,15–19,15,Asian,203
+finder_100k.csv,Male,15–19,15,Black,371
+finder_100k.csv,Male,15–19,15,Latino,634
+finder_100k.csv,Male,15–19,15,Multiracial or Other,94
+finder_100k.csv,Male,15–19,15,NHOPI,6
+finder_100k.csv,Male,15–19,15,White,1365
+finder_100k.csv,Male,20–24,20,AIAN,14
+finder_100k.csv,Male,20–24,20,Asian,176
+finder_100k.csv,Male,20–24,20,Black,328
+finder_100k.csv,Male,20–24,20,Latino,632
+finder_100k.csv,Male,20–24,20,Multiracial or Other,137
 finder_100k.csv,Male,20–24,20,NHOPI,7
-finder_100k.csv,Male,20–24,20,White,1352
-finder_100k.csv,Male,25–29,25,AIAN,17
-finder_100k.csv,Male,25–29,25,Asian,199
-finder_100k.csv,Male,25–29,25,Black,342
-finder_100k.csv,Male,25–29,25,Latino,678
-finder_100k.csv,Male,25–29,25,Multiracial or Other,140
-finder_100k.csv,Male,25–29,25,NHOPI,4
-finder_100k.csv,Male,25–29,25,White,1424
-finder_100k.csv,Male,30–34,30,AIAN,20
-finder_100k.csv,Male,30–34,30,Asian,211
-finder_100k.csv,Male,30–34,30,Black,354
-finder_100k.csv,Male,30–34,30,Latino,724
+finder_100k.csv,Male,20–24,20,White,1308
+finder_100k.csv,Male,25–29,25,AIAN,14
+finder_100k.csv,Male,25–29,25,Asian,202
+finder_100k.csv,Male,25–29,25,Black,356
+finder_100k.csv,Male,25–29,25,Latino,677
+finder_100k.csv,Male,25–29,25,Multiracial or Other,141
+finder_100k.csv,Male,25–29,25,NHOPI,5
+finder_100k.csv,Male,25–29,25,White,1375
+finder_100k.csv,Male,30–34,30,AIAN,21
+finder_100k.csv,Male,30–34,30,Asian,206
+finder_100k.csv,Male,30–34,30,Black,367
+finder_100k.csv,Male,30–34,30,Latino,747
 finder_100k.csv,Male,30–34,30,Multiracial or Other,155
-finder_100k.csv,Male,30–34,30,NHOPI,9
-finder_100k.csv,Male,30–34,30,White,1443
+finder_100k.csv,Male,30–34,30,NHOPI,7
+finder_100k.csv,Male,30–34,30,White,1431
 finder_100k.csv,Male,35–39,35,AIAN,22
-finder_100k.csv,Male,35–39,35,Asian,214
-finder_100k.csv,Male,35–39,35,Black,390
-finder_100k.csv,Male,35–39,35,Latino,723
-finder_100k.csv,Male,35–39,35,Multiracial or Other,132
-finder_100k.csv,Male,35–39,35,NHOPI,4
-finder_100k.csv,Male,35–39,35,White,1581
-finder_100k.csv,Male,40–44,40,AIAN,22
-finder_100k.csv,Male,40–44,40,Asian,226
-finder_100k.csv,Male,40–44,40,Black,376
-finder_100k.csv,Male,40–44,40,Latino,615
-finder_100k.csv,Male,40–44,40,Multiracial or Other,92
-finder_100k.csv,Male,40–44,40,NHOPI,5
-finder_100k.csv,Male,40–44,40,White,1504
-finder_100k.csv,Male,45–49,45,AIAN,19
-finder_100k.csv,Male,45–49,45,Asian,222
-finder_100k.csv,Male,45–49,45,Black,351
-finder_100k.csv,Male,45–49,45,Latino,631
-finder_100k.csv,Male,45–49,45,Multiracial or Other,92
+finder_100k.csv,Male,35–39,35,Asian,202
+finder_100k.csv,Male,35–39,35,Black,394
+finder_100k.csv,Male,35–39,35,Latino,764
+finder_100k.csv,Male,35–39,35,Multiracial or Other,138
+finder_100k.csv,Male,35–39,35,NHOPI,3
+finder_100k.csv,Male,35–39,35,White,1563
+finder_100k.csv,Male,40–44,40,AIAN,21
+finder_100k.csv,Male,40–44,40,Asian,232
+finder_100k.csv,Male,40–44,40,Black,402
+finder_100k.csv,Male,40–44,40,Latino,672
+finder_100k.csv,Male,40–44,40,Multiracial or Other,102
+finder_100k.csv,Male,40–44,40,NHOPI,4
+finder_100k.csv,Male,40–44,40,White,1466
+finder_100k.csv,Male,45–49,45,AIAN,21
+finder_100k.csv,Male,45–49,45,Asian,218
+finder_100k.csv,Male,45–49,45,Black,380
+finder_100k.csv,Male,45–49,45,Latino,684
+finder_100k.csv,Male,45–49,45,Multiracial or Other,96
 finder_100k.csv,Male,45–49,45,NHOPI,5
-finder_100k.csv,Male,45–49,45,White,1476
+finder_100k.csv,Male,45–49,45,White,1468
 finder_100k.csv,Male,50–54,50,AIAN,18
-finder_100k.csv,Male,50–54,50,Asian,239
-finder_100k.csv,Male,50–54,50,Black,356
-finder_100k.csv,Male,50–54,50,Latino,668
-finder_100k.csv,Male,50–54,50,Multiracial or Other,89
-finder_100k.csv,Male,50–54,50,NHOPI,4
-finder_100k.csv,Male,50–54,50,White,1741
-finder_100k.csv,Male,55–59,55,AIAN,25
-finder_100k.csv,Male,55–59,55,Asian,190
-finder_100k.csv,Male,55–59,55,Black,340
-finder_100k.csv,Male,55–59,55,Latino,684
-finder_100k.csv,Male,55–59,55,Multiracial or Other,91
+finder_100k.csv,Male,50–54,50,Asian,225
+finder_100k.csv,Male,50–54,50,Black,364
+finder_100k.csv,Male,50–54,50,Latino,688
+finder_100k.csv,Male,50–54,50,Multiracial or Other,92
+finder_100k.csv,Male,50–54,50,NHOPI,3
+finder_100k.csv,Male,50–54,50,White,1694
+finder_100k.csv,Male,55–59,55,AIAN,24
+finder_100k.csv,Male,55–59,55,Asian,194
+finder_100k.csv,Male,55–59,55,Black,351
+finder_100k.csv,Male,55–59,55,Latino,699
+finder_100k.csv,Male,55–59,55,Multiracial or Other,98
 finder_100k.csv,Male,55–59,55,NHOPI,8
-finder_100k.csv,Male,55–59,55,White,1739
-finder_100k.csv,Male,60–64,60,AIAN,25
-finder_100k.csv,Male,60–64,60,Asian,205
-finder_100k.csv,Male,60–64,60,Black,366
-finder_100k.csv,Male,60–64,60,Latino,625
-finder_100k.csv,Male,60–64,60,Multiracial or Other,72
-finder_100k.csv,Male,60–64,60,NHOPI,3
-finder_100k.csv,Male,60–64,60,White,1580
-finder_100k.csv,Male,65–69,65,AIAN,22
-finder_100k.csv,Male,65–69,65,Asian,194
-finder_100k.csv,Male,65–69,65,Black,340
-finder_100k.csv,Male,65–69,65,Latino,643
-finder_100k.csv,Male,65–69,65,Multiracial or Other,78
+finder_100k.csv,Male,55–59,55,White,1734
+finder_100k.csv,Male,60–64,60,AIAN,21
+finder_100k.csv,Male,60–64,60,Asian,195
+finder_100k.csv,Male,60–64,60,Black,389
+finder_100k.csv,Male,60–64,60,Latino,665
+finder_100k.csv,Male,60–64,60,Multiracial or Other,84
+finder_100k.csv,Male,60–64,60,NHOPI,2
+finder_100k.csv,Male,60–64,60,White,1579
+finder_100k.csv,Male,65–69,65,AIAN,15
+finder_100k.csv,Male,65–69,65,Asian,190
+finder_100k.csv,Male,65–69,65,Black,357
+finder_100k.csv,Male,65–69,65,Latino,688
+finder_100k.csv,Male,65–69,65,Multiracial or Other,76
 finder_100k.csv,Male,65–69,65,NHOPI,2
-finder_100k.csv,Male,65–69,65,White,1797
-finder_100k.csv,Male,70–74,70,AIAN,19
-finder_100k.csv,Male,70–74,70,Asian,141
-finder_100k.csv,Male,70–74,70,Black,332
-finder_100k.csv,Male,70–74,70,Latino,492
-finder_100k.csv,Male,70–74,70,Multiracial or Other,47
-finder_100k.csv,Male,70–74,70,NHOPI,2
-finder_100k.csv,Male,70–74,70,White,1812
-finder_100k.csv,Male,75–79,75,AIAN,16
-finder_100k.csv,Male,75–79,75,Asian,106
-finder_100k.csv,Male,75–79,75,Black,290
-finder_100k.csv,Male,75–79,75,Latino,379
-finder_100k.csv,Male,75–79,75,Multiracial or Other,37
+finder_100k.csv,Male,65–69,65,White,1824
+finder_100k.csv,Male,70–74,70,AIAN,18
+finder_100k.csv,Male,70–74,70,Asian,146
+finder_100k.csv,Male,70–74,70,Black,364
+finder_100k.csv,Male,70–74,70,Latino,511
+finder_100k.csv,Male,70–74,70,Multiracial or Other,52
+finder_100k.csv,Male,70–74,70,NHOPI,3
+finder_100k.csv,Male,70–74,70,White,1819
+finder_100k.csv,Male,75–79,75,AIAN,18
+finder_100k.csv,Male,75–79,75,Asian,120
+finder_100k.csv,Male,75–79,75,Black,295
+finder_100k.csv,Male,75–79,75,Latino,382
+finder_100k.csv,Male,75–79,75,Multiracial or Other,36
 finder_100k.csv,Male,75–79,75,NHOPI,1
-finder_100k.csv,Male,75–79,75,White,1674
-finder_100k.csv,Male,80–84,80,AIAN,15
-finder_100k.csv,Male,80–84,80,Asian,75
-finder_100k.csv,Male,80–84,80,Black,205
-finder_100k.csv,Male,80–84,80,Latino,247
-finder_100k.csv,Male,80–84,80,Multiracial or Other,31
+finder_100k.csv,Male,75–79,75,White,1730
+finder_100k.csv,Male,80–84,80,AIAN,13
+finder_100k.csv,Male,80–84,80,Asian,68
+finder_100k.csv,Male,80–84,80,Black,214
+finder_100k.csv,Male,80–84,80,Latino,256
+finder_100k.csv,Male,80–84,80,Multiracial or Other,34
 finder_100k.csv,Male,80–84,80,NHOPI,2
-finder_100k.csv,Male,80–84,80,White,1348
+finder_100k.csv,Male,80–84,80,White,1358
 finder_100k.csv,Male,85+,85,AIAN,8
-finder_100k.csv,Male,85+,85,Asian,68
-finder_100k.csv,Male,85+,85,Black,141
-finder_100k.csv,Male,85+,85,Latino,166
-finder_100k.csv,Male,85+,85,Multiracial or Other,17
+finder_100k.csv,Male,85+,85,Asian,67
+finder_100k.csv,Male,85+,85,Black,154
+finder_100k.csv,Male,85+,85,Latino,168
+finder_100k.csv,Male,85+,85,Multiracial or Other,16
 finder_100k.csv,Male,85+,85,NHOPI,3
 finder_100k.csv,Male,85+,85,White,1347
