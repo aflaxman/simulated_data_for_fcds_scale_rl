@@ -267,7 +267,7 @@ We describe the released files first (@sec-structure), then the people in them (
 
 ## Structure, contents, and where the data are held {#sec-structure}
 
-This data resource is a zip archive containing three comma-separated data files and a data dictionary, to be deposited on Zenodo under a DOI that will be minted before publication<!-- OUTLINE run-list item 10 -->. The high-level characteristics of the files are described in @tbl-release: a simulated registry of `{python} registry_simulants` people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulated people. The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same `{python} pct(match_prevalence_100k, 0)` share; the two finder files share no people with each other, matching the overlap design described above.
+This data resource is a zip archive containing three comma-separated data files and a data dictionary, to be deposited on Zenodo under a DOI that will be minted before publication<!-- OUTLINE run-list item 10 -->. The high-level characteristics of the files are described in @tbl-release: a simulated registry of `{python} registry_simulants` people and two finder files of `{python} finder_500k_simulants` and `{python} finder_100k_simulants` people. All three are drawn from Florida residents in the simulated 2020, 2030 or 2040 census, a pool of `{python} fl_pool` distinct simulated people. The larger finder file shares `{python} overlap_500k_simulants` people with the registry, `{python} pct(match_prevalence_500k, 0)` of its records, and the smaller shares `{python} overlap_100k_simulants`, the same `{python} pct(match_prevalence_100k, 0)` share; the two finder files share no people with each other, matching the overlap design described above (@sec-design).
 
 The data dictionary inside the archive gives each field's type, format, blank convention, source and the noise mechanisms that touch it. The deposit also carries a manifest of MD5 and SHA-256 digests (@tbl-release gives the MD5) and the configuration file that names every seed and design target, and the pipeline that built them is archived under its own DOI<!-- OUTLINE run-list item 10: code DOI -->. A second build from the same configuration and the same source population, which is available on request (@sec-access), reproduced all three files byte for byte.
 
@@ -462,8 +462,6 @@ for key, label in SHORT.items():
     print(f"| {label} | {n(r['predicted_pairs'])} | {n(r['true_positives'])} | {n(r['false_positives'])} | {pct(r['recall'])} | {pct(1 - r['recall'])} | {pct(r['precision'], 2)} | {pct(1 - r['precision'], 2)} |")
 ```
 
-Without blocking the two files present `{python} n_pairs_naive` record pairs. Blocking on the full date of birth leaves `{python} pairs_block_dob` candidate pairs and keeps `{python} completeness_block_dob` of true matches, the pairs whose dates of birth are present and agree on both sides (@tbl-errors); blocking on the first letter of the last name with the year of birth leaves `{python} pairs_block_ln_yob` and keeps `{python} completeness_block_ln_yob`.
-
 @fig-stratified splits three rules by the race/ethnicity recorded on the finder record. For first name, last name and date of birth the missed-match rate is alike across groups, from `{python} nd_missed_min` to `{python} nd_missed_max`, and the false-match rate stays below `{python} nd_fm_max` in every group. The SSN rule differs by group: it misses `{python} ssn_missed_asian` of true matches for Asian people and `{python} ssn_missed_latino` for Latino people against `{python} ssn_missed_white` for White people, and the difference carries into the best simple rule, which misses `{python} best_missed_asian` of Asian true matches against `{python} best_missed_white` of White ones.
 
 ```{python}
@@ -475,6 +473,8 @@ handles = F.stratified_baseline(ax1, ax2)
 fig.legend(handles=handles, loc="lower center", ncol=3, frameon=False, fontsize=7, bbox_to_anchor=(0.5, 0.0))
 plt.show()
 ```
+
+Without blocking the two files present `{python} n_pairs_naive` record pairs. Blocking on the full date of birth leaves `{python} pairs_block_dob` candidate pairs and keeps `{python} completeness_block_dob` of true matches, the pairs whose dates of birth are present and agree on both sides (@tbl-errors); blocking on the first letter of the last name with the year of birth leaves `{python} pairs_block_ln_yob` and keeps `{python} completeness_block_ln_yob`.
 
 The `{python} n_rules` rules run in `{python} baseline_seconds_500k` seconds on the 500,000-record file with `{python} baseline_threads` threads on an eight-core allocation. The 100,000-record file gives the same picture: every rule's recall is within `{python} ladder_100k_max_diff` percentage points of the larger file's.
 
