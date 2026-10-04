@@ -15,9 +15,11 @@ row duplication was switched off and the data dictionary joined the archive:
   age/sex stratum contributes an exact quota, drawn by keyed hash within the
   stratum, instead of the weighted random draw of the 2026-08-12 build, which
   compressed the weight ratios at a high sampling fraction;
-* the exact-target trim is ``stratified_trim`` (``src/``), which hits every
-  design target exactly and makes the finder files disjoint — v0.2's
-  unstratified trim overshot the overlap targets by roughly a third;
+* pseudopeople's row noise (non-response, omit-row, duplicate-with-guardian) is
+  switched off (``noise.row_noise``), so each file holds exactly the people the
+  keyed-hash draw selected and nothing is oversampled or trimmed; the build
+  asserts that pseudopeople returned exactly the staged rows (v0.4; earlier
+  builds drew oversize and trimmed back, which v0.2 got wrong);
 * ``race_ethnicity`` is carried into the released schema, and each registry
   record carries a ``diagnosis_date``: a day drawn uniformly within the record's
   census year by keyed hash (``seeds.diagnosis_date``), so age at diagnosis is
@@ -65,7 +67,6 @@ import yaml
 
 from simulated_data_for_fcds_scale_rl.age_sex_weights import allocate_by_share, load_age_sex_targets
 from simulated_data_for_fcds_scale_rl.diagnosis_date import diagnosis_dates
-from simulated_data_for_fcds_scale_rl.downsample import stratified_trim
 from simulated_data_for_fcds_scale_rl.ssn_noise import apply_targeted_ssn_noise
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -161,7 +162,7 @@ def build_pools(con: duckdb.DuckDBPyConnection, cfg: dict) -> dict:
 
 
 def load_targets(con: duckdb.DuckDBPyConnection, cfg: dict) -> pd.DataFrame:
-    """Per-stratum registry quotas: target age/sex shares × the oversampled registry target, capped by the pool.
+    """Per-stratum registry quotas: target age/sex shares × the registry target, capped by the pool.
 
     Maps every ``pool_registry`` simulant to its (sex, age bin) stratum in
     ``strata`` and registers the quota table as ``quotas``. Simulants whose sex
@@ -186,7 +187,7 @@ def load_targets(con: duckdb.DuckDBPyConnection, cfg: dict) -> pd.DataFrame:
     q = targets.merge(avail, on=["sex", "age_start"], how="left").fillna({"available": 0})
     q["available"] = q["available"].astype(int)
     idx = pd.MultiIndex.from_frame(q[["sex", "age_start"]])
-    n_sample = int(cfg["cohorts"]["registry_target"] * cfg["cohorts"]["oversample"])
+    n_sample = int(cfg["cohorts"]["registry_target"])
     quota = allocate_by_share(pd.Series(q["share"].to_numpy(), index=idx), n_sample,
                               pd.Series(q["available"].to_numpy(), index=idx))
     q["quota"] = quota.to_numpy()
@@ -202,8 +203,8 @@ def load_targets(con: duckdb.DuckDBPyConnection, cfg: dict) -> pd.DataFrame:
     return q
 
 
-def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
-    """Oversampled cohort ID tables: the registry by exact stratum quotas, the finders by keyed-hash draws.
+def sample_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
+    """Cohort ID tables at exactly the design targets: the registry by stratum quotas, the finders by keyed-hash draws.
 
     We intentionally avoid DuckDB's built-in random() so results are
     reproducible across threads and runs: every draw is a pure function of
@@ -216,14 +217,13 @@ def sample_oversized_cohorts(con: duckdb.DuckDBPyConnection, cfg: dict) -> None:
     """
     c = cfg["cohorts"]
     seed = cfg["seeds"]["duckdb_sample"]
-    oversample = c["oversample"]
     finder_year = int(c["finder_year"])
-    n1a_sample = int(c["finder_500k_target"] * oversample)
-    n1b_sample = int(c["finder_100k_target"] * oversample)
-    overlap_a_sample = int(c["overlap_500k_target"] * oversample)
-    overlap_b_sample = int(c["overlap_100k_target"] * oversample)
+    n1a_sample = int(c["finder_500k_target"])
+    n1b_sample = int(c["finder_100k_target"])
+    overlap_a_sample = int(c["overlap_500k_target"])
+    overlap_b_sample = int(c["overlap_100k_target"])
 
-    log(f"Sampling oversized cohorts ({oversample}x): stratified registry, then finders...")
+    log("Sampling cohorts at their exact targets: stratified registry, then finders...")
     con.execute(f"""
         CREATE OR REPLACE TABLE df_2_ids AS
         SELECT simulant_id, year FROM (
@@ -293,16 +293,18 @@ def stage_for_psp(con: duckdb.DuckDBPyConnection, table_name: str, dataset_name:
     return str(root_out)
 
 
-def noise_config(addr_missing: float, duplicate_with_guardian: float) -> dict:
-    """pseudopeople configuration for one file: address blanking at the file's rate, and
-    the duplicate-with-guardian row probability (0 means exactly one row per person)."""
+def noise_config(addr_missing: float, row_noise: dict) -> dict:
+    """pseudopeople configuration for one file: address blanking at the file's rate, and the
+    three row-noise probabilities (all 0 in config.yaml, so rows out equal rows in)."""
     return {
         "decennial_census": {
             "row_noise": {
+                "do_not_respond": {"row_probability": row_noise["do_not_respond"]},
+                "omit_row": {"row_probability": row_noise["omit_row"]},
                 "duplicate_with_guardian": {
-                    "row_probability_in_households_under_18": duplicate_with_guardian,
-                    "row_probability_in_college_group_quarters_under_24": duplicate_with_guardian,
-                }
+                    "row_probability_in_households_under_18": row_noise["duplicate_with_guardian"],
+                    "row_probability_in_college_group_quarters_under_24": row_noise["duplicate_with_guardian"],
+                },
             },
             "column_noise": {
                 field: {"leave_blank": {"cell_probability": addr_missing}}
@@ -491,9 +493,9 @@ def main() -> None:
         LEFT JOIN raw_ssn s ON p.simulant_id = s.simulant_id
     """).fetchone()[0]
 
-    # --- 2. Stratified oversampling ------------------------------------------
+    # --- 2. Stratified sampling at the exact targets ---------------------------
     quota_table = load_targets(con, cfg)
-    sample_oversized_cohorts(con, cfg)
+    sample_cohorts(con, cfg)
 
     # --- 3. Stage parquet for pseudopeople --------------------------------
     source_root = Path(cfg["paths"]["psp_source"])
@@ -508,30 +510,24 @@ def main() -> None:
     log("Running pseudopeople generation (registry)...")
     df_2 = psp.generate_decennial_census(
         source=path_2, seed=seeds["psp_registry"], year=None,
-        config=noise_config(noise["registry"]["address_missing"], noise["duplicate_with_guardian"]))
+        config=noise_config(noise["registry"]["address_missing"], noise["row_noise"]))
     log("Running pseudopeople generation (finder_500k)...")
     df_1a = psp.generate_decennial_census(
         source=path_1a, seed=seeds["psp_finder"], year=None,
-        config=noise_config(noise["finder"]["address_missing"], noise["duplicate_with_guardian"]))
+        config=noise_config(noise["finder"]["address_missing"], noise["row_noise"]))
     log("Running pseudopeople generation (finder_100k)...")
     df_1b = psp.generate_decennial_census(
         source=path_1b, seed=seeds["psp_finder"], year=None,
-        config=noise_config(noise["finder"]["address_missing"], noise["duplicate_with_guardian"]))
+        config=noise_config(noise["finder"]["address_missing"], noise["row_noise"]))
 
-    # --- 5. Stratified trim to exact targets (the v0.3 fix) ---------------
-    log("Trimming to exact targets with stratified_trim...")
-    ids = stratified_trim(
-        df_2.simulant_id, df_1a.simulant_id, df_1b.simulant_id,
-        registry_target=c["registry_target"],
-        finder_a_target=c["finder_500k_target"],
-        finder_b_target=c["finder_100k_target"],
-        overlap_a_target=c["overlap_500k_target"],
-        overlap_b_target=c["overlap_100k_target"],
-        seed=seeds["postprocess"],
-    )
-    df_2 = df_2[df_2.simulant_id.isin(ids["registry"])].copy()
-    df_1a = df_1a[df_1a.simulant_id.isin(ids["finder_a"])].copy()
-    df_1b = df_1b[df_1b.simulant_id.isin(ids["finder_b"])].copy()
+    # --- 5. Row noise is off, so pseudopeople must have returned exactly the staged rows
+    log("Checking that pseudopeople returned exactly the staged rows...")
+    for label, frame, table in (("registry", df_2, "df_2_ids"), ("finder_500k", df_1a, "df_1a_ids"), ("finder_100k", df_1b, "df_1b_ids")):
+        staged = set(con.execute(f"SELECT simulant_id FROM {table}").df()["simulant_id"].astype(str))
+        if len(frame) != len(staged) or set(frame.simulant_id.astype(str)) != staged:
+            raise SystemExit(f"CRITICAL: pseudopeople returned {len(frame):,} rows for {label} against {len(staged):,} staged "
+                             f"people; row noise must be off (noise.row_noise in config.yaml).")
+        log(f"  {label}: {len(frame):,} rows, one per staged person")
 
     # --- 5b. Diagnosis date: a day within the record's census year --------
     log("Assigning diagnosis dates (uniform within each record's census year)...")
@@ -584,8 +580,8 @@ def main() -> None:
         "overlap registry∩finder_100k": (len(reg_ids & fb_ids), c["overlap_100k_target"]),
         "overlap finder∩finder": (len(fa_ids & fb_ids), c["overlap_finder_finder_target"]),
     }
-    if noise["duplicate_with_guardian"] == 0:
-        # row duplication is switched off, so every file must be exactly one row per person
+    if all(v == 0 for v in noise["row_noise"].values()):
+        # row noise is switched off, so every file must be exactly one row per person
         for fname, frame in frames.items():
             targets[f"{fname} rows = people"] = (len(frame), int(frame.index.nunique()))
     failed = {k: v for k, v in targets.items() if v[0] != v[1]}

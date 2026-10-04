@@ -31,7 +31,8 @@ seeds:
   # pseudopeople noise seeds, one per output file.
   psp_registry: 42
   psp_finder: 1
-  # numpy RNG for exact-target downsampling and SSN noise.
+  # RETIRED 2026-10-04 (row noise is off, so nothing is trimmed); unused by the build and
+  # kept only until paper.qmd's load chunk stops reading it. SSN noise uses the psp seeds.
   postprocess: 999
   # Keyed hash placing each registry record's diagnosis date within its census year.
   diagnosis_date: 2026
@@ -47,20 +48,18 @@ cohorts:
   census_years: [2020, 2030, 2040]
   registry_pool: last_seen
   finder_year: 2040
-  # Cohorts are drawn oversize because pseudopeople's row noise drops about
-  # 1.5% of rows (do_not_respond 0.0145 by default); exact targets are enforced
-  # afterwards by stratified trimming (src/.../downsample.py). The v0.2 build
-  # trimmed unstratified and overshot the overlap targets by roughly a third.
-  # 1.15 leaves margin over the omission rate while keeping the trim small, so
-  # the registry's exact age/sex allocation survives it to within rounding.
+  # RETIRED 2026-10-04: with pseudopeople's row noise off (noise.row_noise) each
+  # file holds exactly the people drawn, so cohorts are no longer oversampled and
+  # trimmed; the build ignores this key, which stays only until paper.qmd's load
+  # chunk stops reading it.
   oversample: 1.15
   registry_target: 5_000_000
   finder_500k_target: 500_000
   finder_100k_target: 100_000
   overlap_500k_target: 100_000
   overlap_100k_target: 20_000
-  # The two finder files share no simulants (enforced by stratified_trim from
-  # v0.3 on; the v0.2 files accidentally share 2,508).
+  # The two finder files share no simulants (by construction of the draw since
+  # v0.4; the v0.2 files accidentally shared 2,508).
   overlap_finder_finder_target: 0
 
 noise:
@@ -81,9 +80,15 @@ noise:
     ssn_missing: 0.20
     ssn_transposed: 0.01
     address_missing: 0.05
-  # pseudopeople's duplicate-with-guardian row noise copies a child's or student's
-  # record at a guardian's address, so one person gets two rows (two registry rows
-  # and one finder_100k row in the 2026-09-24 build). Switched off 2026-10-01 so
-  # every file is exactly one row per person; the build asserts it. Note that any
-  # change here re-draws pseudopeople's cell noise across the whole file.
-  duplicate_with_guardian: 0.0
+  # pseudopeople's row noise drops or duplicates whole rows: non-response (1.45% by
+  # default, targeted by race, age and sex), omit-row (0 by default) and
+  # duplicate-with-guardian (a child's record copied to a guardian's address). A
+  # registry holds every case it registered and a cohort roster lists every member,
+  # so none has a counterpart here; all three are off (duplication since 2026-10-01,
+  # the rest since 2026-10-04), each file holds exactly the people drawn, and the
+  # build asserts that pseudopeople returned the staged rows. Any change here
+  # re-draws pseudopeople's cell noise across the whole file.
+  row_noise:
+    do_not_respond: 0.0
+    omit_row: 0.0
+    duplicate_with_guardian: 0.0
