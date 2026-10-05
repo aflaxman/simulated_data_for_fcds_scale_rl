@@ -448,16 +448,20 @@ The `{python} n_rules` rules run in `{python} baseline_seconds_500k` seconds on 
 #| label: tbl-ladder
 #| tbl-cap: "Exact-agreement rules on the 500,000-record finder file, scored against the identity key. Guide rows are exact agreement on the field sets the FCDS Procedure Guide requires a submission to carry [@fdoh_fcds_procedure_guide_2007], and layout rows on the two sets of FCDS's current Data Linkage Record Layout [@fcds_linkage_layout]; neither is the registry's own matching procedure. Missed-match is one minus recall and false-match one minus precision."
 #| output: asis
-SHORT = {
+SHORT = {  # every rule the baseline scores, each union after its parts
     "name_dob": "First name, last name, date of birth",
+    "name_dob_sex": "First name, last name, date of birth, sex",
     "ssn_only": "SSN alone",
     "fcds_min_ssn": "Guide set: name, SSN, sex",
     "fcds_min_monthyear": "Guide set: name, month and year of birth, sex",
     "fcds_min_either": "Either Guide set",
-    "fcds_current_either": "Either current layout set (name, sex, date of birth, with SSN or with address)",
+    "fcds_current_dob_ssn": "Layout set: name, sex, date of birth, SSN",
+    "fcds_current_dob_address": "Layout set: name, sex, date of birth, ZIP code and street address",
+    "fcds_current_either": "Either layout set",
     "name_dob_or_ssn": "Name and date of birth, or SSN",
     "lastname_dob": "Last name and date of birth",
 }
+assert set(SHORT) == set(rules), "Table 3 must show every rule the baseline scores"
 print("| Rule | Predicted pairs | True | False | Recall | Missed-match | Precision | False-match |")
 print("|---|---|---|---|---|---|---|---|")
 for key, label in SHORT.items():
