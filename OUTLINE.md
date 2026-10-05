@@ -98,8 +98,37 @@ The Data Resource Profile abstract keeps four headings but assigns each dataset-
 
 ## 2. Methods
 
-*Target ≈ 850 words across five subsections — the Data Resource Profile asks Methods to detail the original sources, the linkage methods, and the study population. The author's outline prompts map as follows: "approach to getting age structure right" → §2.2; "approach to ensuring specific overlaps" → §2.2 (the stratified trim); "approach to setting noise levels" → §2.3; his proposed Methods table of the three files is folded into Table 1 (Results), which shows targets and realised values side by side. Load order: `paper.qmd` must open with a setup chunk reading `config.yaml` into `cfg` and the `results/` summaries into `lb`, `pop`, `err`, `rel`, `forensics`, `strat` before any inline expression resolves.*
+*Target ≈ 850 words across five subsections — the Data Resource Profile asks Methods to detail the original sources, the linkage methods, and the study population.  Load order: `paper.qmd` must open with a setup chunk reading `config.yaml` into `cfg` and the `results/` summaries into `lb`, `pop`, `err`, `rel`, `forensics`, `strat` before any inline expression resolves.*
 
+Notes on what goes in methods section, based on read-through of Reesults section:
+
+Descriptions and reference to pseudopeople data note, explaining that it offers a simulated decennial census for 2020, 2030, and 2040, at full scale.  We restricted this to simulated individuals living in Florida to create the sample frame for the registry.  We sampled from the 2040 decennial census population of Florida to create the finder files.
+
+description of the approach to making things faster (some relevant notes below).
+
+Describe the columns included
+
+
+Every row of each file carries a `simulant_id`, the identifier of the simulated person it describes; the same identifier in two files means the same person, and this is the ground truth against which any other linkage of the files can be scored. The files also contain the fields that record linkage typically relies on: first name, middle initial, last name, date of birth, sex, race/ethnicity, street number, street name, unit number, city, state, ZIP code and social security number (SSN). Registry rows also carry a diagnosis date, which we placed on a day within the year of the census the record was drawn from, so that diagnoses fall in 2020, 2030 or 2040 only. Addresses carry real Florida cities and ZIP codes but simulated street addresses that are not real street locations. 
+
+
+
+Describe strategy to sampling finder files to get precisely number of simulants desired, and 20% overlap between finder file and registry (and make finder files disjoint).
+
+Describe noise strategy, including params for pseudopeople, and the custom ssn swap added after the pseudopeople call completed.
+
+
+A registry row and a finder row that carry the same identifier are a "true pair", the unit on which every linkage result below is scored; the larger finder file holds `{python} overlap_500k_pairs` true pairs and the smaller `{python} overlap_100k_pairs`, and every other pairing of a registry row with a finder row is a true non-match. Every finder record is drawn from the 2040 census, and so is the registry record of every person who appears in a finder file; people last seen in 2020 or 2030 appear in the registry alone (@sec-discussion).
+
+We examined demographic distributions of the registry and finder files to confirm that they matched expectations.  We also examined the most common names for different age groups as a face validity check, and spot checked a subset of matching records between the registry and finder files.
+
+We calculate the missingness for each field, as well as the exact match rate for pairs that appear in the registry and the finder file. We also tallied how many SSNs had two digits swapped (a noise type that is not yet implemented in pseudopeople).  We also counted the number of invalid SSNs.  (anything else in results that needs to be set up in the methods section?)
+
+To start to understand the linkability of these files, we counted the population-uniques for multiple sets of attributes, and also measured the precision and recall of a range of deterministic linkage strategies (e.g. exact agreement on first name, last name and date of birth).  Finally we measured the number of comparisons induced by some simple blocking rules.
+
+
+
+Previous ideas for methods section, see if anything in here is worth incorporating, too.  At least some of the references should be useful additions.
 
 ### 2.1 Source population and the Florida extract — ¶3 (~220 words)
 
@@ -190,6 +219,9 @@ The Data Resource Profile abstract keeps four headings but assigns each dataset-
 ## 4. Discussion
 
 *Target ≈ 750 words, four subsections. Genre spec: strengths and limitations, projects currently using the dataset, and suggestions for how other researchers could use it. The comparator survey lives in §1.3; the reproducibility mechanism lives in §2.2; the old standalone Limitations section merges into §4.2; access mechanics move to §5 Data Access. Only the 95.6%-vs-59.8% gap survives as a re-quoted figure. A Discussion of this length owns zero figures and zero tables.*
+
+- **Pointers the Discussion must honour (2026-10-04).** Methods and Results now send the reader to §4 four times, and each needs a sentence or a paragraph where it lands: (1) §2.2: a true match is one census record noised twice, so no move, ageing or surname change separates its two records, the easiest case a linkage can face (the "easier than a real linkage" bullet in §4.2; the address-change extension in §4.3); (2) §2.3: what the noise leaves out, no wrong SSN digits and no relative's number, no surname change, noise symmetric between the files and independent across fields, one format for both (§4.2); (3) §2.3 and §3.1: diagnosis dates heap on 2020, 2030 and 2040 (§4.2's heaping bullet; the yearly observer in §4.3); (4) §3.3 and §3.4: SSN coverage differs by race/ethnicity in the source population, which §3.3 now reports as blank shares by group and §3.4 shows turning into a missed-match differential for the SSN rule and the best simple rule (§4.2's race/ethnicity caveats bullet). Not a pointer but owed: §3.2 no longer explains the registry's race mix, so §4.2's "race mix is pseudopeople's" bullet must say that it follows from the registry's ages.
+- **Superseded mechanics (2026-10-04):** the oversample-and-stratified-trim story in §2.2 and §2.3 of this outline is history, not method. All pseudopeople row noise is off (non-response, omit-row, duplicate-with-guardian), every cohort is drawn at its exact target, and the second finder file's draw excludes the first's members; the paper's Methods §2.2 and the technical appendix say so. Discussion §4.1 may still use the v0.2 overshoot as the engineering lesson (ground-truth QA caught it), but should not describe the trim as current.
 
 ### 4.1 Strengths, and the engineering lessons in one paragraph — ¶2 (~160 words)
 
