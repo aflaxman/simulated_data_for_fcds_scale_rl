@@ -58,6 +58,9 @@ Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic share
   job (which rewrites `results/`), then re-render. Do not edit the number in the paper.
 - Paths and the RNG seed live in `config.yaml` (single source of truth); always set
   and record the seed so error rates are reproducible.
+- **Citations:** every key added to `paper.qmd` also gets a row in `reference_review.md` (the claim
+  it supports, what to check). The author reads every reference before submission; nothing cited
+  is assumed read.
 
 ## Guardrails
 - **File safety:** big data and derivatives live under the user's own scratch space
