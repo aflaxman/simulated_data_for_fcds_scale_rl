@@ -38,3 +38,7 @@ added to `paper.qmd`, add a row here with the claim it supports.
 | `schmidtmann2011krebsregister` | 1× | outline research, 2026-08/09 (author's digest) |  | cited as the one cancer-registry benchmark, shipping comparison vectors only |
 | `schnell2023microsim` | 1× | outline research, 2026-08/09 (author's digest) |  | fact-checked 2026-10-11: the IJPDS article carries no data-availability statement or repository link and no deposit was found on Zenodo, OSF or GitHub; the paper now says 'was not released with its papers as far as we can find' |
 | `tran2013geco` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
+| `li2006deterministic` | 1× | 2026-10-11 (Claude, from the outline) | §4: deterministic name+DOB rules on real data link a larger share than the simulated files allow | the recall and precision band the outline attributes to it (88–93%, 97–99%) must be read back before any figure is quoted |
+| `naaccr2026certification` | 1× | 2026-10-11 (Claude, from the outline) | §4: within-file duplicate detection is the task registries are certified on | that the certification criteria say so |
+| `alexandersson2024comparing` | 2× | 2026-10-11 (Claude, from the outline) | §4: validate a winner in situ; the package comparison on the predecessor files | second author's own paper |
+| `suchow2023coincidental` | 1× | 2026-10-11 (Claude, from the outline) | §4: coincidental resemblance as the residual risk of simulated identifiers | that it makes this argument |
