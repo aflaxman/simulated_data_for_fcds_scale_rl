@@ -26,6 +26,7 @@ RESULTS = ROOT / CFG["paths"]["results"]
 READ_OPTS = "header=true, all_varchar=true, quote='\"'"
 FIELDS = ["first_name", "middle_initial", "last_name", "date_of_birth", "sex", "race_ethnicity",
           "street_number", "street_name", "unit_number", "city", "state", "zipcode", "ssn"]
+ADDRESS = ["street_number", "street_name", "unit_number", "city", "state", "zipcode"]
 
 
 def present(alias: str, f: str) -> str:
@@ -43,6 +44,11 @@ def main() -> None:
         )
         name_dob = " AND ".join(f"{present('r', f)} AND {present('f', f)} AND r.{f} = f.{f}"
                                 for f in ("first_name", "last_name", "date_of_birth"))
+        # the six address fields taken together: identical when every field is the same string on both
+        # sides (a blank on both sides counts as the same), and "blank on either side" when some field
+        # is blank on exactly one side
+        addr_same = " AND ".join(f"coalesce(r.{f}, '') = coalesce(f.{f}, '')" for f in ADDRESS)
+        addr_one_blank = " OR ".join(f"({present('r', f)} <> {present('f', f)})" for f in ADDRESS)
         row = con.execute(f"""
             WITH r AS (SELECT * FROM read_csv('{RELEASE / "registry.csv"}', {READ_OPTS})
                        QUALIFY row_number() OVER (PARTITION BY simulant_id) = 1),
@@ -50,13 +56,15 @@ def main() -> None:
                        QUALIFY row_number() OVER (PARTITION BY simulant_id) = 1)
             SELECT count(*) AS pairs, {sel},
                    avg(({name_dob})::INT) AS name_dob_all_agree,
+                   avg(CASE WHEN NOT ({addr_one_blank}) THEN ({addr_same})::INT END) AS agree_address,
+                   avg(({addr_one_blank})::INT) AS blank_address,
                    avg(({present('r', 'ssn')} AND {present('f', 'ssn')} AND r.ssn = f.ssn)::INT) AS ssn_usable_and_agree
             FROM r JOIN f USING (simulant_id)
         """).df().iloc[0]
         out[finder] = {
             "pairs": int(row["pairs"]),
             "fields": {f: {"agree_when_both_present": float(row[f"agree_{f}"]),
-                           "blank_on_either_side": float(row[f"blank_{f}"])} for f in FIELDS},
+                           "blank_on_either_side": float(row[f"blank_{f}"])} for f in FIELDS + ["address"]},
             "name_dob_all_agree": float(row["name_dob_all_agree"]),
             "ssn_usable_and_agree": float(row["ssn_usable_and_agree"]),
         }

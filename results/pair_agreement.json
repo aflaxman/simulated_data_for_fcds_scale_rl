@@ -53,6 +53,10 @@
       "ssn": {
         "agree_when_both_present": 0.9914145647590744,
         "blank_on_either_side": 0.21262
+      },
+      "address": {
+        "agree_when_both_present": 0.8856390164820319,
+        "blank_on_either_side": 0.2598
       }
     },
     "name_dob_all_agree": 0.79243,
@@ -112,6 +116,10 @@
       "ssn": {
         "agree_when_both_present": 0.9905870380970553,
         "blank_on_either_side": 0.21385
+      },
+      "address": {
+        "agree_when_both_present": 0.885337086181477,
+        "blank_on_either_side": 0.2539
       }
     },
     "name_dob_all_agree": 0.7999,
