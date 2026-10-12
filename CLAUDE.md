@@ -80,7 +80,8 @@ pseudopeople's word for a simulated person: introduce it once, in quotes, where 
 explained, then write "people" or "simulated people" in prose, keeping "simulant" for the identifier
 and for reminders that no real person is involved. Sex uses the data's own categories, male and female
 ("females", "male records"), never men/women/boys/girls, in prose, tables, figures and the notebook
-(author's call, 2026-10-04). The submission is the rendered `.docx`
+(author's call, 2026-10-04). American spelling throughout (program, initialized, aging, labeling, artifact;
+author's call, 2026-10-12); cited titles keep their own spelling. The submission is the rendered `.docx`
 (styled by `reference-doc.docx`); the dataset goes to a separate DOI deposit, not
 as a supplement.
 
