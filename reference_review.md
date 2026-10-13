@@ -42,3 +42,4 @@ added to `paper.qmd`, add a row here with the claim it supports.
 | `naaccr2026certification` | 1× | 2026-10-11 (Claude, from the outline) | §4: within-file duplicate detection is the task registries are certified on | that the certification criteria say so |
 | `alexandersson2024comparing` | 2× | 2026-10-11 (Claude, from the outline) | §4: validate a winner in situ; the package comparison on the predecessor files | second author's own paper |
 | `suchow2023coincidental` | 1× | 2026-10-11 (Claude, from the outline) | §4: coincidental resemblance as the residual risk of simulated identifiers | that it makes this argument |
+| `zenodo_policies` | 1× | 2026-10-12 (Claude, from the outline) | §5: versioned deposits and the withdrawal path | that Zenodo's policies say what the sentence claims (versions kept, withdrawal leaves a tombstone) |

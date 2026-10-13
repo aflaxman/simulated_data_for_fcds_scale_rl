@@ -2733,11 +2733,12 @@ Figure 3: Missed-match and false-match rates of three exact-agreement rules on 
 </section>
 <section id="sec-access" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Data Access</h1>
-<p>…</p>
+<p>The files are deposited on Zenodo under a DOI<!-- OUTLINE run-list item 10: dataset DOI to mint; reviewer URL for submission -->, as the zip archive described in <a href="#sec-structure" class="quarto-xref">Section 3.1</a>, three CSV files and the data dictionary, together with the manifest of MD5 and SHA-256 digests and the configuration file that names every seed and target; the pipeline that built them is archived under its own DOI and linked from the deposit<!-- code DOI and repository URL -->. Access is a direct download under a permissive license<!-- OUTLINE decision #9: CC0 or CC-BY -->, with no application, approval, registration, or data-use agreement, and the published digests let a user confirm that the files in hand are the files this profile describes. The files are UTF-8 CSV with a header row, blanks as empty fields, dates as <code>MM/DD/YYYY</code>, and SSNs as <code>ddd-dd-dddd</code>; a field is quoted only when it contains a comma, which is rare enough that some CSV readers need the quote character named explicitly. This profile describes version 0.4; later versions will be deposited under new DOIs with earlier ones left in place, and the repository’s policies govern withdrawal <span class="citation" data-cites="zenodo_policies">[<a href="#ref-zenodo_policies" role="doc-biblioref">35</a>]</span>. The released files need no permission to use, but rebuilding them, or building a different cut, requires the pseudopeople simulated population, which is available through its own request process <span class="citation" data-cites="keyes2026governance">[<a href="#ref-keyes2026governance" role="doc-biblioref">19</a>]</span>.</p>
+<p>The two authors are the custodians of the resource, and the corresponding author is the contact for questions, corrections, and proposals for extensions, which we welcome. We ask three courtesies of users: the data are simulated and must not be treated as describing real people; the addresses are not real places and should not be geocoded; and the SSNs, though well formed, were never issued to anyone and must not be loaded into any system that holds real records.</p>
 </section>
 <section id="sec-conclusions" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Conclusions</h1>
-<p>…</p>
+<p>We have built and released a set of simulated data files for testing record linkage in the size and shape of the challenge the Florida cancer registry faces: a direct download with a DOI, no application or approval, a published ground-truth key, and deterministic baselines to compare against. We hope the files will be used to benchmark and tune linkage software, to study differential linkage error, and to teach, and the external-validity test we most want to see is a rerun of FCDS’s own package comparison on this corpus. Results on these files are necessary but not sufficient evidence about production performance, and a method that wins here should still be validated in situ <span class="citation" data-cites="alexandersson2024comparing">[<a href="#ref-alexandersson2024comparing" role="doc-biblioref">33</a>]</span>. The transaction the files imitate, a government-held population-scale file, a researcher’s cohort, a minimum set of identifiers, and no shareable ground truth, recurs in vital statistics, in cohort follow-up for drug epidemiology, and beyond health in social work and economics, and wherever it recurs the binding constraint on linkage research is access to realistic test data. The improvements we intend are a Parquet release beside the CSV, probabilistic baselines, an address-change version in which registry records predate the finder file, and a place for others to contribute rules and results; let us know what you find!</p>
 </section>
 
 
@@ -2855,6 +2856,9 @@ Figure 3: Missed-match and false-match rates of three exact-agreement rules on 
 </div>
 <div id="ref-suchow2023coincidental" class="csl-entry" role="listitem">
 <div class="csl-left-margin">34. </div><div class="csl-right-inline">Suchow JW, Gürkan N. Coincidental generation [Internet]. 2023; Available from: <a href="https://arxiv.org/abs/2304.01108">https://arxiv.org/abs/2304.01108</a>. <a href="https://doi.org/10.48550/arXiv.2304.01108">https://doi.org/10.48550/arXiv.2304.01108</a></div>
+</div>
+<div id="ref-zenodo_policies" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">CERN / Zenodo. Zenodo general policies. </div>
 </div>
 </div></section></div></main>
 <!-- /main column -->
