@@ -440,6 +440,11 @@ lb100 = lb["finder_files"]["finder_100k.csv"]
 rules100 = {r["rule"]: r for r in lb100["rules"]}
 ladder_100k_max_diff = f"{100 * max(abs(rules[k]['recall'] - rules100[k]['recall']) for k in rules):.1f}"
 baseline_threads = lb["node"]["duckdb_threads"]
+# the Discussion's one-sentence summary of the ladder: recall range over all rules, and the precision floor
+# once last name + date of birth, too loose a key to use alone, is set aside
+ladder_recall_min = pct(min(r["recall"] for r in rules.values()), 0)
+ladder_recall_max = pct(max(r["recall"] for r in rules.values()), 0)
+ladder_precision_floor = pct(min(r["precision"] for k, r in rules.items() if k != "lastname_dob"), 0)
 n_rules = len(rules)
 ```
 
