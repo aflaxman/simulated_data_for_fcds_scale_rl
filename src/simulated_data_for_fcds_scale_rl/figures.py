@@ -211,6 +211,17 @@ SHORT_NOTES = {"nickname or different name": "nickname/other name", "adjacent di
                "month and day swapped": "month/day swapped"}
 # Display wording for the classifier's labels in the full-size card (the classifier's own words are the data).
 NOTE_DISPLAY = {"different category": "wrong category", "different value": "different value"}
+SUBFIELD = {"street_number": "street number", "street_name": "street name", "unit_number": "unit",
+            "city": "city", "state": "state", "zipcode": "ZIP"}
+
+
+def _note_for(field: str, label: str, combined: bool) -> str:
+    """Display text for one differing field; in a combined row, prefix the sub-field's name."""
+    shown = NOTE_DISPLAY.get(label, label)
+    if not combined:
+        return shown
+    name = SUBFIELD.get(field, field)
+    return f"{name} field blank" if shown == "blank" else f"{name} {shown}"
 
 
 def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = True, compact: bool = False) -> None:
@@ -250,11 +261,16 @@ def record_card(ax, pair: pd.DataFrame, size: float = 6.4, show_header: bool = T
         if hit:
             ax.add_patch(Rectangle((xs["reg"] - 0.012, y - row_h * 0.46), (xs["note"] - 0.02) - (xs["reg"] - 0.012),
                                    row_h * 0.92, facecolor=WASH, edgecolor="none", zorder=0))
-            parts = list(dict.fromkeys(NOTE_DISPLAY.get(notes[f], notes[f]) for f in hit))
+            # a combined row names the sub-field each note belongs to ("state field blank")
+            parts = list(dict.fromkeys(_note_for(f, notes[f], combined=len(fields) > 1) for f in hit))
             note_text, note_size = "; ".join(parts), size - 1.0
             if len(parts) > 1 and len(note_text) > 22:  # at most two lines, so a row never overflows
                 cut = (len(parts) + 1) // 2
                 note_text, note_size = "; ".join(parts[:cut]) + "\n" + "; ".join(parts[cut:]), size - 2.0
+            elif len(note_text) > 24:  # one long note: break at the space nearest the middle
+                words = note_text.split(" ")
+                best = min(range(1, len(words)), key=lambda k: abs(len(" ".join(words[:k])) - len(note_text) / 2))
+                note_text, note_size = " ".join(words[:best]) + "\n" + " ".join(words[best:]), size - 2.0
             ax.text(xs["note"], y, note_text, fontsize=note_size, color=INK2, style="italic",
                     va="center", linespacing=0.9)
         if i:
