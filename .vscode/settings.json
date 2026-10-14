@@ -4,5 +4,7 @@
   // or the miniforge base (3.12). "Run Cell" in paper.qmd uses this interpreter.
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
   "python.terminal.activateEnvironment": true,
-  "makefile.configureOnOpen": false
+  "makefile.configureOnOpen": false,
+  // The Quarto extension must use the venv's quarto (uv dev group); bare `quarto` is not on PATH.
+  "quarto.path": "${workspaceFolder}/.venv/bin/quarto"
 }
