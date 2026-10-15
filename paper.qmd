@@ -519,3 +519,8 @@ The corresponding author is the contact for questions, corrections, objections, 
 
 We have built and released a set of simulated data files for testing record linkage in the size and shape of the challenge the Florida cancer registry faces. To minimize barriers to use, we have made them directly downloadable, with no application or approval required.  Since the data is simulated, we are able to include a ground-truth linkage key in the database, and we used this to measure the quality of several deterministic linkages. We hope the files will be used to benchmark and tune linkage software, to study differential linkage error, and to teach. The challenge of linking administrative data also appears in vital statistical systems, in cohort follow-up for drug epidemiology, and beyond health in social work and economics, and simulated data might be of use in all of these settings as well.
 
+# Statements {.unnumbered}
+
+## AI statement {.unnumbered}
+
+We used AI assistance throughout this project: Claude models from Anthropic, through the Claude Code assistant, helped write and run the data pipeline and the analysis code, draw the figures, and draft and edit this profile<!-- pin the model versions used before submission -->. The simulated records themselves are not the output of a language model; they come from the pseudopeople microsimulation described in @sec-methods, and no generative AI was used to produce or alter them. Every piece of code was reviewed and tested by the authors, every number in the paper is computed from the released files or the build's own summaries rather than written by a model, and every reference was checked by the authors against its source. We take full responsibility for the content.
