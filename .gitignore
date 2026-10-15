@@ -11,3 +11,5 @@ data/
 # candidate figure renders (regenerate with pipeline/draw_candidate_figures.py)
 figures/
 paper.quarto_ipynb_*
+refs/
+pdfs/
