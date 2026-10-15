@@ -25,3 +25,4 @@ format:
     number-sections: true
     fig-cap-location: bottom
     tbl-cap-location: top
+    fig-dpi: 300                # Word gets print-resolution PNGs (the default is 96 dpi); swap for fig-format: svg if the journal accepts vector figures
