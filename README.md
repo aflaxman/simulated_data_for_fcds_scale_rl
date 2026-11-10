@@ -85,7 +85,8 @@ and lands in `results/`. In order:
 
 1. `sbatch -c 8 --mem=120G -t 03:00:00 --wrap "uv run python pipeline/build_cohorts.py --force"`
    rebuilds the release named in `config.yaml` in place (about 10 minutes): the three
-   CSVs and the zip, plus the manifest, error rates, population summary, age/sex/race
+   CSVs and the zip (which also carries the data dictionary, a generated README with release notes,
+   and the effective pseudopeople configuration), plus the manifest, error rates, population summary, age/sex/race
    composition, top names and environment record.
 2. `uv run python pipeline/linkage_baseline.py && uv run python pipeline/example_pair.py && uv run python pipeline/pair_agreement.py`
    scores the deterministic ladder, picks the worked example pairs, and measures

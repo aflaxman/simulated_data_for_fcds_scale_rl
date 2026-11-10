@@ -43,7 +43,8 @@ Layout: `src/simulated_data_for_fcds_scale_rl/` = importable, tested logic share
 `pipeline/` = heavy scripts · `results/` = small committed summaries the paper reads ·
 `notebooks/` = the receiver's acceptance checks (generated and executed by `notebooks/make_acceptance_checks.py`) ·
 `figures/` = figure renders, gitignored ·
-`reference/` = small committed reference data, including `data_dictionary.csv`, which the build ships inside the zip · `paper.qmd` = the Data Resource Profile.
+`reference/` = small committed reference data, including `data_dictionary.csv`, which the build ships inside the zip
+beside a generated `README.md` (release notes with set and realised noise rates) and `pseudopeople_config.yaml` · `paper.qmd` = the Data Resource Profile.
 
 ## Conventions
 - **Never hard-code a computed number in prose.** Every computed value is an inline
