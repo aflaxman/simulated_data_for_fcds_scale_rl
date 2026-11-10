@@ -83,7 +83,7 @@ def classify(field: str, registry_value, finder_value) -> str | None:
     """Return a short label for how the two values differ, or ``None`` when they agree.
 
     Labels: ``blank``, ``month and day swapped``, ``adjacent digits swapped``,
-    ``digits changed``, ``typo``, ``nickname`` (a pair in pseudopeople's nickname table),
+    ``one digit changed`` (the registry's SSN wrong digit), ``digits changed``, ``typo``, ``nickname`` (a pair in pseudopeople's nickname table),
     ``different name`` (any other first-name change, usually pseudopeople's fake-name
     noise), ``different category``, ``different value``.
     """
@@ -94,7 +94,11 @@ def classify(field: str, registry_value, finder_value) -> str | None:
         return "blank"
     if field == "ssn":
         da, db = a.replace("-", ""), b.replace("-", "")
-        return "adjacent digits swapped" if is_adjacent_transposition(da, db) else "digits changed"
+        if is_adjacent_transposition(da, db):
+            return "adjacent digits swapped"
+        if len(da) == len(db) and sum(x != y for x, y in zip(da, db)) == 1:
+            return "one digit changed"
+        return "digits changed"
     if field == "date_of_birth":
         pa, pb = parse_mdy(a), parse_mdy(b)
         if pa and pb and pa.year == pb.year and pa.month == pb.day and pa.day == pb.month and pa.month != pa.day:

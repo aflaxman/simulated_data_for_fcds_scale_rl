@@ -14,7 +14,8 @@ def test_ssn_transposition_vs_other_change():
     assert is_adjacent_transposition("123456789", "123465789")
     assert not is_adjacent_transposition("123456789", "125436789")  # swapped, but not neighbours
     assert classify("ssn", "123-45-6789", "123-46-5789") == "adjacent digits swapped"
-    assert classify("ssn", "123-45-6789", "123-45-6788") == "digits changed"
+    assert classify("ssn", "123-45-6789", "123-45-6788") == "one digit changed"  # the registry wrong digit
+    assert classify("ssn", "123-45-6789", "123-45-6700") == "digits changed"
 
 
 def test_dob_swap_and_typo():

@@ -29,5 +29,6 @@ def test_row_noise_is_off():
 
 def test_noise_rates_are_the_second_authors_specification():
     n = CFG["noise"]
-    assert n["finder"] == {"ssn_missing": 0.20, "ssn_transposed": 0.01, "address_missing": 0.05}
-    assert n["registry"] == {"ssn_missing": 0.05, "ssn_transposed": 0.00, "address_missing": 0.01}
+    assert n["finder"] == {"ssn_missing": 0.20, "ssn_transposed": 0.01, "ssn_wrong_digit": 0.0, "address_missing": 0.05}
+    # the registry wrong digit is the second author's 2026-11-09 addition to his 2024 specification
+    assert n["registry"] == {"ssn_missing": 0.05, "ssn_transposed": 0.00, "ssn_wrong_digit": 0.005, "address_missing": 0.01}

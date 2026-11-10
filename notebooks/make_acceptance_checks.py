@@ -177,10 +177,13 @@ for ax, t in zip(axes, miss.columns):
 axes[0].set_ylabel("share blank"); fig.suptitle("Blank shares: bars realised, dashes = Anders's targets", x=0.01, ha="left"); plt.tight_layout()
 """)
 
-md("### 4b. SSN transposition: 1% in the finder files, none in the registry\nThe released files do not carry the clean SSN, but the true matches do the job: the registry has no SSN noise, so when a finder SSN differs from its registry twin, the difference is the finder's error. An adjacent-digit swap is the only error requested.")
+md("### 4b. SSN noise: 1% adjacent swaps in the finder files, 0.5% wrong digits in the registry\nThe released files do not carry the clean SSN, but the true matches do the job: when a finder SSN differs from its registry twin, the difference is one side's error. Two kinds are applied: an adjacent-digit swap in 1% of finder SSNs (the 2024 specification) and, from v0.4, one wrong digit in 0.5% of registry SSNs (the second author's request after reviewing v0.3). Both keep the `ddd-dd-dddd` form, so only this join can see them.")
 code("""
 import sys; sys.path.insert(0, str(ROOT / "src"))
 from simulated_data_for_fcds_scale_rl.record_diff import is_adjacent_transposition
+
+def one_digit_differs(a, b):
+    return len(a) == len(b) and sum(x != y for x, y in zip(a, b)) == 1
 
 for t in ("finder_500k", "finder_100k"):
     pairs = con.execute(f\"\"\"
@@ -190,12 +193,15 @@ for t in ("finder_500k", "finder_100k"):
         WHERE r.ssn IS NOT NULL AND r.ssn <> '' AND f.ssn IS NOT NULL AND f.ssn <> ''
     \"\"\").df()
     differ = pairs[pairs.r_ssn != pairs.f_ssn]
-    swaps = differ.apply(lambda x: is_adjacent_transposition(x.r_ssn.replace("-", ""), x.f_ssn.replace("-", "")), axis=1).sum() if len(differ) else 0
-    rate = swaps / len(pairs)
+    digits = differ.assign(r=differ.r_ssn.str.replace("-", ""), f=differ.f_ssn.str.replace("-", ""))
+    swaps = int(digits.apply(lambda x: is_adjacent_transposition(x.r, x.f), axis=1).sum()) if len(differ) else 0
+    wrong = int(digits.apply(lambda x: (not is_adjacent_transposition(x.r, x.f)) and one_digit_differs(x.r, x.f), axis=1).sum()) if len(differ) else 0
+    both = len(differ) - swaps - wrong  # a swap on one side and a wrong digit on the other
     # A swap of two equal adjacent digits (about one draw in ten) changes nothing and cannot be seen, so the visible
-    # rate runs a little under the 1% applied.
-    check(f"{t}: adjacent-digit SSN swaps at about 1% of present SSNs (visible swaps; equal-digit swaps are invisible)", 0.008 <= rate <= 0.0105, f"{swaps:,} visible swaps in {len(pairs):,} pairs with both SSNs = {rate:.2%}")
-    check(f"{t}: every SSN disagreement is an adjacent swap (so the registry SSN is clean)", swaps == len(differ), f"{len(differ) - swaps} other disagreements")
+    # swap rate runs a little under the 1% applied; the wrong digit always changes the value.
+    check(f"{t}: adjacent-digit SSN swaps at about 1% of present SSNs (visible swaps; equal-digit swaps are invisible)", 0.008 <= swaps / len(pairs) <= 0.0105, f"{swaps:,} visible swaps in {len(pairs):,} pairs with both SSNs = {swaps / len(pairs):.2%}")
+    check(f"{t}: one wrong digit in about 0.5% of registry SSNs", 0.004 <= wrong / len(pairs) <= 0.006, f"{wrong:,} single-digit differences in {len(pairs):,} pairs = {wrong / len(pairs):.2%}")
+    check(f"{t}: every SSN disagreement is a swap, a wrong digit, or both (no other corruption)", both <= 0.0002 * len(pairs), f"{both} disagreements that are neither a single swap nor a single wrong digit (expected: the rare pair hit on both sides)")
 """)
 
 md("""

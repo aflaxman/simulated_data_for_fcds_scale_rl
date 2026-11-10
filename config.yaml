@@ -67,10 +67,17 @@ noise:
     # exceeds the target and the pipeline blanks nothing further.
     ssn_missing: 0.05
     ssn_transposed: 0.00
+    # One randomly chosen digit replaced with a different digit in this share of the
+    # registry's present SSNs, applied after blanking and transposition with the same
+    # per-file generator, so adding it changed no other column. Requested by the second
+    # author on 2026-11-09 after reviewing v0.3: a wrong registry-side SSN against a
+    # correct finder-side one is the production failure mode a linkage tool must handle.
+    ssn_wrong_digit: 0.005
     address_missing: 0.01
   finder:
     ssn_missing: 0.20
     ssn_transposed: 0.01
+    ssn_wrong_digit: 0.0
     address_missing: 0.05
   # pseudopeople's row noise drops or duplicates whole rows: non-response (1.45% by
   # default, targeted by race, age and sex), omit-row (0 by default) and

@@ -83,7 +83,7 @@ ADDRESS_FIELDS = ["street_number", "street_name", "unit_number", "city", "state"
 RELEASE_FILES = ["registry.csv", "finder_500k.csv", "finder_100k.csv"]
 # Documentation shipped inside the archive beside the data files (copied verbatim).
 DATA_DICTIONARY = ROOT / "reference" / "data_dictionary.csv"
-DOC_FILES = ["data_dictionary.csv"]
+DOC_FILES = ["data_dictionary.csv", "README.md", "pseudopeople_config.yaml"]
 # The registry alone carries a diagnosis date; a finder file is a cohort roster.
 REGISTRY_EXTRA_COLUMNS = ["diagnosis_date"]
 
@@ -320,7 +320,7 @@ def noise_config(addr_missing: float, row_noise: dict) -> dict:
 
 def attach_noised_ssn(con: duckdb.DuckDBPyConnection, df_census: pd.DataFrame,
                       *, missing_target_rate: float, transposed_rate: float,
-                      seed: int, label: str) -> tuple[pd.DataFrame, dict]:
+                      wrong_digit_rate: float, seed: int, label: str) -> tuple[pd.DataFrame, dict]:
     """Join clean SSNs from the Social Security observer, then noise them.
 
     ORDER BY simulant_id pins the row order so the numpy draws land on the
@@ -342,6 +342,7 @@ def attach_noised_ssn(con: duckdb.DuckDBPyConnection, df_census: pd.DataFrame,
         ssn_df["ssn"],
         missing_target_rate=missing_target_rate,
         transposed_rate=transposed_rate,
+        wrong_digit_rate=wrong_digit_rate,
         rng=rng,
     )
     if stats["structural_exceeds_target"]:
@@ -439,6 +440,133 @@ def checksums(path: Path) -> dict:
             md5.update(chunk)
             sha256.update(chunk)
     return {"size_bytes": path.stat().st_size, "md5": md5.hexdigest(), "sha256": sha256.hexdigest()}
+
+
+def dob_summary(frame: pd.DataFrame, ref: pd.Series) -> dict:
+    """Blank, unparseable (strict MM/DD/YYYY calendar parse) and implausible-age shares of date_of_birth.
+
+    ``ref`` is the date each age is measured at (the diagnosis date for the registry, census
+    day of the finder year for a finder file); implausible means an age below 0 or above 110.
+    """
+    dob = frame["date_of_birth"]
+    blank = dob.isna() | (dob == "")
+    parsed = pd.to_datetime(dob.where(~blank), format="%m/%d/%Y", errors="coerce")
+    unparseable = ~blank & parsed.isna()
+    age = (ref - parsed).dt.days / 365.25
+    implausible = parsed.notna() & ((age < 0) | (age > 110))
+    return {"blank": float(blank.mean()), "unparseable": float(unparseable.mean()),
+            "implausible_age": float(implausible.mean()), "any": float((blank | unparseable | implausible).mean())}
+
+
+def write_release_docs(release_dir: Path, release_name: str, cfg: dict, frames: dict, ssn_stats: dict) -> None:
+    """README.md (release notes with set and realised noise rates) and the effective pseudopeople config.
+
+    Both are deterministic given the configuration and seeds: no timestamps, and the realised
+    values are computed from the frames about to be written, so the zip's bytes stay a pure
+    function of the build and the run-twice identity test covers them.
+    """
+    noise, c = cfg["noise"], cfg["cohorts"]
+    psp_cfg = {kind: psp.get_config(noise_config(noise[kind]["address_missing"], noise["row_noise"]))["decennial_census"]
+               for kind in ("registry", "finder")}
+    (release_dir / "pseudopeople_config.yaml").write_text(
+        "# The pseudopeople noise configuration actually applied to each file (decennial_census dataset), as\n"
+        "# returned by pseudopeople.get_config() for the overrides in config.yaml. cell_probability is the share\n"
+        "# of cells a mechanism touches; token_probability is the chance that each digit or character of a\n"
+        "# touched cell is altered. Row noise is zero: each file holds exactly the people drawn.\n"
+        + yaml.safe_dump(psp_cfg, sort_keys=True))
+
+    finder_day = pd.Timestamp(year=int(c["finder_year"]), month=4, day=1)
+    dob = {
+        "registry.csv": dob_summary(frames["registry.csv"], pd.to_datetime(frames["registry.csv"]["diagnosis_date"], format="%m/%d/%Y")),
+        "finder_500k.csv": dob_summary(frames["finder_500k.csv"], pd.Series(finder_day, index=frames["finder_500k.csv"].index)),
+        "finder_100k.csv": dob_summary(frames["finder_100k.csv"], pd.Series(finder_day, index=frames["finder_100k.csv"].index)),
+    }
+    pct = lambda x, d=2: f"{100 * x:.{d}f}%"  # noqa: E731
+    rows = []
+    for fname, kind in (("registry.csv", "registry"), ("finder_500k.csv", "finder"), ("finder_100k.csv", "finder")):
+        s, f = ssn_stats[fname], frames[fname]
+        present = s["n"] - int(f["ssn"].isna().sum())
+        rows.append(f"| {fname} | {len(f):,} | {pct(noise[kind]['ssn_missing'], 0)} | {pct(f['ssn'].isna().mean())} "
+                    f"({pct(s['structural_missing'] / s['n'])} never held one) | {pct(noise[kind]['ssn_transposed'], 0)} | "
+                    f"{s['transposed']:,} ({pct(s['transposed'] / present if present else 0)}) | {pct(noise[kind]['ssn_wrong_digit'], 1)} | "
+                    f"{s['wrong_digit']:,} ({pct(s['wrong_digit'] / present if present else 0)}) |")
+    dob_rows = [f"| {fname} | {pct(d['blank'])} | {pct(d['unparseable'])} | {pct(d['implausible_age'])} | {pct(d['any'])} |"
+                for fname, d in dob.items()]
+    readme = f"""# {release_name}: release notes
+
+Simulated record-linkage test files in the size and shape of the Florida Cancer Data System's linkage
+task: a simulated registry and two finder files drawn from the pseudopeople simulated United States
+population, with a ground-truth key. Every person is simulated; nothing here describes a real person.
+The accompanying Data Resource Profile describes the design, the measurements and the limitations.
+
+## Files
+
+| file | contents |
+|---|---|
+| `registry.csv` | the simulated registry, one row per person, with a `diagnosis_date` |
+| `finder_500k.csv`, `finder_100k.csv` | two finder files (researcher cohorts), one row per person, each sharing 20% of its people with the registry and none with each other |
+| `data_dictionary.csv` | one row per field: type, format, example, blank convention, source, noise mechanisms |
+| `pseudopeople_config.yaml` | the pseudopeople noise configuration applied to each file, as pseudopeople reports it |
+
+The same `simulant_id` in two files is the same simulated person. A registry row and a finder row with
+the same identifier are a true match; every other pairing is a true non-match. Files are UTF-8 CSV with a
+header row, blanks as empty fields, dates as `MM/DD/YYYY` and SSNs as `ddd-dd-dddd`. A field is quoted only
+when it contains a comma, which is rare enough that some CSV readers need the quote character named
+explicitly (DuckDB: `quote='"'`). MD5 and SHA-256 digests of every file are in the manifest deposited beside
+this archive.
+
+## Noise, set and realised
+
+Column noise is pseudopeople's default suite (`pseudopeople_config.yaml`): each listed mechanism touches
+1% of a column's cells, and the digit- and character-level mechanisms (`write_wrong_digits`,
+`make_ocr_errors`, `make_typos`) then alter each digit or character of a touched cell with probability 0.1,
+so a touched date of birth may change one digit, several, or none. Row noise (non-response, omission,
+duplication) is off, so each file holds exactly the people drawn. The SSN is handled outside pseudopeople,
+with the rates below.
+
+| file | rows | SSN blank, set | SSN blank, realised | adjacent-digit swap, set | swaps applied | one wrong digit, set | wrong digits applied |
+|---|---|---|---|---|---|---|---|
+{chr(10).join(rows)}
+
+SSN blanking is by count: people who never held a number in the simulation are counted first and only the
+shortfall is blanked, so the registry, whose never-held share already exceeds its 5% target, has no SSN
+blanked by the build. The swap exchanges one randomly chosen adjacent pair of digits (about one swap in ten
+hits two equal digits and changes nothing, so the visible rate runs a little under the applied rate). The
+wrong digit replaces one randomly chosen digit with a different digit, so every hit changes the value. Both
+keep the `ddd-dd-dddd` form, so a format check cannot see them; a true-match join can.
+
+Because the finder files' true matches are registry people, who carry the registry's cancer-age profile,
+and SSN coverage in the source population falls with age, finder SSNs are blank somewhat more often among
+true matches than among non-matches (about 21% against 20% in the 500k file). This is an age effect of the
+design, not a marker of match status.
+
+Date of birth, realised, with ages measured at the diagnosis date (registry) or census day of
+{c['finder_year']} (finder files); unparseable means a strict `MM/DD/YYYY` calendar parse fails (month 13,
+30 February, a letter from an OCR error); implausible means an age below 0 or above 110 after parsing.
+
+| file | blank | unparseable | implausible age | any of the three |
+|---|---|---|---|---|
+{chr(10).join(dob_rows)}
+
+## Not in this version
+
+* **Borrowed SSNs** (a household member's number on a person's record) are out of scope. SSNs come from
+  the simulated Social Security observer; pseudopeople's copy-from-household-member mechanism lives in its
+  tax datasets, and this build does not carry household membership into the SSN step. It is feasible in a
+  later version.
+* **No move, ageing or surname change between the two records of a true match:** both are the same census
+  record noised twice. **No wrong digits in finder-file SSNs**, only the adjacent swap. **No telephone or
+  email fields.** Addresses place people in real Florida cities at no real street location and must not be
+  geocoded.
+
+## Changes from v0.3
+
+Row noise switched off, so every file is exactly one row per person; cohorts drawn at their exact targets
+with the finder files disjoint by construction; one wrong digit in 0.5% of registry SSNs (requested by the
+second author after reviewing v0.3); this README, the data dictionary and the pseudopeople configuration
+added to the archive. Every noise draw was re-made, so v0.3 counts do not carry over.
+"""
+    (release_dir / "README.md").write_text(readme)
 
 
 def write_deterministic_zip(zip_path: Path, release_dir: Path, arc_prefix: str) -> None:
@@ -542,14 +670,17 @@ def main() -> None:
     df_2, ssn_stats_2 = attach_noised_ssn(
         con, df_2, missing_target_rate=noise["registry"]["ssn_missing"],
         transposed_rate=noise["registry"]["ssn_transposed"],
+        wrong_digit_rate=noise["registry"]["ssn_wrong_digit"],
         seed=seeds["psp_registry"], label="registry")
     df_1a, ssn_stats_1a = attach_noised_ssn(
         con, df_1a, missing_target_rate=noise["finder"]["ssn_missing"],
         transposed_rate=noise["finder"]["ssn_transposed"],
+        wrong_digit_rate=noise["finder"]["ssn_wrong_digit"],
         seed=seeds["psp_finder"], label="finder_500k")
     df_1b, ssn_stats_1b = attach_noised_ssn(
         con, df_1b, missing_target_rate=noise["finder"]["ssn_missing"],
         transposed_rate=noise["finder"]["ssn_transposed"],
+        wrong_digit_rate=noise["finder"]["ssn_wrong_digit"],
         seed=seeds["psp_finder"], label="finder_100k")
 
     # --- 7. Write release CSVs ---------------------------------------------
@@ -565,8 +696,9 @@ def main() -> None:
         frame.to_csv(out)
         os.utime(out, (fixed_mtime, fixed_mtime))
 
+    shutil.copyfile(DATA_DICTIONARY, release_dir / "data_dictionary.csv")
+    write_release_docs(release_dir, release_name, cfg, frames, {"registry.csv": ssn_stats_2, "finder_500k.csv": ssn_stats_1a, "finder_100k.csv": ssn_stats_1b})
     for fname in DOC_FILES:
-        shutil.copyfile(DATA_DICTIONARY, release_dir / fname)
         os.utime(release_dir / fname, (fixed_mtime, fixed_mtime))
     log("Writing deterministic zip...")
     write_deterministic_zip(zip_path, release_dir, release_name)
@@ -637,9 +769,11 @@ def main() -> None:
         }
 
     for fname in DOC_FILES:
-        with open(release_dir / fname, newline="") as f:
-            n_rows = sum(1 for _ in csv.reader(f)) - 1
-        manifest["files"][fname] = {"rows": n_rows, **checksums(release_dir / fname)}
+        entry = checksums(release_dir / fname)
+        if fname.endswith(".csv"):
+            with open(release_dir / fname, newline="") as f:
+                entry["rows"] = sum(1 for _ in csv.reader(f)) - 1
+        manifest["files"][fname] = entry
 
     error_rates = {"targets": noise, "realised": {}}
     for fname, frame, stats in [
@@ -652,6 +786,7 @@ def main() -> None:
             "ssn_structural_missing": stats["structural_missing"] / stats["n"],
             "ssn_blanked": stats["blanked"],
             "ssn_transposed": stats["transposed"],
+            "ssn_wrong_digit": stats["wrong_digit"],
             **{f"{field}_missing": float(frame[field].isna().mean()) for field in ADDRESS_FIELDS},
         }
 
