@@ -442,18 +442,40 @@ def checksums(path: Path) -> dict:
     return {"size_bytes": path.stat().st_size, "md5": md5.hexdigest(), "sha256": sha256.hexdigest()}
 
 
-def dob_summary(frame: pd.DataFrame, ref: pd.Series) -> dict:
+_MDAYS = np.array([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31])
+
+
+def mdy_parts(series: pd.Series) -> pd.DataFrame:
+    """Strict MM/DD/YYYY calendar parse into integer year, month, day columns (NaN where invalid).
+
+    Integer arithmetic rather than timestamps, because noised dates reach years such as 0976 or
+    9876, which overflow pandas' nanosecond timestamps. A value is valid only if it matches the
+    layout, the month is 1-12 and the day exists in that month of that year.
+    """
+    parts = series.astype("string").str.extract(r"^(\d{2})/(\d{2})/(\d{4})$")
+    m, d, y = (pd.to_numeric(parts[i], errors="coerce").astype("float64") for i in range(3))  # plain floats: NaN compares False
+    leap = ((y % 4 == 0) & (y % 100 != 0)) | (y % 400 == 0)
+    month_index = m.fillna(1).astype(int).clip(1, 12) - 1
+    days_in_month = pd.Series(_MDAYS[month_index.to_numpy()], index=series.index) + ((m == 2) & leap).astype(int)
+    valid = y.notna() & m.between(1, 12) & d.ge(1) & (d <= days_in_month)
+    return pd.DataFrame({"y": y.where(valid), "m": m.where(valid), "d": d.where(valid)})
+
+
+def dob_summary(frame: pd.DataFrame, ref: pd.DataFrame) -> dict:
     """Blank, unparseable (strict MM/DD/YYYY calendar parse) and implausible-age shares of date_of_birth.
 
-    ``ref`` is the date each age is measured at (the diagnosis date for the registry, census
-    day of the finder year for a finder file); implausible means an age below 0 or above 110.
+    ``ref`` has integer columns y, m, d giving the date each age is measured at (the diagnosis
+    date for the registry, census day of the finder year for a finder file); implausible means
+    an age below 0 or above 110.
     """
     dob = frame["date_of_birth"]
     blank = dob.isna() | (dob == "")
-    parsed = pd.to_datetime(dob.where(~blank), format="%m/%d/%Y", errors="coerce")
-    unparseable = ~blank & parsed.isna()
-    age = (ref - parsed).dt.days / 365.25
-    implausible = parsed.notna() & ((age < 0) | (age > 110))
+    b = mdy_parts(dob)
+    parsed = b["y"].notna()
+    unparseable = ~blank & ~parsed
+    birthday_passed = (ref["m"] > b["m"]) | ((ref["m"] == b["m"]) & (ref["d"] >= b["d"]))
+    age = (ref["y"] - b["y"]) - (~birthday_passed).astype(int)
+    implausible = parsed & ((age < 0) | (age > 110))
     return {"blank": float(blank.mean()), "unparseable": float(unparseable.mean()),
             "implausible_age": float(implausible.mean()), "any": float((blank | unparseable | implausible).mean())}
 
@@ -475,11 +497,12 @@ def write_release_docs(release_dir: Path, release_name: str, cfg: dict, frames: 
         "# touched cell is altered. Row noise is zero: each file holds exactly the people drawn.\n"
         + yaml.safe_dump(psp_cfg, sort_keys=True))
 
-    finder_day = pd.Timestamp(year=int(c["finder_year"]), month=4, day=1)
+    def census_day(frame):  # April 1 of the finder year, one row per record
+        return pd.DataFrame({"y": int(c["finder_year"]), "m": 4, "d": 1}, index=frame.index)
     dob = {
-        "registry.csv": dob_summary(frames["registry.csv"], pd.to_datetime(frames["registry.csv"]["diagnosis_date"], format="%m/%d/%Y")),
-        "finder_500k.csv": dob_summary(frames["finder_500k.csv"], pd.Series(finder_day, index=frames["finder_500k.csv"].index)),
-        "finder_100k.csv": dob_summary(frames["finder_100k.csv"], pd.Series(finder_day, index=frames["finder_100k.csv"].index)),
+        "registry.csv": dob_summary(frames["registry.csv"], mdy_parts(frames["registry.csv"]["diagnosis_date"])),
+        "finder_500k.csv": dob_summary(frames["finder_500k.csv"], census_day(frames["finder_500k.csv"])),
+        "finder_100k.csv": dob_summary(frames["finder_100k.csv"], census_day(frames["finder_100k.csv"])),
     }
     pct = lambda x, d=2: f"{100 * x:.{d}f}%"  # noqa: E731
     rows = []
