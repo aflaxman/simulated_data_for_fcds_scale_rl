@@ -11,8 +11,8 @@
         "Asian": 1187,
         "Latino": 3809,
         "White": 11749,
-        "Black": 2378,
-        "Other or unknown": 877
+        "Other or unknown": 877,
+        "Black": 2378
       },
       "rules": {
         "name_dob": {
@@ -55,61 +55,54 @@
         "ssn_only": {
           "Asian": {
             "true_pairs": 1187,
-            "predicted_pairs": 770,
-            "true_positives": 770,
+            "predicted_pairs": 763,
+            "true_positives": 763,
             "precision": 1.0,
-            "recall": 0.6486941870261163
+            "recall": 0.6427969671440606
+          },
+          "White": {
+            "true_pairs": 11749,
+            "predicted_pairs": 9478,
+            "true_positives": 9475,
+            "precision": 0.9996834775269045,
+            "recall": 0.8064516129032258
           },
           "Other or unknown": {
             "true_pairs": 877,
-            "predicted_pairs": 697,
-            "true_positives": 697,
+            "predicted_pairs": 694,
+            "true_positives": 694,
             "precision": 1.0,
-            "recall": 0.7947548460661346
-          },
-          "White": {
-            "true_pairs": 11749,
-            "predicted_pairs": 9520,
-            "true_positives": 9520,
-            "precision": 1.0,
-            "recall": 0.8102817261043493
+            "recall": 0.7913340935005702
           },
           "Black": {
             "true_pairs": 2378,
-            "predicted_pairs": 1904,
-            "true_positives": 1904,
+            "predicted_pairs": 1893,
+            "true_positives": 1893,
             "precision": 1.0,
-            "recall": 0.80067283431455
+            "recall": 0.7960470984020185
           },
           "Latino": {
             "true_pairs": 3809,
-            "predicted_pairs": 2685,
-            "true_positives": 2684,
-            "precision": 0.9996275605214152,
-            "recall": 0.7046468889472303
+            "predicted_pairs": 2676,
+            "true_positives": 2674,
+            "precision": 0.9992526158445441,
+            "recall": 0.7020215279600945
           }
         },
         "name_dob_or_ssn": {
-          "Asian": {
-            "true_pairs": 1187,
-            "predicted_pairs": 1104,
-            "true_positives": 1103,
-            "precision": 0.9990942028985508,
-            "recall": 0.9292333614153327
-          },
           "White": {
             "true_pairs": 11749,
-            "predicted_pairs": 11324,
-            "true_positives": 11308,
-            "precision": 0.9985870717061109,
-            "recall": 0.9624648906289897
+            "predicted_pairs": 11317,
+            "true_positives": 11298,
+            "precision": 0.9983211098347619,
+            "recall": 0.9616137543620734
           },
           "Black": {
             "true_pairs": 2378,
-            "predicted_pairs": 2297,
-            "true_positives": 2293,
-            "precision": 0.9982585981715281,
-            "recall": 0.964255677039529
+            "predicted_pairs": 2292,
+            "true_positives": 2288,
+            "precision": 0.9982547993019197,
+            "recall": 0.9621530698065601
           },
           "Other or unknown": {
             "true_pairs": 877,
@@ -118,12 +111,19 @@
             "precision": 1.0,
             "recall": 0.9566704675028507
           },
+          "Asian": {
+            "true_pairs": 1187,
+            "predicted_pairs": 1103,
+            "true_positives": 1102,
+            "precision": 0.99909338168631,
+            "recall": 0.928390901432182
+          },
           "Latino": {
             "true_pairs": 3809,
-            "predicted_pairs": 3591,
-            "true_positives": 3582,
-            "precision": 0.9974937343358395,
-            "recall": 0.9404043055920189
+            "predicted_pairs": 3590,
+            "true_positives": 3580,
+            "precision": 0.9972144846796658,
+            "recall": 0.9398792333945918
           }
         }
       }
@@ -138,13 +138,6 @@
       },
       "rules": {
         "name_dob": {
-          "Asian": {
-            "true_pairs": 6270,
-            "predicted_pairs": 4995,
-            "true_positives": 4987,
-            "precision": 0.9983983983983984,
-            "recall": 0.7953748006379585
-          },
           "White": {
             "true_pairs": 58495,
             "predicted_pairs": 46434,
@@ -166,6 +159,13 @@
             "precision": 0.9977622377622377,
             "recall": 0.7837837837837838
           },
+          "Asian": {
+            "true_pairs": 6270,
+            "predicted_pairs": 4995,
+            "true_positives": 4987,
+            "precision": 0.9983983983983984,
+            "recall": 0.7953748006379585
+          },
           "Latino": {
             "true_pairs": 18519,
             "predicted_pairs": 14716,
@@ -177,75 +177,75 @@
         "ssn_only": {
           "Asian": {
             "true_pairs": 6270,
-            "predicted_pairs": 4152,
-            "true_positives": 4152,
+            "predicted_pairs": 4133,
+            "true_positives": 4133,
             "precision": 1.0,
-            "recall": 0.662200956937799
+            "recall": 0.659170653907496
           },
           "White": {
             "true_pairs": 58495,
-            "predicted_pairs": 47566,
-            "true_positives": 47559,
-            "precision": 0.9998528360593701,
-            "recall": 0.813043849901701
+            "predicted_pairs": 47351,
+            "true_positives": 47338,
+            "precision": 0.9997254545838525,
+            "recall": 0.8092657492093341
           },
           "Black": {
             "true_pairs": 12165,
-            "predicted_pairs": 9619,
-            "true_positives": 9615,
-            "precision": 0.9995841563572097,
-            "recall": 0.7903822441430333
+            "predicted_pairs": 9574,
+            "true_positives": 9569,
+            "precision": 0.9994777522456654,
+            "recall": 0.7866009042334566
           },
           "Other or unknown": {
             "true_pairs": 4551,
-            "predicted_pairs": 3573,
-            "true_positives": 3572,
-            "precision": 0.9997201231458158,
-            "recall": 0.7848824434190288
+            "predicted_pairs": 3555,
+            "true_positives": 3554,
+            "precision": 0.99971870604782,
+            "recall": 0.7809272687321468
           },
           "Latino": {
             "true_pairs": 18519,
-            "predicted_pairs": 13164,
-            "true_positives": 13164,
-            "precision": 1.0,
-            "recall": 0.7108375182245261
+            "predicted_pairs": 13096,
+            "true_positives": 13093,
+            "precision": 0.9997709224190593,
+            "recall": 0.7070036179059345
           }
         },
         "name_dob_or_ssn": {
-          "Latino": {
-            "true_pairs": 18519,
-            "predicted_pairs": 17454,
-            "true_positives": 17423,
-            "precision": 0.9982239028302968,
-            "recall": 0.9408175387439927
-          },
-          "Asian": {
-            "true_pairs": 6270,
-            "predicted_pairs": 5855,
-            "true_positives": 5847,
-            "precision": 0.9986336464560205,
-            "recall": 0.9325358851674641
-          },
-          "Black": {
-            "true_pairs": 12165,
-            "predicted_pairs": 11717,
-            "true_positives": 11673,
-            "precision": 0.9962447725527012,
-            "recall": 0.9595561035758323
-          },
           "White": {
             "true_pairs": 58495,
-            "predicted_pairs": 56343,
-            "true_positives": 56248,
-            "precision": 0.998313898798431,
-            "recall": 0.9615864603812292
+            "predicted_pairs": 56301,
+            "true_positives": 56200,
+            "precision": 0.9982060709401254,
+            "recall": 0.960765877425421
           },
           "Other or unknown": {
             "true_pairs": 4551,
-            "predicted_pairs": 4351,
-            "true_positives": 4342,
-            "precision": 0.9979315099977016,
-            "recall": 0.954076027246759
+            "predicted_pairs": 4348,
+            "true_positives": 4339,
+            "precision": 0.9979300827966882,
+            "recall": 0.953416831465612
+          },
+          "Black": {
+            "true_pairs": 12165,
+            "predicted_pairs": 11711,
+            "true_positives": 11666,
+            "precision": 0.9961574587994193,
+            "recall": 0.9589806822852446
+          },
+          "Asian": {
+            "true_pairs": 6270,
+            "predicted_pairs": 5850,
+            "true_positives": 5842,
+            "precision": 0.9986324786324786,
+            "recall": 0.9317384370015949
+          },
+          "Latino": {
+            "true_pairs": 18519,
+            "predicted_pairs": 17447,
+            "true_positives": 17413,
+            "precision": 0.9980512409010145,
+            "recall": 0.9402775527836277
           }
         }
       }

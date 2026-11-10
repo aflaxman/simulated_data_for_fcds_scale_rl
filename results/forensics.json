@@ -128,7 +128,7 @@
       "dob_unparseable_share_of_present": 0.014109018596681615,
       "doe_names": 12,
       "ssn_repeated_digit": 0,
-      "ssn_not_issuable": 0,
+      "ssn_not_issuable": 341,
       "ssn_present": 4713226
     },
     "finder_500k.csv": {
@@ -152,8 +152,8 @@
   },
   "ssn_blank_by_race": {
     "registry.csv": {
-      "Asian": 0.2150782014711875,
       "Latino": 0.15199421660753723,
+      "Asian": 0.2150782014711875,
       "White": 0.019197533098414946,
       "Other or unknown": 0.0532630457723906,
       "Black": 0.053641110195108546
@@ -175,6 +175,10 @@
   },
   "ssn_blank_by_age_band": {
     "registry.csv": {
+      "80_plus": {
+        "blank_share": 0.046950514574724184,
+        "rows": 987806
+      },
       "65_79": {
         "blank_share": 0.05879397032479202,
         "rows": 2113414
@@ -182,10 +186,6 @@
       "40_64": {
         "blank_share": 0.06475955822499095,
         "rows": 1557716
-      },
-      "80_plus": {
-        "blank_share": 0.046950514574724184,
-        "rows": 987806
       },
       "under_40": {
         "blank_share": 0.03831408974121621,

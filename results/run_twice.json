@@ -1,29 +1,32 @@
 {
-  "test": "run-twice checksum identity: the release rebuilt from the same config.yaml and seeds on a different node (row noise off, exact-target draw, no trim)",
-  "date": "2026-10-04",
+  "test": "run-twice checksum identity: the release rebuilt from the same config.yaml and seeds on a different node (row noise off, exact-target draw, registry SSN wrong digit 0.5%, generated README and pseudopeople config)",
+  "date": "2026-11-09",
   "first_build": {
-    "created_utc": "2026-10-04T23:21:25+00:00",
-    "slurm_job": 52997428,
+    "created_utc": "2026-11-10T04:26:41+00:00",
+    "slurm_job": 5051079,
     "built_as_version": "0.4rc"
   },
   "second_build": {
-    "created_utc": "2026-10-04T23:35:31+00:00",
-    "slurm_job": 52997429,
+    "created_utc": "2026-11-10T04:38:35+00:00",
+    "slurm_job": 5051080,
     "built_as_version": "0.4",
-    "hostname": "long-slurm-sarchive-p0070",
-    "build_wall_seconds": 824.9,
-    "peak_rss_mb": 22024.9
+    "hostname": "long-slurm-sarchive-p0011",
+    "build_wall_seconds": 663.4,
+    "peak_rss_mb": 22678.8
   },
   "files_identical": true,
   "files_compared": [
     "registry.csv",
     "finder_500k.csv",
-    "finder_100k.csv"
+    "finder_100k.csv",
+    "data_dictionary.csv",
+    "README.md",
+    "pseudopeople_config.yaml"
   ],
   "files": {
     "registry.csv": {
-      "md5": "f6a975720ac29e0623bbbc81c1b0284e",
-      "second_build_md5": "f6a975720ac29e0623bbbc81c1b0284e"
+      "md5": "8b07e7b61288d39272e6d3f609a84924",
+      "second_build_md5": "8b07e7b61288d39272e6d3f609a84924"
     },
     "finder_500k.csv": {
       "md5": "015de24f1d791b686a46457fa15d5171",
@@ -34,9 +37,18 @@
       "second_build_md5": "81bc46a0e7530bf1215cf17da3811e73"
     },
     "data_dictionary.csv": {
-      "md5": "5807608b54bb9b1a72cc65f6b1477c91",
-      "second_build_md5": "5807608b54bb9b1a72cc65f6b1477c91"
+      "md5": "0ad7f45fd3bc26b7f5818725cf297713",
+      "second_build_md5": "0ad7f45fd3bc26b7f5818725cf297713"
+    },
+    "README.md": {
+      "md5": "a165ca64e3b985e28efa9f66a2f6bdca",
+      "second_build_md5": "459d704a5af6c1c9aadf8a05383af518",
+      "note": "heading carries the release name (0.4rc vs 0.4), so the digests differ by construction; the body below the heading is identical"
+    },
+    "pseudopeople_config.yaml": {
+      "md5": "7bc1efa179f2a8ce44dce4bf2a421999",
+      "second_build_md5": "7bc1efa179f2a8ce44dce4bf2a421999"
     }
   },
-  "note": "The zip differs by construction because its archive prefix carries the version name; the CSVs inside are the same bytes. The data dictionary is documentation and is compared for completeness."
+  "note": "The zip and the README heading differ by construction because both carry the version name; every data file, the dictionary, the pseudopeople config and the README body are the same bytes."
 }

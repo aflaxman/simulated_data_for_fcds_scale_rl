@@ -21,15 +21,20 @@
     "zipcode",
     "ssn"
   ],
-  "created_utc": "2026-10-04T23:35:31+00:00",
+  "created_utc": "2026-11-10T04:38:35+00:00",
   "dataset": "sim_fcds_benchmark",
   "diagnosis_date": "registry only: a day uniform within the record's census year, keyed hash of simulant_id (seeds.diagnosis_date)",
   "files": {
+    "README.md": {
+      "md5": "459d704a5af6c1c9aadf8a05383af518",
+      "sha256": "0e249285aa89c73b724c9852014643172af5ff894b394d980b159f67dd6f9d4f",
+      "size_bytes": 5217
+    },
     "data_dictionary.csv": {
-      "md5": "5807608b54bb9b1a72cc65f6b1477c91",
+      "md5": "0ad7f45fd3bc26b7f5818725cf297713",
       "rows": 15,
-      "sha256": "e95ac64b1aa1ed6416494aaf20b2ca360f8f83879d5d1731380e4a523694d018",
-      "size_bytes": 4646
+      "sha256": "f042cff056674b68028ce5cddaa16ff6936d64f72fd3599f3a1376c54baa4d7c",
+      "size_bytes": 4962
     },
     "finder_100k.csv": {
       "distinct_simulants": 100000,
@@ -45,11 +50,16 @@
       "sha256": "625ad6b67cd77c3faad60e968d8e310137ecf4a6c9e7aae73880c1b9f1ebab53",
       "size_bytes": 49903647
     },
+    "pseudopeople_config.yaml": {
+      "md5": "7bc1efa179f2a8ce44dce4bf2a421999",
+      "sha256": "7a88552da9c6d43b69ad127cc343f91e0e236f171e16533504f293f7f34e446e",
+      "size_bytes": 9682
+    },
     "registry.csv": {
       "distinct_simulants": 5000000,
-      "md5": "f6a975720ac29e0623bbbc81c1b0284e",
+      "md5": "8b07e7b61288d39272e6d3f609a84924",
       "rows": 5000000,
-      "sha256": "0d54cc182fcb6ca0942288503868e9df9a1836ca56f85af6dd7359d84c0d05ab",
+      "sha256": "41c4381b1ba972b9a91a748be8e468c0bb7348ea0f91c43de2944ee9fe24a487",
       "size_bytes": 564875175
     }
   },
@@ -91,9 +101,9 @@
   "release_dir": "/ihme/homes/abie/notebook/2026/data/sim_fcds_benchmark_0.4",
   "version": "0.4",
   "zip": {
-    "md5": "885359838869a98f3238cc79db66b3e0",
+    "md5": "6a7c702d283cf5c4b4d9076f7d944b0b",
     "name": "sim_fcds_benchmark_0.4.zip",
-    "sha256": "a04ddc8d263c52ac7b4069c5f8f2b655776d4ab76d9fe771336652604c5052d3",
-    "size_bytes": 234508979
+    "sha256": "7896b33006add6efb5df314cc90eea74ca09a4a38f11d072b56c9b0969649712",
+    "size_bytes": 234512518
   }
 }
