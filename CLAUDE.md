@@ -97,10 +97,8 @@ hit, not adjectives. The essentials:
 - **Pragmatist, not purist.** State the principled objection fairly and in full, then say
   what was actually done and why the compromise is acceptable ("a method of
   convenience," "something is better than nothing," "just complicated enough").
-- **Drawback beside the claim, in the same sentence.** "X has the best balance of A and
-  B, but cannot cope with C." Say "crude" or "not very good" plainly. Never sell: no
-  "novel," "robust," "powerful," "comprehensive," "state-of-the-art"; no "importantly,"
-  "crucially," "genuinely," "clearly."
+- **Never sell:** no "novel," "robust," "powerful," "comprehensive," "state-of-the-art"; no
+  "importantly," "crucially," "genuinely," "clearly."
 - **Hedge with frequency, not confidence:** "often," "usually," "in practice." Not
   "perhaps," "arguably," "it could be argued." Uncertainty is a fact about the data.
 - **Sentences are long but unpadded** (median ~23 words), built from subordinate clauses
@@ -120,10 +118,6 @@ hit, not adjectives. The essentials:
   explanatory work.
 - **Real numbers only,** via the inline `{python}` convention above. If a value is not
   known, say so rather than invent one.
-- **DRP register dial.** The journal structure above wins over the monograph scaffolding:
-  no "Summary and future work" header; Conclusions carries the two-sentence verdict with
-  its tradeoff, then open directions each given an honest weight ("promising," "worthy of
-  additional attention"). Limitations are collected in Discussion (§4.2) because the
-  journal expects it, but each drawback is still named beside the claim where it first
-  arises, not deferred to that section. The structured abstract and Key Features follow
-  the journal's format, not the voice.
+- **DRP register dial.** The journal structure above wins over the monograph scaffolding.
+  Limitations are collected in Discussion because the journal expects it. The structured
+  abstract and Key Features follow the journal's format, not the voice.

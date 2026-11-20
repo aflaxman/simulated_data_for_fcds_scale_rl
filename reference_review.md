@@ -16,21 +16,21 @@ added to `paper.qmd`, add a row here with the claim it supports.
 | `doidge2018demystifying` | 2× | outline research, 2026-08/09 (author's digest) |  |  |
 | `enewold2020seermedicare` | 2× | outline research, 2026-08/09 (author's digest) |  |  |
 | `fcds_general_incidence_2026` | 1× | 2026-10-04 (Claude) | §2.2: the FCDS age/sex table the registry quota comes from | report name, diagnosis years and denominator to be confirmed with the second author (OUTLINE decision #7) |
-| `fcds_linkage_layout` | 4× | outline research, 2026-08/09 (author's digest) |  |  |
+| `fcds_linkage_layout` | 4× | outline research, 2026-08/09 (author's digest) |  | the document prints no date; the year 2021 in `references.bib` is the creation date in the PDF's metadata (2021-11-01, read 2026-11-18), to be confirmed with the second author |
 | `fcds_welcome` | 1× | outline research, 2026-08/09 (author's digest) |  | since 1981, over 7,600,000 records, 310,000 reports and 145,000 new cases a year (confirmed on the live page 2026-10-07; the page carries no as-of date) |
 | `fdoh_fcds_procedure_guide_2007` | 4× | outline research, 2026-08/09 (author's digest) | §1 ¶3: registry data are confidential; §2.5 and Table 3: the Guide's minimum field sets | that the Guide states the confidentiality requirements the Background cites it for |
 | `gbd2023cancer` | 1× | 2026-10-11 (Claude) | §1 ¶1: global cancer estimates assembled from registry data | GBD 2023 cancer capstone, Lancet 2025;406(10512):1565–86, replaces the GBD 2019 JAMA Oncology paper at the author's request; confirm it is the capstone meant |
 | `haddock2024simulated` | 4× | outline research, 2026-08/09 (author's digest) |  |  |
 | `hand2018fmeasure` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
 | `harron2017challenges` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
-| `harron2017guide` | 1× | outline research, 2026-08/09 (author's digest) |  | cited for 'accuracy can only be estimated, not measured' on real data |
+| `harron2017guide` | 1× | outline research, 2026-08/09 (author's digest) |  | cited for 'the accuracy of a linkage can only be estimated' on real data |
 | `hildebrandt2020dapo` | 1× | outline research, 2026-08/09 (author's digest) |  | cited for generators struggling past a million records (digest: GeCo needed about 13 hours for one million and failed at ten million) |
-| `howe1998linkage` | 1× | 2026-10-07 (Claude) | §1 ¶2: linkage of cohorts to registries as the route to their value | that the review says what the sentence claims |
+| `howe1998linkage` | 1× | 2026-10-07 (Claude) | §1 ¶2: a researcher with a list of people, such as a cohort, learns which of them have cancer when the registry links the list to its records (sentence reworded 2026-11-18) | that the review says what the sentence claims; p. 112 describes passive follow-up of cohorts by linkage to a registry of deaths or cancer incidence (read by Claude 2026-11-18, not yet by an author) |
 | `keyes2026governance` | 2× | outline research, 2026-08/09 (author's digest) |  |  |
 | `mcgrathlone2021ethnicbias` | 1× | 2026-10-11 (Claude, at the author's [ref] marker) | §2.5: why the baselines are stratified by race/ethnicity | that it documents ethnic bias in linkage error |
 | `lam2024synthetic` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
 | `naaccr2023secondarysharing` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
-| `parkin2006evolution` | 1× | 2026-10-07 (Claude) | §1 ¶1: registries as the central resource of cancer epidemiology | that the paper supports the sentence it carries |
+| `parkin2006evolution` | 1× | 2026-10-07 (Claude) | §1 ¶1: a population-based registry records every cancer among the residents of a state or country, and incidence and survival statistics come from those records (sentence reworded 2026-11-18; the citation sits before the clause on disparities, which it is not cited for) | that the paper supports the sentence it carries; p. 603 defines the registry as recording all new cases in a defined population and names incidence and survival statistics as its uses (read by Claude 2026-11-18, not yet by an author) |
 | `pseudopeople_issue205` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
 | `pseudopeople_software` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
 | `qiao2023lexisnexis` | 1× | outline research, 2026-08/09 (author's digest) |  |  |
